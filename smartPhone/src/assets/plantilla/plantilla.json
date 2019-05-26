@@ -1,0 +1,107 @@
+{	"codigo":"formularioPrueba",
+	"fecha":"",
+	"data":[{
+	"label":"10:00",
+	"tipo":"horario",
+	"children":[{
+				"label":"Parametros Metereologicos de la mañana",
+				"type":"collapseList",
+				"initialShow":true,
+				"children":[{
+					"label":"Temperatura y humedad",
+					"icon":"md-partly-sunny",
+					"children":[
+						{	
+							"label":"Psicometro",
+							"type":"collapseList",
+							"initialShow":true,
+							"children":[
+								{
+									"label":"Termometro seco",
+									"type":"input_number",
+									"id":"termometroSeco10",
+									"blurFunction":"blurTermometroSeco10",
+									"error":"",
+									"value":""
+								},{
+									"label":"Termometro humedo",
+									"type":"input_number",
+									"id":"termometroHumedo10",
+									"blurFunction":"blurTermometroHumedo10",
+									"error":"",
+									"value":""
+								},{
+									"label":"Calcular",
+									"type":"button",
+									"function":"calcular10"
+								},{
+									"label":"resultado",
+									"type":"input_calculo",
+									"id":"resultado10",
+									"value":""
+								}
+
+							]
+						}
+						]
+				}
+				]
+		
+		}
+		]
+
+	},{
+	"label":"15:00",
+	"tipo":"horario",
+	"children":[{
+				"label":"Parametros Metereologicos de la tarde",
+				"type":"collapseList",
+				"initialShow":true,
+				"children":[{
+					"label":"Temperatura y humedad",
+					"icon":"md-partly-sunny",
+					"children":[
+						{	
+							"label":"Psicometro",
+							"type":"collapseList",
+							"initialShow":true,
+							"children":[
+								{
+									"label":"Termometro seco",
+									"type":"input_number",
+									"id":"termometroSeco15",
+									"blurFunction":"blurTermometroSeco15",
+									"error":"",
+									"value":""
+								},{
+									"label":"Termometro humedo",
+									"type":"input_number",
+									"id":"termometroHumedo15",
+									"blurFunction":"blurTermometroHumedo15",
+									"error":"",
+									"value":""
+								},{
+									"label":"Calcular",
+									"type":"button",
+									"function":"calcular15"
+								},{
+									"label":"resultado",
+									"type":"input_calculo",
+									"id":"resultado15",
+									"value":""
+								}
+
+							]
+						}
+						]
+				}
+				]
+		
+		}
+		]
+
+	}
+
+	]
+
+}

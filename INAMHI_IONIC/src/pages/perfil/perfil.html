@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Perfil
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content ng-if="datosUsuario" padding id="page6" >
+  <img src="assets/img/UgDZFWiVQOpx7o7lvCLz_INAMHI2017.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+  <div class="spacer" style="width:288px;height:54px;" id="perfil-spacer3"></div>
+  <h4 id="perfil-heading1" style="color:#000000;text-align:center;">
+    juan
+    <!-- {{datosUsuario.usuario}} -->
+  </h4>
+  <ion-list id="perfil-list7">
+    <ion-item id="perfil-list-item-container9">
+      <div id="perfil-markdown16" style="text-align:center;" class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#7E7272;">
+          Estacion
+          <em>
+            &quot;El Corazón&quot;
+            <!-- &quot;{{datosUsuario.parroquia}}&quot; -->
+          </em>
+        </p>
+        <p style="margin-top:0px;color:#9A8C8C;">
+          Latitud  20
+          <!-- {{datosUsuario.latitud}} -->
+          Longitud 15
+          <!-- {{datosUsuario.longitud}} -->
+        </p>
+      </div>
+    </ion-item>
+    <ion-item id="perfil-list-item-container10">
+      <div id="perfil-markdown17" style="text-align:center;" class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#877979;">
+          Rol &quot; Libretas Principales
+          <!-- {{datosUsuario.rol}} -->
+          &quot;
+        </p>
+      </div>
+    </ion-item>
+    <ion-item id="perfil-list-item-container12">
+      <div id="perfil-markdown18" style="text-align:center;" class="show-list-numbers-and-dots">
+        <p style="margin-top:0px;color:#877979;">
+           <em>
+             20,583
+           </em>
+           Libretas enviadas
+        </p>
+      </div>
+    </ion-item>
+    <ion-item id="perfil-list-item-container13">
+      <div id="perfil-markdown18" style="text-align:center;" class="show-list-numbers-and-dots">
+
+        <p style="margin-top:0px;color:#877979;">
+           Primer ingreso en la aplicación:
+           <em> 2018-05-01
+
+           </em>
+        </p>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>

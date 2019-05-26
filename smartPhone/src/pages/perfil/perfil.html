@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-navbar color="navbar">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Perfil
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content text-center padding >
+  
+  <div  class="pageEnter" *ngIf="usuario">
+
+    <div  padding-left padding-right>
+      <img width="75%" padding-left padding-right src="assets/imgs/user.png">
+    </div>  
+    <h4>
+    {{usuario.data.usuario}}
+    </h4>
+    <ion-list>
+      <ion-item text-center >
+        <div>
+          <p style="margin-top:0px;color:#7E7272;">
+            {{usuario.data.parroquia}}
+            <em>
+              &quot;El Corazón&quot;
+              <!-- &quot;{{datosUsuario.parroquia}}&quot; -->
+            </em>
+          </p>
+          <p style="margin-top:0px;color:#9A8C8C;">
+            {{usuario.data.latitud}}
+            <!-- {{datosUsuario.latitud}} -->
+            {{usuario.data.longitud}}
+            <!-- {{datosUsuario.longitud}} -->
+          </p>
+        </div>
+      </ion-item>
+      <ion-item id="perfil-list-item-container10">
+        <div id="perfil-markdown17" style="text-align:center;" class="show-list-numbers-and-dots">
+          <p style="margin-top:0px;color:#877979;">
+            Rol &quot; {{usuario.data.rol}}
+            <!-- {{datosUsuario.rol}} -->
+            &quot;
+          </p>
+        </div>
+      </ion-item>
+      <ion-item id="perfil-list-item-container12">
+        <div id="perfil-markdown18" style="text-align:center;" class="show-list-numbers-and-dots">
+          <p *ngIf="libretasEnviadas" style="margin-top:0px;color:#877979;">
+             {{libretasEnviadas.length}} Libretas enviadas
+          </p>
+        </div>
+      </ion-item>
+      <ion-item id="perfil-list-item-container13">
+        <div id="perfil-markdown18" style="text-align:center;" class="show-list-numbers-and-dots">
+
+          <p style="margin-top:0px;color:#877979;">
+             Primer ingreso en la aplicación:
+             <em> {{fechaInstalacion | date:'yyyy/MM/dd'}}
+
+             </em>
+          </p>
+        </div>
+      </ion-item>
+    </ion-list>
+    
+  </div>
+  <div class="pageEnter"  padding *ngIf="!usuario">
+    <h4>No existen credenciales</h4>
+    <p>No has iniciado Sesion</p>
+  </div>
+  
+
+</ion-content>

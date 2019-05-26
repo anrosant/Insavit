@@ -1,0 +1,67 @@
+<ion-header >
+  <ion-navbar color='navbar'>
+    <ion-title text-center>
+      Iniciar Sesion
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+
+  <div padding text-center >
+    <img src="assets/img/UgDZFWiVQOpx7o7lvCLz_INAMHI2017.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+    <br>
+    <br>
+    <ion-item margin-top  color="light" *ngIf="!usuarioVinculado">
+      <ion-label color="navbar" fixed><ion-icon  name="person"></ion-icon></ion-label>
+      <ion-input type="text" placeholder="Usuario" [(ngModel)]="form.username" name="username"></ion-input>
+    </ion-item>
+
+    <button ion-item color="navbar" margin-top *ngIf="usuarioVinculado"  >
+        <ion-icon name="person" item-start></ion-icon>
+        <ion-label margin-left item-start >{{usuarioVinculado.data.usuario}}</ion-label>
+        <ion-note item-end color="menuItemSelected"> Registrado </ion-note>
+    </button>
+
+
+    <ion-item margin-top color="light">
+      <ion-label color="navbar"  fixed><ion-icon name="key" md="md-key"></ion-icon></ion-label>
+      <ion-input  type="password" placeholder="Clave" [(ngModel)]="form.password" name="password"></ion-input>
+    </ion-item>
+    <br>
+
+  </div>
+
+   <button color="navbar" *ngIf="!usuarioVinculado" [disabled]="!form.username || !form.password" ion-button  block (click)="attemptAuth()">Ingresar</button>
+    <button color="navbar" *ngIf="usuarioVinculado" [disabled]="!form.password" ion-button  block (click)="attemptAuth()">Ingresar</button>
+    <button color="navbar" *ngIf="usuarioVinculado" block ion-button outline (click)="desvincular()">Iniciar con otra cuenta</button>
+
+
+</ion-content>
+
+<!--
+<ion-content padding id="page1">
+  <div class="spacer" style="width:300px;height:5%;" id="ingreso-spacer2"></div>
+  <img src="assets/img/UgDZFWiVQOpx7o7lvCLz_INAMHI2017.png" style="display:block;width:100%;height:auto;margin-left:auto;margin-right:auto;" />
+  <div class="spacer" style="width:300px;height:10%;" id="ingreso-spacer1"></div>
+  <div id="ingreso-container1">
+    <form id="ingreso-form3">
+      <ion-item id="ingreso-input5">
+        <ion-label stacked>
+          Usuario
+        </ion-label>
+        <ion-input type="text" placeholder="" name="username"></ion-input>
+      </ion-item>
+      <ion-item id="ingreso-input6">
+        <ion-label stacked>
+          Contraseña
+        </ion-label>
+        <ion-input type="password" placeholder="" name="password"></ion-input>
+      </ion-item>
+      <button id="ingreso-button2" ion-button color="positive" block on-click="goToFormularios()">
+        Ingresar
+      </button>
+    </form>
+  </div>
+</ion-content>-->

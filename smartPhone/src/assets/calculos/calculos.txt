@@ -1,0 +1,105 @@
+function blurTermometroSeco10(termometroSeco10){
+	termometroSeco10.error="";
+	if(termometroSeco10.value!="" ){
+		var test2Decimal=/^(\+|-)?\d+(\.\d{2})$/.test(termometroSeco10.value);
+		if(!test2Decimal){
+			termometroSeco10.error="Debe ser decimal de doble precicion";
+		}
+		else{
+			if(parseFloat(termometroSeco10.value)<=45 && parseFloat(termometroSeco10.value)>=25){
+				if(termometroSeco10.value[0]=='+'){
+					termometroSeco10.value=termometroSeco10.value.substr(1);
+				}
+			}else{
+				termometroSeco10.error="Fuera del rango (25 - 45)";
+			}
+			
+		}
+	}
+}
+
+
+<->
+
+
+function blurTermometroSeco15(termometroSeco15){
+	termometroSeco15.error="";
+	if(termometroSeco15.value!="" ){
+		var test2Decimal=/^(\+|-)?\d+(\.\d{2})$/.test(termometroSeco15.value);
+		if(!test2Decimal){
+			termometroSeco15.error="Debe ser decimal de doble precicion";
+		}
+		else{
+			if(parseFloat(termometroSeco15.value)<=45 && parseFloat(termometroSeco15.value)>=25){
+				if(termometroSeco15.value[0]=='+'){
+					termometroSeco15.value=termometroSeco15.value.substr(1);
+				}
+			}else{
+				termometroSeco15.error="Fuera del rango (25 - 45)";
+			}
+			
+		}
+	}
+}
+
+
+<->
+
+function blurTermometroHumedo10(termometroHumedo10){
+	termometroHumedo10.error="";
+	if(termometroHumedo10.value!="" ){
+		var test2Decimal=/^(\+|-)?\d+(\.\d{2})$/.test(termometroHumedo10.value);
+		if(!test2Decimal){
+			termometroHumedo10.error="Debe ser decimal de doble precicion";
+		}
+		else{
+			if(parseFloat(termometroHumedo10.value)<=0 && parseFloat(termometroHumedo10.value)>=-20){
+				if(termometroHumedo10.value[0]=='+'){
+					termometroHumedo10.value=termometroHumedo10.value.substr(1);
+				}
+			}else{
+				termometroHumedo10.error="Fuera del rango (-20 - 0)";
+			}
+			
+		}
+	}
+}
+
+
+<->
+
+function blurTermometroHumedo15(termometroHumedo15){
+	termometroHumedo15.error="";
+	if(termometroHumedo15.value!="" ){
+		var test2Decimal=/^(\+|-)?\d+(\.\d{2})$/.test(termometroHumedo15.value);
+		if(!test2Decimal){
+			termometroHumedo15.error="Debe ser decimal de doble precicion";
+		}
+		else{
+			if(parseFloat(termometroHumedo15.value)<=0 && parseFloat(termometroHumedo15.value)>=-20){
+				if(termometroHumedo15.value[0]=='+'){
+					termometroHumedo15.value=termometroHumedo15.value.substr(1);
+				}
+			}else{
+				termometroHumedo15.error="Fuera del rango (-20 - 0)";
+			}
+			
+		}
+	}
+}
+
+<->
+
+function calcular10(termometroSeco10,termometroHumedo10,resultado10){
+	if(termometroSeco10.value && termometroHumedo10.value)
+	resultado10.value=parseFloat(termometroSeco10.value)-parseFloat(termometroHumedo10.value);
+}
+
+
+<->
+
+function calcular15(termometroSeco15,termometroHumedo15,resultado15){
+	if(termometroSeco15.value && termometroHumedo15.value)
+	resultado15.value=parseFloat(termometroSeco15.value)-parseFloat(termometroHumedo15.value);
+}
+
