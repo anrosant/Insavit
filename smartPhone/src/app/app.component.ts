@@ -49,7 +49,7 @@ export class MyApp {
   fenomenosPage;
   enviandoLibretas=false;
   messageLibretaEnviada="Enviando...";
-  
+
 
   LibretasEnviar1=[];
   LibretasEnviar2={};
@@ -63,11 +63,10 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      //this.storage.clear();
       this.events.subscribe('libretasPendientes:editarLibreta',(fechaLibreta)=>{
         this.selectItemMenuGeneral(this.listaGeneral[0],0,null);
         this.appCtrl.getRootNav().setRoot(HomeCVRPage,{fechaLibreta:fechaLibreta});
-        
+
       });
       window.addEventListener('beforeunload',()=>{
         console.log('SE ESTA CERRANDOOOOOOOOOOOO');
@@ -75,11 +74,11 @@ export class MyApp {
           console.log('setime oout cerrando');
         },3000);
       });
-     
+
       statusBar.styleDefault();
       splashScreen.hide();
       this.listenToLoginEvents();
-      
+
       this.storage.get('fechaInstalacion').then(data=>{
         console.log('(app) fecha get storage', JSON.stringify(data));
         if (data==null) {
@@ -87,14 +86,14 @@ export class MyApp {
           this.storage.set('fechaInstalacion',this.fechaIncioApp);
         }
       });
-      this.getPlantillaApp();    
-      
+      this.getPlantillaApp();
+
       this.storage.forEach((value,key,index)=>{
         console.log('-----app for each stroage-------');
         console.log('key:',key);
         console.log('-------value>');
         console.log(value);
-        
+
         let keyValidador= new Date(key);
 
         if (keyValidador.getTime()) {
@@ -119,8 +118,8 @@ export class MyApp {
         console.log(this.LibretasEnviar2);
         console.log("--------------------------------------------");
       });
-      
-      
+
+
       this.storage.get('usuarioVinculado').then((val) => {
         console.log('main (comprobando existencia de usuario vinculado):',JSON.stringify(val));
         this.params.usuarioVinculado=val;
@@ -130,29 +129,25 @@ export class MyApp {
         }
         else{
           this.appCtrl.getRootNav().setRoot(AuthPage);
-          //this.selectItemMenuGeneral(this.listaGeneral[0],0,null); 
+          //this.selectItemMenuGeneral(this.listaGeneral[0],0,null);
         }
-        
+
       }).catch(error => {
         console.log('main (hubo error en catch en check existencia de usuario vinculado)',error);
 
       });
 
-      
+
       setInterval(()=>{
           this.httpClient.get(this.urlServerPlantilla).subscribe(res=>{
-            //console.log('seteando plantilla');
-            //console.log(res);
             this.storage.set('plantilla',res);
           },err=>{
-            //console.log('error no puede conectarse al servidor para descarga de plantilla');
+            console.log('error no puede conectarse al servidor para descarga de plantilla');
           });
           this.httpClient.get(this.urlServerCalculos,{responseType: 'text'}).subscribe(res=>{
-              //console.log('*********SERVER CALCULOS**********\n');
-              //console.log(res);
               this.storage.set('calculos',res);
             },err=>{
-              //console.log('error no puede conectarse al servidor para descarga de calculos');            
+              console.log('error no puede conectarse al servidor para descarga de calculos');
             });
       },3000);
 
@@ -165,13 +160,11 @@ export class MyApp {
               console.log(res);
               this.storage.set('plantilla',res);
             },err=>{
-              console.log('error no puede conectarse al servidor para descarga de plantilla');            
+              console.log('error no puede conectarse al servidor para descarga de plantilla');
             });
-            
+
           }else{
             console.log('si hay plantilla'); console.log(plantilla);
-            
-
           }
       });
 
@@ -182,28 +175,28 @@ export class MyApp {
               console.log(res);
               this.storage.set('calculos',res);
             },err=>{
-              console.log('error no puede conectarse al servidor para descarga de plantilla');            
+              console.log('error no puede conectarse al servidor para descarga de plantilla');
             });
-            
+
           }else{
             console.log('si hay calculos'); console.log(calculos);
-            
+
 
           }
       });
-      
+
     });
 
 
 
-  } 
+  }
 
 
 
 
   promesaEnvioLibreta(libreta){
     return new Promise((resolve,reject)=>{
-      
+
       this.httpClient.post(this.urlServerEnvioLibreta,libreta).subscribe(res=>{
         let responseJson={responseData:res,fechaEnvio:new Date(),error:false};
         console.log(res)
@@ -214,7 +207,7 @@ export class MyApp {
         let responseJson={responseData:err,fechaEnvio:null,error:true};
         resolve(responseJson);
       });
-      
+
     });
   }
 
@@ -236,13 +229,13 @@ export class MyApp {
         alert.present();
         this.enviandoLibretas=true;
 
-   
+
         console.log('comenzando................');
-        
-        
+
+
         let keys= await this.storage.keys();
-       
-        
+
+
         for( let i=0; i<keys.length; i++) {
 
           let keyValidador= new Date(keys[i]);
@@ -267,7 +260,7 @@ export class MyApp {
              }
              else{
                console.log('borrando en storage');
-               
+
 
                await this.storage.remove(keys[i]);
                let lenviadas=await this.storage.get('libretasEnviadas');
@@ -278,7 +271,7 @@ export class MyApp {
                  lenviadas=[{fechaEnvio:result["fechaEnvio"],fechaLibreta:keys[i]}];
                }
                await this.storage.set('libretasEnviadas',lenviadas);
-               
+
              }
           }
           if (i==keys.length-1) {
@@ -287,7 +280,7 @@ export class MyApp {
                    console.log('hola todas');
                    alert.dismiss();
                  }
-                 
+
                  alert2=this.alertCtrl.create({
                       title: "Todas las libretas han sido correctamente enviadas",
                       buttons: ["ok"]
@@ -295,7 +288,7 @@ export class MyApp {
                   alert2.present();
           }
         }
-        
+
 
         console.log('------------TERMINANDO--------------------');
       }else{
@@ -311,13 +304,13 @@ export class MyApp {
 
       this.events.publish('app:envioLibretas', false);
 
-      
-    
-    
+
+
+
   }
 
   selectItemMenuGeneral(item,index,$event){
-    
+
     this.indexSelectedLibreta=null;
     this.indexSelectedGeneral=index;
     this.menuCtrl.close();
@@ -328,7 +321,7 @@ export class MyApp {
     this.indexSelectedGeneral=null;
     this.indexSelectedLibreta=index;
     this.menuCtrl.close();
-    
+
     this.rootParams={
       indexHorario:index,
       libretaTemporal:this.libretaTemporal,
@@ -343,7 +336,7 @@ export class MyApp {
 
   listenToLoginEvents(){
 
-    
+
     this.events.subscribe('home:crearLibreta',(libretaTemporal)=>{
       if (this.enviandoLibretas) {
         let alert=this.alertCtrl.create({
@@ -358,7 +351,7 @@ export class MyApp {
         this.libretaTemporal=libretaTemporal;
         this.selectItemMenuLibreta(0,this.libretaPage);
       }
-      
+
     });
     this.events.subscribe('home:editarLibreta',(libretaTemporal)=>{
       if (this.enviandoLibretas) {
@@ -376,7 +369,7 @@ export class MyApp {
         this.libretaTemporal=libretaTemporal;
         this.selectItemMenuLibreta(0,this.libretaPage);
       }
-      
+
 
     });
 
@@ -391,12 +384,12 @@ export class MyApp {
     console.log('cerrando session home');
     this.storage.get('usuarioVinculado').then((val) => {
       console.log('(home) cerrando sesion get storage usuarioVinculado',JSON.stringify(val));
-      val.sesion=false;
+      // val.sesion=false;
       this.storage.set('usuarioVinculado',val).then(data=>{
         console.log('(home) set storage usuarioVinculado',JSON.stringify(data));
         this.indexSelectedGeneral=0;
         this.appCtrl.getRootNav().setRoot(AuthPage);
-        
+
       });
     });
   }
@@ -413,7 +406,6 @@ export class MyApp {
       });
    }
 
-   
+
 
 }
-

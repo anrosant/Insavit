@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, MenuController, Events } from 'ionic-angular';
+import { NavController, MenuController, Events, AlertController, Platform } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage';
 import {AuthPage} from '../auth/auth';
@@ -32,28 +32,22 @@ export class HomePage {
   constructor(private diagnostic: Diagnostic,private locationAccuracy: LocationAccuracy,public httpClient:HttpClient,private events: Events,private datePipe: DatePipe,public menuCtrl: MenuController,private secureStorage: SecureStorage,private storage: Storage,public navCtrl: NavController) {
     this.menuCtrl.enable(true);
     this.storage.get('fechaInstalacion').then(data=>{
-        console.log('(home) fecha get storage', JSON.stringify(data));
-        console.log('(home) pipe fecha',this.datePipe.transform(data,"yyyy-MM-dd"));
         this.fechaMinima=this.datePipe.transform(data,"yyyy-MM-dd");
      });
 
     this.storage.keys().then((keys)=>{
-      console.log('keys storage');
-      console.log(keys);
       this.keysStorage=keys;
     });
     this.storage.get('libretasEnviadas').then((libretasEnviadas)=>{
-      console.log('home: libretasEnviadas sotrage');
-      console.log(libretasEnviadas);
       this.libretasEnviadas=libretasEnviadas;
     });
-    
+
   }
   ionViewDidEnter(){
-    
+
     this.storage.get('usuarioVinculado').then((val) => {
       console.log('(home) get storage usuarioVinculado',JSON.stringify(val));
-      
+
     });
 
   }
@@ -63,7 +57,7 @@ export class HomePage {
         console.log('(home) httpclient json plantilla');
         console.log(plantilla);
         console.log(plantilla["data"]);
-        
+
         //Definicion de la libreta
         let libretaTemporal={
           fechaCreacion:new Date(),
@@ -76,12 +70,12 @@ export class HomePage {
           data:plantilla["data"]
         }
         this.events.publish('home:crearLibreta',libretaTemporal);
-        
+
       },error=>{
         console.log('error httpclient');
         console.log(JSON.stringify(error));
       });
-    
+
   }
   //esto viene del boton y con el bucle que se hara de comprobacion entonces ya aseguro de que pueda o no pueda editar
   editarLibreta(){
@@ -100,12 +94,12 @@ export class HomePage {
           this.events.publish('home:editarLibreta',libretaTemporal);
         });
         //this.events.publish('home:editarLibreta',libretaTemporal);
-        
+
       },error=>{
         console.log('error httpclient');
         console.log(JSON.stringify(error));
       });
-    
+
   }
   async changeDate(fechaLibreta){
      this.diagnostic.isLocationEnabled().then((res)=>{console.log('(home diagnostic)');console.log(res)}).catch((res)=>{console.log('(home diagnostic error)');console.log(res)});
@@ -117,7 +111,7 @@ export class HomePage {
     let keys:any=await this.storage.keys();
     let libretasEnviadas=await this.storage.get('libretasEnviadas');
     let libretasFechasEnviadas:any=await this.promesaGetFechasEnviadas(libretasEnviadas);
-    
+
       if (keys.includes(fechaLibreta) && !libretasFechasEnviadas.includes(fechaLibreta)) {
         console.log('Editar');
 
@@ -131,13 +125,15 @@ export class HomePage {
         this.creacionLibreta=true;
         this.edicionLibreta=false;
         this.messageButton="Crear Libreta";
+
       }
+
       else if (!keys.includes(fechaLibreta) && libretasFechasEnviadas.includes(fechaLibreta)) {
         console.log('Libreta Enviada');
         this.messageButton="Libreta enviada, no puedes acceder";
       }
-      this.comprobandoLibreta=false;   
-      
+      this.comprobandoLibreta=false;
+
   }
 
   promesaGetFechasEnviadas(libretasEnviadas){
@@ -157,4 +153,3 @@ export class HomePage {
   }
 
 }
-

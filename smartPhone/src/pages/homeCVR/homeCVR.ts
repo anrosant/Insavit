@@ -11,6 +11,7 @@ import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Coordinates,Geolocation } from '@ionic-native/geolocation';
 import { DatePicker } from '@ionic-native/date-picker';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 
@@ -41,7 +42,7 @@ export class HomeCVRPage {
   statusEnviandoLibretas=false;
   usuario=null;
 
-  constructor(private datePicker: DatePicker,private toastCtrl: ToastController,public navparams:NavParams,public loadingCtrl:LoadingController,platform: Platform,public alertCtrl: AlertController,private geolocation: Geolocation,private diagnostic: Diagnostic,private locationAccuracy: LocationAccuracy,public httpClient:HttpClient,private events: Events,private datePipe: DatePipe,public menuCtrl: MenuController,private storage: Storage,public navCtrl: NavController) {
+  constructor(private localNotifications: LocalNotifications, private datePicker: DatePicker,private toastCtrl: ToastController,public navparams:NavParams,public loadingCtrl:LoadingController,platform: Platform,public alertCtrl: AlertController,private geolocation: Geolocation,private diagnostic: Diagnostic,private locationAccuracy: LocationAccuracy,public httpClient:HttpClient,private events: Events,private datePipe: DatePipe,public menuCtrl: MenuController,private storage: Storage,public navCtrl: NavController) {
     this.menuCtrl.enable(true);
     this.storage.get('fechaInstalacion').then(data=>{
         console.log('(home) fecha get storage', JSON.stringify(data));
@@ -53,16 +54,17 @@ export class HomeCVRPage {
         }
      });
 
-/*
-    this.datePicker.show({
-  date: new Date(),
-  mode: 'date',
-  androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_DARK  
-}).then(
-  date => console.log('Got date: ', date),
-  err => console.log('Error occurred while getting date: ', err)
-);
-*/
+    platform.ready().then(() => {
+      this.localNotifications.on('trigger').subscribe(res => {
+       console.log("TRIGGER MSG");
+       let msg = res.text;
+       let alert = this.alertCtrl.create({
+         title: res.title,
+         subTitle: msg
+       });
+       alert.present()
+     });
+    });
 
     this.storage.keys().then((keys)=>{
       console.log('keys storage');
@@ -81,14 +83,14 @@ export class HomeCVRPage {
         if (val!=null && val.sesion) {
           this.usuario={username:val.usuario,data:val.data};
         }
-        
+
       }).catch(error => {
         console.log('main (hubo error en catch en check existencia de usuario vinculado)',error);
       });
-    
+
     platform.resume.subscribe(()=>{
         console.log('resume platform');
-      
+
         // do something
         this.diagnostic.getLocationAuthorizationStatus().then(res=>{
           console.log('GET LOCATION STATUS');
@@ -107,39 +109,33 @@ export class HomeCVRPage {
       }
       this.statusEnviandoLibretas=status;
     });
+  }
 
-    /*
-    platform.registerBackButtonAction(() => {
-            
-            if(this.navCtrl.canGoBack()){
-              this.navCtrl.pop();
-            }else{
-              //don't do anything
-              alert('backbutton no puedes ir hacia atras');
-            }
-          });
-
-          */
+  schedudelNotification(){
+    this.localNotifications.schedule({
+       title: 'Encuesta - Parámetros siguientes',
+       text: 'Tienes que realizar el cuestionario en la sección ABC',
+       trigger: {at: new Date(new Date().getTime() + 3600)},
+       led: 'FF0000',
+       sound: null
+    });
   }
 
   ionViewDidEnter(){
     this.events.subscribe('app:editarLibreta',(fechaLibreta)=>{
-      console.log('eeeeeeeeeeeeeveeeeeeeeeeeeeeentoooo');
       this.fechaLibreta=fechaLibreta;
       console.log(fechaLibreta);
       //this.changeDate(this.fechaLibreta);
     });
-    
+
     if (this.fechaLibreta) this.changeDate(this.fechaLibreta);
     this.diagnostic.requestLocationAuthorization().then(res=>{
-        console.log('REQUEST LOCATION AUTORIZATION');
-        console.log(JSON.stringify(res));
         this.permisoGeolocalizacion=res;
       }).catch(err=>{
         console.log(JSON.stringify(err));
       });
-    
-    
+
+
   }
 
   crearLibreta(){
@@ -152,7 +148,7 @@ export class HomeCVRPage {
         buttons: ["ok"]
       });
       alert.present();
-      
+
     }else{
 
 
@@ -207,7 +203,7 @@ export class HomeCVRPage {
                         });
 
 
-                        
+
                       },
                       error => {
                         loader.dismiss();
@@ -241,7 +237,7 @@ export class HomeCVRPage {
                 });
                 alert.present();
             });
-            
+
         }else if(this.ubicacionSelected==false){
 
           let fecha=new Date();
@@ -275,9 +271,8 @@ export class HomeCVRPage {
       }
 
     }
-    
-  }
 
+  }
 
   public async changeDate(fechaLibreta){
     this.creacionLibreta=false;
@@ -301,9 +296,11 @@ export class HomeCVRPage {
 
       let libretasEnviadas=await this.storage.get('libretasEnviadas');
       let libretasFechasEnviadas:any=await this.promesaGetFechasEnviadas(libretasEnviadas);
+      console.log("CHANGE DATE");
+      this.schedudelNotification();
 
         if (libretaVersiones!=null && !libretasFechasEnviadas.includes(fechaLibreta)) {
-          console.log('Editar');
+          console.log('<< Editar >>');
 
           this.creacionLibreta=false;
           this.edicionLibreta=true;
@@ -311,21 +308,21 @@ export class HomeCVRPage {
 
         }
         else if(libretaVersiones==null && !libretasFechasEnviadas.includes(fechaLibreta)){
-          console.log('Crear libreta');
+          console.log('<< Crear libreta >>');
           this.creacionLibreta=true;
           this.edicionLibreta=false;
           this.messageButton="Crear Libreta";
         }
         else if (libretaVersiones==null && libretasFechasEnviadas.includes(fechaLibreta)) {
-          console.log('Libreta Enviada');
+          console.log('<< Libreta Enviada >>');
           this.messageButton="Libreta enviada, no puedes acceder";
         }
-        this.comprobandoLibreta=false;   
+        this.comprobandoLibreta=false;
 
     }
 
-    
-      
+
+
   }
 
   promesaGetFechasEnviadas(libretasEnviadas){
@@ -371,7 +368,7 @@ export class HomeCVRPage {
 
 
 
-  
+
   changeUbicacion(){
     console.log('cambiando');
     console.log(this.ubicacionSelected);
@@ -381,7 +378,7 @@ export class HomeCVRPage {
     }
     else if(this.ubicacionSelected==false) {
       if (!(this.creacionLibreta==false && this.edicionLibreta==false)) {
-        
+
             let alert = this.alertCtrl.create({
               title: 'Motivo',
               inputs: [
@@ -414,39 +411,16 @@ export class HomeCVRPage {
 
 
       }
-      
-      
+
+
     }
 
   }
   clickDatePicker(){
-    
-    //console.log(document.getElementById('inputDate'));
     let element:HTMLElement=document.getElementById('inputDate') as HTMLElement;
     element.click();
-/*
-     this.datePicker.show({
-      date: new Date(),
-      minDate:new Date(2017, 12, 12),
-      maxDate:"12/05/2019",
-      mode: 'date',
-      androidTheme: this.datePicker.ANDROID_THEMES.THEME_DEVICE_DEFAULT_DARK  ,
-      allowOldDates:false,
-      allowFutureDates:false
-    }).then(
-      date => {
-        console.log('Got date: ', date);
-        this.fechaLibreta=this.datePipe.transform(date,"yyyy-MM-dd");
-        this.changeDate(this.fechaLibreta);
-      },
-      err => console.log('Error occurred while getting date: ', err)
-    );
-
-    //this.fechaMinima=this.datePipe.transform(data,"yyyy-MM-dd");
-*/    
   }
 
 
 
 }
-

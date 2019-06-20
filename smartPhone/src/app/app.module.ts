@@ -40,6 +40,8 @@ import { libretasPendientesPage } from '../pages/libretasPendientes/libretasPend
 import { IntelSecurity } from '@ionic-native/intel-security';
 
 import { DatePicker } from '@ionic-native/date-picker';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
 
 
 
@@ -70,7 +72,7 @@ import { DatePicker } from '@ionic-native/date-picker';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
-    HttpClientModule    
+    HttpClientModule
     //LongPressModule
   ],
   bootstrap: [IonicApp],
@@ -100,6 +102,7 @@ import { DatePicker } from '@ionic-native/date-picker';
     SecureStorage,
     LocationAccuracy,
     Diagnostic,
+    LocalNotifications,
     File,
     DatePipe,
     Geolocation,

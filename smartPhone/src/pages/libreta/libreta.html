@@ -10,21 +10,15 @@
 </ion-header>
 
 <ion-content>
-	<!--
-    <ion-item class="itemPequenio" color="menuItemSelected" text-center>
-      <ion-icon name="time"></ion-icon>
-      @ionicframework
-    </ion-item>
-	-->
     <div *ngIf="libretaTemporal.data[indexHorario].tipo=='horario'" style="text-align: center; background: rgb(29, 229, 33)" class="row">
     	<div class="col">
     	<span><i class="far fa-clock"></i></span>
-    	<span> {{libretaTemporal.data[indexHorario].label}} </span>	
+    	<span> {{libretaTemporal.data[indexHorario].label}} </span>
     	</div>
     </div>
     <div *ngIf="libretaTemporal.data[indexHorario].tipo=='diario'" style="text-align: center; background: #1d92f2" class="row">
       <div class="col">
-      <span> {{libretaTemporal.data[indexHorario].label}} </span> 
+      <span> {{libretaTemporal.data[indexHorario].label}} </span>
       </div>
     </div>
 
@@ -52,7 +46,7 @@
               </button>
             </ion-list>
             </div>
-          
+
         </div>
 
 
@@ -60,7 +54,7 @@
             <button ion-item  (click)="clickNextPage(null,indexCategoria)">
               <ion-icon name="{{item.icon}}" item-start ></ion-icon>
               <ion-label >{{item.label}}</ion-label>
-            </button> 
+            </button>
         </div>
 
         <div text-center *ngIf="item.type=='observation'">
@@ -68,10 +62,10 @@
             <ion-item>
             <ion-textarea style="border: 1px solid #6b7e9b" placeholder="" [(ngModel)]="item.value"></ion-textarea>
           </ion-item>
-            
+
         </div>
-        
-        
+
+
 
     </div>
 

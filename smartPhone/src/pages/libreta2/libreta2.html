@@ -10,23 +10,17 @@
 </ion-header>
 
 <ion-content>
-	<!--
-    <ion-item class="itemPequenio" color="menuItemSelected" text-center>
-      <ion-icon name="time"></ion-icon>
-      @ionicframework
-    </ion-item>
-	-->
 
     <div *ngIf="libretaTemporal.data[indexHorario].tipo=='horario'" style="text-align: center; background: rgb(29, 229, 33)" class="row">
       <div class="col">
       <span><i class="far fa-clock"></i></span>
-      <span> {{libretaTemporal.data[indexHorario].label}} </span> 
+      <span> {{libretaTemporal.data[indexHorario].label}} </span>
       </div>
     </div>
 
     <div *ngIf="libretaTemporal.data[indexHorario].tipo=='diario'" style="text-align: center; background: #1d92f2" class="row">
       <div class="col">
-      <span> {{libretaTemporal.data[indexHorario].label}} </span> 
+      <span> {{libretaTemporal.data[indexHorario].label}} </span>
       </div>
     </div>
 
@@ -39,7 +33,7 @@
                 <ion-icon *ngIf="!item.initialShow" item-end name="arrow-dropright" ></ion-icon>
               </button>
               <div *ngIf="item.initialShow" class="collapse show" id="collapse{{i}}" >
-              
+
                   <div *ngFor="let item2 of item.children">
                     <div *ngIf="item2.type=='input_number'" padding>
                     <!--<br>-->
@@ -55,7 +49,7 @@
                           {{item2.error}}
                         </div>
                       </div>
-                      
+
                     </div>
                     <!--<br>-->
                     </div>
@@ -76,22 +70,22 @@
 
 
                           </div>
-                          
+
                         </div>
                         <!--<br>-->
                     </div>
 
                     <div *ngIf="item2.type=='button'" padding>
-                      
+
                       <button *ngIf="item2.function && item2.function!=null"  ion-item color="navbar" text-center (click)="calcular(item2.function)">
                         <ion-label>{{item2.label}}</ion-label>
                       </button>
                       <button *ngIf="!item2.function || item2.function==null"  ion-item color="navbar" text-center>
                         <ion-label>{{item2.label}}</ion-label>
                       </button>
-                    
+
                     </div>
-                    
+
                   </div>
 
               </div>
@@ -113,7 +107,7 @@
                           {{item2.error}}
                         </div>
                       </div>
-                      
+
                     </div>
                     <!--<br>-->
                     </div>
@@ -134,13 +128,13 @@
 
 
                           </div>
-                          
+
                         </div>
                         <!--<br>-->
                     </div>
 
                     <div *ngIf="item2.type=='button'" padding>
-                      
+
                       <button *ngIf="item2.function!=null"  ion-item color="navbar" text-center (click)="calcular(item2.function)">
                         <ion-label>{{item2.label}}</ion-label>
                       </button>
@@ -148,14 +142,14 @@
                         <ion-label>{{item2.label}}</ion-label>
                       </button>
                     </div>
-                    
+
                   </div>
-              
+
               </div>
-          
+
         </div>
-        
-        
+
+
 
     </div>
 
