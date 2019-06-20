@@ -10,28 +10,6 @@
 </ion-header>
 
 <ion-content>
-	<!--
-    <ion-item class="itemPequenio" color="menuItemSelected" text-center>
-      <ion-icon name="time"></ion-icon>
-      @ionicframework
-    </ion-item>
-	
-
-    <div *ngIf="seccionSelected.tipo=='horario'" style="text-align: center; background: rgb(29, 229, 33)" class="row">
-      <div class="col">
-      <span><i class="far fa-clock"></i></span>
-      <span> {{seccionSelected.label}} </span> 
-      </div>
-    </div>
-
-    <div *ngIf="seccionSelected.tipo=='diario'" style="text-align: center; background: #1d92f2" class="row">
-      <div class="col">
-      <span> {{seccionSelected.label}} </span> 
-      </div>
-    </div>
-
-    -->
-
 
     <div *ngFor="let item of seccionSelected2.children;let i = index">
         <div *ngIf="item.type=='collapseList'">
@@ -41,7 +19,7 @@
                 <ion-icon *ngIf="!item.initialShow" item-end name="arrow-dropright" ></ion-icon>
               </button>
               <div *ngIf="item.initialShow" class="collapse show" id="collapse{{i}}" >
-              
+
                   <div *ngFor="let item2 of item.children; let j = index">
                     <div *ngIf="item2.type=='input_number'" padding>
                     <!--<br>-->
@@ -50,21 +28,12 @@
                         <span>{{item2.label}}</span>
                       </div>
                       <div class="col-4">
-                        <!--<ion-spinner item-start name="dots" *ngIf="pruebaActivo"></ion-spinner>-->
-                        
-                        
                         <input type="text" text-center class="form-control form-control-lg" [class.is-invalid]="item2.error"  name="prueba" [(ngModel)]="item2.value" (keyup)="keyupFunction($event,item2.keyupFunction)" (blur)="blurFunction($event,item2.blurFunction)" >
-                        <!--
-                          <input text-center class="form-control" [class.is-invalid]="item2.error" type="number" name="prueba" [(ngModel)]="item2.value" (keyup)="keyupFunction($event,item2.keyupFunction)" (blur)="blurFunction($event,item2.blurFunction)" required>
-                        <input type="text" pattern="[+-]?([0-9]*[.])?[0-9]+" inputmode="numeric">
-                        <input type="text" pattern="[+-]?([0-9]*[.])?[0-9]+" >
-                        <input type="number" pattern="[0-9]*" inputmode="numeric">
-                        -->
                         <div text-center class="invalid-feedback">
                           {{item2.error}}
                         </div>
                       </div>
-                      
+
                     </div>
                     <!--<br>-->
                     </div>
@@ -85,22 +54,22 @@
 
 
                           </div>
-                          
+
                         </div>
                         <!--<br>-->
                     </div>
 
                     <div *ngIf="item2.type=='button'" padding>
-                      
+
                       <button *ngIf="item2.function && item2.function!=null"  ion-item color="navbar" text-center (click)="clickFunction($event,item2.function)">
                         <ion-label>{{item2.label}}</ion-label>
                       </button>
                       <button *ngIf="!item2.function || item2.function==null"  ion-item color="navbar" text-center>
                         <ion-label>{{item2.label}}</ion-label>
                       </button>
-                    
+
                     </div>
-                    
+
                   </div>
 
               </div>
@@ -122,7 +91,7 @@
                           {{item2.error}}
                         </div>
                       </div>
-                      
+
                     </div>
                     <!--<br>-->
                     </div>
@@ -143,13 +112,13 @@
 
 
                           </div>
-                          
+
                         </div>
                         <!--<br>-->
                     </div>
 
                     <div *ngIf="item2.type=='button'" padding>
-                      
+
                       <button *ngIf="item2.function!=null"  ion-item color="navbar" text-center (click)="clickFunction(item2.function)">
                         <ion-label>{{item2.label}}</ion-label>
                       </button>
@@ -157,14 +126,12 @@
                         <ion-label>{{item2.label}}</ion-label>
                       </button>
                     </div>
-                    
+
                   </div>
-              
+
               </div>
-          
+
         </div>
-        
-        
 
     </div>
 

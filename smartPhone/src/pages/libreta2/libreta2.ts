@@ -67,23 +67,8 @@ data=[{
         //this.funciones[eval('var a;a='+funcionesString[1]).name]=eval('var a;a='+funcionesString[1]);
         console.log('(libreta2) funciones');
         console.log(this.funciones);
-        /*
-        let funcionx=this.funciones["prueba2"];
-        let args=this.getArgs(this.funciones['prueba2']);
-        let parametros=[this.getObjects(this.libretaTemporal,'id',args[0])[0],222];
-        let parametrosMapeados=this.mappingParametros(args);
-        let stringFuncion=this.construirFuncionDinamicaString('funcionx','parametrosMapeados',parametrosMapeados.length);
-        //let parametros=[this.getObjects(this.libretaTemporal,'id',args[0])[0],222];
-        console.log(parametrosMapeados);
-        console.log(stringFuncion);
-        console.log(eval(stringFuncion));
-        //let argumento=this.getObjects(this.libretaTemporal,'id',args[0])[0];
-        //argumento.value='25';
-        //let funcionString=this.dinamicParameterFunctionString(this.funciones['prueba2'],args);
-        //console.log(eval(this.dinamicParameterFunctionString('funcionx',args)));
-        */
 
-        
+
       },error=>{
         console.log('(home) error httpclient');
         console.log(JSON.stringify(error));
@@ -106,13 +91,13 @@ data=[{
     for(let i=0;i<lengthParametros;i++){
       if (i==lengthParametros-1) {
          funcionString=`${funcionString}${stringParametros}[${i}])`;
- 
+
       }
       else{
          funcionString=`${funcionString}${stringParametros}[${i}],`;
 
       }
-    
+
     }
     return funcionString;
   }
@@ -122,13 +107,13 @@ data=[{
     for(let i=0;i<nombreParametros.length;i++){
       if (i==nombreParametros.length-1) {
          funcionString=funcionString+this.getObjects(this.libretaTemporal,'id',nombreParametros[i])[0]+')';
- 
+
       }
       else{
          funcionString=funcionString+this.getObjects(this.libretaTemporal,'id',nombreParametros[i])[0]+',';
 
       }
-    
+
     }
     return funcionString;
   }
@@ -136,7 +121,7 @@ data=[{
   clickCollapseButton(index,id,$event){
     let buttonElement=$event.currentTarget;
     let collapse= document.getElementById(id);
-        
+
     if (collapse.getAttribute('class')=="collapse") {
       buttonElement.getElementsByTagName('ion-icon')[0].setAttribute('class','icon icon-md ion-md-arrow-dropdown item-icon');
     }
@@ -167,8 +152,8 @@ data=[{
       for (var i in obj) {
           if (!obj.hasOwnProperty(i)) continue;
           if (typeof obj[i] == 'object') {
-              objects = objects.concat(this.getObjects(obj[i], key, val));    
-          } else 
+              objects = objects.concat(this.getObjects(obj[i], key, val));
+          } else
           //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
           if (i == key && obj[i] == val || i == key && val == '') { //
               objects.push(obj);
@@ -185,7 +170,7 @@ data=[{
   getArgs(func) {
     // First match everything inside the function argument parens.
     var args = func.toString().match(/function\s.*?\(([^)]*)\)/)[1];
-   
+
     // Split the arguments string into an array comma delimited.
     return args.split(',').map(function(arg) {
       // Ensure no inline comments are parsed and trim the whitespace.
@@ -194,7 +179,7 @@ data=[{
       // Ensure no undefined values are added.
       return arg;
     });
-  
+
 
   }
 }
