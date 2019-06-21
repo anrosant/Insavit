@@ -19,7 +19,7 @@ export class AuthPage {
 	form={username:"",password:""};
   //url="http://192.168.0.9:8000/auth";
   // url="http://ec2-13-58-239-128.us-east-2.compute.amazonaws.com/ingreso/login";
-  url="http://129.213.36.87:8000/api/validate_user";
+  url="http://ec2-54-91-207-54.compute-1.amazonaws.com/api/validate_user/";
   usuarioVinculado;
 
   constructor(private intelSecurity: IntelSecurity,public httpClient:HttpClient,public appCtrl:App,public menuCtrl: MenuController,private secureStorage: SecureStorage,private storage: Storage, public navCtrl: NavController, public navParams:NavParams,public http:HTTP,public network:Network,public loadingCtrl:LoadingController, public alertCtrl: AlertController) {
