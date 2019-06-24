@@ -381,10 +381,7 @@ export class MyApp {
   }
 
   cerrarSesion(){
-    console.log('cerrando session home');
     this.storage.get('usuarioVinculado').then((val) => {
-      console.log('(home) cerrando sesion get storage usuarioVinculado',JSON.stringify(val));
-      // val.sesion=false;
       this.storage.set('usuarioVinculado',val).then(data=>{
         console.log('(home) set storage usuarioVinculado',JSON.stringify(data));
         this.indexSelectedGeneral=0;

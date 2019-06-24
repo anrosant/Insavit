@@ -16,10 +16,8 @@ import { IntelSecurity } from '@ionic-native/intel-security';
 })
 export class AuthPage {
 
-	form={username:"",password:""};
-  //url="http://192.168.0.9:8000/auth";
-  // url="http://ec2-13-58-239-128.us-east-2.compute.amazonaws.com/ingreso/login";
-  url="http://ec2-54-91-207-54.compute-1.amazonaws.com/api/validate_user/";
+	user={username:"",password:""};
+  url="http://150.136.230.16/api/validate_user/";
   usuarioVinculado;
 
   constructor(private intelSecurity: IntelSecurity,public httpClient:HttpClient,public appCtrl:App,public menuCtrl: MenuController,private secureStorage: SecureStorage,private storage: Storage, public navCtrl: NavController, public navParams:NavParams,public http:HTTP,public network:Network,public loadingCtrl:LoadingController, public alertCtrl: AlertController) {
@@ -33,8 +31,6 @@ export class AuthPage {
         this.usuarioVinculado=val;
         console.log('usuarioVinculado',JSON.stringify(this.usuarioVinculado));
       }
-          console.log('(auth) final then get storage vinculado');
-
     });
   }
 
@@ -52,7 +48,7 @@ export class AuthPage {
       .then((instanceID: number) => this.intelSecurity.data.getData(instanceID))
       .then((data: string) => {
         console.log(data);
-        if (this.form.password==data) {
+        if (this.user.password==data) {
            loader.dismiss();
             const alertador = this.alertCtrl.create({
               title: 'Credenciales Correctas!',
@@ -80,42 +76,43 @@ export class AuthPage {
 
     }
     else{
-      this.http.get(this.url, {usuario:this.form.username,clave:Md5.hashStr(this.form.password)}, {})
+      this.http.post(this.url, {username:this.user.username,password:this.user.password}, {})
       .then(res => {
-
-        const alertador = this.alertCtrl.create({
-          title: 'Credenciales Correctas!',
-          subTitle: 'Has ingresado correctamente',
+        console.log(Md5.hashStr(this.user.password));
+        const alert = this.alertCtrl.create({
+          subTitle: JSON.parse(res.data).msj,
           buttons: ['OK']
         });
-        alertador.present();
+        alert.present();
+        if (JSON.parse(res.data).userId != undefined) {
+          this.intelSecurity.data.createFromData({ data: this.user.password })
+          .then((instanceID: Number) => {
+            this.intelSecurity.storage.write({ id: "usuarioClave", instanceID: instanceID }).then(res=>{console.log('exito en guardar en storage intel')});
+            this.storage.set('usuarioVinculado', {usuario:this.user.username,sesion:true,data:JSON.parse(res.data)[0]})
+            .then((data)=>{
+              loader.dismiss();
+              console.log('se vinculo el usuario y se guardo la informacion del servidor',data);
+               this.appCtrl.getRootNav().setRoot(HomeCVRPage);
+            })
+            .catch(error=>{
+              loader.dismiss();
+              console.log('error de guardado storage',error);
+            });
 
-        this.intelSecurity.data.createFromData({ data: this.form.password })
-        .then((instanceID: Number) => {
-          this.intelSecurity.storage.write({ id: "usuarioClave", instanceID: instanceID }).then(res=>{console.log('exito en guardar en storage intel')});
-          this.storage.set('usuarioVinculado', {usuario:this.form.username,sesion:true,data:JSON.parse(res.data)[0]})
-          .then((data)=>{
-            loader.dismiss();
-            console.log('se vinculo el usuario y se guardo la informacion del servidor',data);
-             this.appCtrl.getRootNav().setRoot(HomeCVRPage);
           })
-          .catch(error=>{
-            loader.dismiss();
-            console.log('error de guardado storage',error);
+          .catch((error: any) => {
+            console.log(error);
           });
-
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
-
+        }
+        else{
+          loader.dismiss();
+        }
       })
       .catch(error => {
         loader.dismiss();
         if (error.status == 403) {
             const alert = this.alertCtrl.create({
-              title: 'Credenciales incorrectas!',
-              subTitle: 'Intentelo de nuevo',
+              subTitle: 'Hubo un problema de conexión. Intentelo más tarde',
               buttons: ['OK']
             });
             alert.present();
@@ -128,13 +125,7 @@ export class AuthPage {
             });
             alert.present();
         }
-
-        console.log(error.status);
-        console.log(error.error); // error message as string
-        console.log(error.headers);
-
       });
-
     }
 
 
