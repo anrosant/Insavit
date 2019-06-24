@@ -54,6 +54,9 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = "ukuweb.urls"
+ENVIRONMENT_TEST = "test"
+ENVIRONMENT_LIVE = "live"
+TEST = os.environ.get("TEST", "False")
 
 TEMPLATES = [
     {
@@ -77,12 +80,25 @@ WSGI_APPLICATION = "ukuweb.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+if TEST == "True":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
-}
+
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.environ.get("DB_NAME", "uku"),
+            "USER": os.environ.get("DB_USER", "uku"),
+            "PASSWORD": os.environ.get("DB_PASSWORD", "Uku123"),
+            "HOST": os.environ.get("DB_HOSTNAME", "localhost"),
+            "PORT": os.environ.get("DB_PORT", "5432"),
+        }
+    }
 
 
 # Password validation
