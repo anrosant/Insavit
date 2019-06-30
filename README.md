@@ -12,8 +12,8 @@
 ```
 pip install -r requirements.txt
 npm install --save-dev babel-core babel-loader babel-preset-env babel-preset-react webpack webpack-bundle-tracker webpack-cli
-
 npm install --save react react-dom
+npm install create-react-class --save
 ```
 ## Compile bundles
 ```
