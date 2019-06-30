@@ -1,0 +1,16 @@
+{% load render_bundle from webpack_loader %}
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Ejemplo</title>
+
+</head>
+
+<body>
+  <div id="form-container">Welcome</div>
+  {% render_bundle 'main' %}
+</body>
+
+</html>

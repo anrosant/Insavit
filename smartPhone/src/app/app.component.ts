@@ -53,9 +53,8 @@ export class MyApp {
 
   LibretasEnviar1=[];
   LibretasEnviar2={};
-  urlServerEnvioLibreta="http://ec2-13-58-239-128.us-east-2.compute.amazonaws.com/formularios";
-  //urlServerPlantilla="http://ec2-13-58-239-128.us-east-2.compute.amazonaws.com/formularios/nuevo";
-  //urlServerCalculos="http://ec2-13-58-239-128.us-east-2.compute.amazonaws.com/formularios/calculos";
+  // urlServerEnvioLibreta="http://ec2-13-58-239-128.us-east-2.compute.amazonaws.com/formularios";
+  urlServerEnvioLibreta="http://150.136.230.16/api/send_form/";
   urlServerPlantilla="http://192.168.0.10:8000/prueba/plantilla";
   urlServerCalculos="http://192.168.0.10:8000/prueba/calculos";
 
