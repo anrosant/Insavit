@@ -9,16 +9,18 @@
 * brew/postgresql or download [Postgres.app](https://postgresapp.com/)
 
 ## Install Dependences
+```
+pip install -r requirements.txt
+npm install --save-dev babel-core babel-loader babel-preset-env babel-preset-react webpack webpack-bundle-tracker webpack-cli
 
-```pip install -r requirements.txt
-npm install --save-dev babel-core babel-loader babel-preset-env
-babel-preset-react webpack webpack-bundle-tracker webpack-cli
-npm install --save react react-dom```
-
+npm install --save react react-dom
+```
 ## Compile bundles
-```./node_modules/.bin/webpack --config webpack.config.js```
-
+```
+./node_modules/.bin/webpack --config webpack.config.js
+```
 ## Run the application
-```npm run watch
+```
+npm run watch
 python manage.py runserver
 ```
