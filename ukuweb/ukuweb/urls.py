@@ -6,4 +6,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r"^admin/", admin.site.urls),
     url(r"^api/", include("api.urls")),
+    url(r"^form/", include("form_manager.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

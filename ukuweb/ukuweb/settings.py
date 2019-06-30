@@ -40,7 +40,16 @@ INSTALLED_APPS = [
     "rest_framework",
     "users",
     "api",
+    "form_manager",
+    "webpack_loader",
 ]
+
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "BUNDLE_DIR_NAME": "bundles/",
+        "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.json"),
+    }
+}
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.security.SecurityMiddleware",
@@ -61,7 +70,7 @@ TEST = os.environ.get("TEST", "False")
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -132,3 +141,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
 STATIC_URL = "/static/"
+STATICFILES_DIRS = (str(os.path.join(BASE_DIR, "assets")),)
