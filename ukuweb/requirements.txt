@@ -1,5 +1,5 @@
 django
 djangorestframework
-djangorestframework-jwt
 psycopg2
 django-webpack-loader
+python-dateutil

@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from form_manager.models import UserProfile
-import datetime
+import dateutil.parser
 
 
 class Interviewed(models.Model):
@@ -30,23 +30,17 @@ class FormDataManager(models.Manager):
             "codigoPlantilla": "formularioPrueba",
             "coordenadas": null,
             "data": [],
-            "fechaAcceso": "22/01/2019",
-            "fechaCreacion": "22/01/2019",
-            "fechaGuardado": "22/01/2019",
+            "fechaAcceso": "2019-07-03T15:32:51.585Z",
+            "fechaCreacion": "2019-07-03T15:32:51.585Z",
+            "fechaGuardado": "2019-07-03T15:32:51.585Z",
             "gps": false,
             "motivo": "No puedo",
             "usuario": {"username": "user example"}
         }
         """
-        access_date = datetime.datetime.strptime(
-            " ".join(form.get("fechaAcceso").split(" ")[:5]), "%a %b %d %Y %H:%M:%S"
-        )
-        created_date = datetime.datetime.strptime(
-            " ".join(form.get("fechaCreacion").split(" ")[:5]), "%a %b %d %Y %H:%M:%S"
-        )
-        send_date = datetime.datetime.strptime(
-            " ".join(form.get("fechaGuardado").split(" ")[:5]), "%a %b %d %Y %H:%M:%S"
-        )
+        access_date = dateutil.parser.parse(form.get("fechaAcceso"))
+        created_date = dateutil.parser.parse(form.get("fechaCreacion"))
+        send_date = dateutil.parser.parse(form.get("fechaGuardado"))
         form_data = self.model(
             type=form.get("codigoPlantilla"),
             coordinates=form.get("coordenadas", None),
