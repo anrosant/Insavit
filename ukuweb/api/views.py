@@ -1,15 +1,16 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_jwt.settings import api_settings
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
 from api.models import FormData
+from form_manager.models import UserProfile
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 @permission_classes((AllowAny,))
 def validate_user(request):
     context = {}
@@ -21,25 +22,29 @@ def validate_user(request):
         except User.DoesNotExist:
             user = None
         if user is not None and not user.is_superuser:
-            """Función que genera tokens de usuarios"""
-            jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-            jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
             user = User.objects.get(username=username)
-            payload = jwt_payload_handler(user)
-            token = jwt_encode_handler(payload)
-            context["token"] = token
-            user.token = token
-            context["userId"] = user.id
-            context["msj"] = "Ingreso exitoso"
+            userProfile = UserProfile.objects.filter(user_id=user.id)
+            if userProfile:
+                context["uid"] = userProfile[0].uid
+                context["username"] = user.username
+                context["msg"] = "Ingreso exitoso"
+                status = 200
+            else:
+                context["msg"] = "Usuario o contraseña incorrectos"
+                context["data"] = {"error": "Bad request"}
+                status = 400
         else:
-            context["msj"] = "Usuario o contraseña incorrectos"
+            context["msg"] = "Usuario o contraseña incorrectos"
+            context["data"] = {"error": "Bad request"}
+            status = 400
     else:
-        context["msj"] = "No tiene permisos"
-    return Response(context)
+        context["msg"] = "No tiene permisos"
+        context["data"] = {"error": "Unauthorized user"}
+        status = 401
+    return JsonResponse(context, status=status)
 
 
-@api_view(["GET", "POST"])
+@api_view(["POST"])
 @permission_classes((AllowAny,))
 def save_form_data(request):
     """
@@ -52,27 +57,28 @@ def save_form_data(request):
         "fechaGuardado": "22/01/2019",
         "gps": false,
         "motivo": "No puedo",
-        "usuario": {"username": "user example", "token": "token"}
+        "usuario": {"username": "user example",
+                    "uid": "e779204e-acd5-4c31-8e0b-4527f2f5dcc2"}
     }
     """
     context = {}
     if request.method == "POST":
-        username = request.data["usuario"].get("username")
-        user = User.objects.get(username=username)
-        if user is not None:
+        uid = request.data["usuario"].get("uid")
+        userProfile = UserProfile.objects.filter(uid=uid)
+        if userProfile.exists() and userProfile[0]:
             try:
                 form = FormData.objects.create(request.data)
                 form.save()
-                context["msj"] = "Guardado correctamente"
+                context["msg"] = "Guardado correctamente"
                 context["data"] = form.to_dict()
+                status = 200
             except Exception as e:
-                context["error"] = "Parámetros incorrectos"
-                print(e)
+                context["data"] = {"error": "Bad request"}
+                status = 400
         else:
-            context["msj"] = "Usuario no autorizado"
-    elif request.method == "GET":
-        form = FormData.objects.all()
-        context["created"] = form
+            context["data"] = {"error": "Unauthorized user"}
+            status = 401
     else:
-        context["msj"] = "Método no permitido"
-    return Response(context)
+        context["data"] = {"error": "Méthod GET not allowed"}
+        status = 405
+    return JsonResponse(context, status=status)

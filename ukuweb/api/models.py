@@ -1,8 +1,26 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User
+from form_manager.models import UserProfile
 import datetime
+
+
+class Interviewed(models.Model):
+    alias = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150, null=True, blank=True)
+    last_name = models.CharField(max_length=200, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
+    birthdate = models.DateField(blank=True, null=True)
+    address = models.CharField(max_length=500, null=True, blank=True)
+    phone = models.CharField(max_length=15, null=True, blank=True)
+
+    def complete_name(self):
+        if self.name and self.last_name:
+            return "{} - {} {}".format(self.alias, self.name, self.last_name)
+        if self.name:
+            return "{} - {}".format(self.alias, self.name)
+        return self.alias
 
 
 class FormDataManager(models.Manager):
@@ -39,6 +57,10 @@ class FormDataManager(models.Manager):
             include_gps=form.get("gps"),
             reason=form.get("motivo", None),
         )
+        user = form.get("usuario", None)
+        if user:
+            user = UserProfile.objects.get(uid=user.get("uid"))
+            form_data.user = user
         return form_data
 
 
@@ -52,6 +74,8 @@ class FormData(models.Model):
     include_gps = models.BooleanField(default=False)
     reason = models.TextField(null=True, blank=True)
     objects = FormDataManager()
+    user = models.ForeignKey(UserProfile, null=True)
+    interviewed = models.ForeignKey(Interviewed, null=True)
 
     def to_dict(self):
         return {
@@ -63,4 +87,5 @@ class FormData(models.Model):
             "fechaGuardado": self.send_date,
             "gps": self.include_gps,
             "motivo": self.reason if self.reason else "",
+            "usuario": self.user.uid if self.user else "",
         }
