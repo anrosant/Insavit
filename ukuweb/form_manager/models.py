@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 # Create your models here.
 class UserType(models.Model):
@@ -12,12 +14,21 @@ class UserType(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=2)
 
+    def __unicode__(self):
+        return self.name
 
-class MainUser(models.Model):
+
+class UserProfile(models.Model):
+    uid = models.CharField(
+        primary_key=True, default=uuid.uuid4, editable=False, max_length=36
+    )
     name = models.CharField(max_length=350)
     last_name = models.CharField(max_length=350)
     user_type = models.ForeignKey(UserType)
     user = models.OneToOneField(User)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Template(models.Model):
@@ -26,7 +37,15 @@ class Template(models.Model):
     structure = models.TextField()
     quantity = models.IntegerField(default=0)
 
+    def to_dict(self):
+        return {
+            "type": self.type,
+            "name": self.name,
+            "structure": self.structure,
+            "quantity": self.quantity,
+        }
+
 
 class UserTemplate(models.Model):
-    user = models.ForeignKey(MainUser)
+    user = models.ForeignKey(UserProfile)
     template = models.ForeignKey(Template)
