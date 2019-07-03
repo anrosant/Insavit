@@ -54,7 +54,7 @@ class FormDataManager(models.Manager):
             access_date=access_date,
             created_date=created_date,
             send_date=send_date,
-            include_gps=form.get("gps"),
+            include_gps=True if form.get("gps") == "true" else False,
             reason=form.get("motivo", None),
         )
         user = form.get("usuario", None)
