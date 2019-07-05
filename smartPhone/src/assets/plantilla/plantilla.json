@@ -627,6 +627,208 @@
                                                             "refiere":false
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    "label":"EXPLORACIÓN FÍSICA",
+                                                    "type":"checkbox_group",
+                                                    "children":[
+                                                        {
+                                                            "label":"CARA",
+                                                            "id":"exploracion_cara",
+                                                            "children":[
+                                                                {
+                                                                    "label":"FASCIE ICTÉRICA",
+                                                                    "id":"fascie_icterica",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"FASCIE CIANÓTICA",
+                                                                    "id":"fascie_cianotica",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"FASCIE CAQUÉCTICA",
+                                                                    "id":"fascie_caquectica",
+                                                                    "checked":false
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label":"CABELLO",
+                                                            "id":"exploracion_cabello",
+                                                            "children":[
+                                                                {
+                                                                    "label":"ALOPECIA",
+                                                                    "id":"alpecia",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"RESEQUEDAD",
+                                                                    "id":"resequedad_cabello",
+                                                                    "checked":false
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label":"OJOS",
+                                                            "id":"exploracion_ojos",
+                                                            "children":[
+                                                                {
+                                                                    "label":"CONJUNTIVITIS",
+                                                                    "id":"conjuntivitis",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"XEROLFTAMIA",
+                                                                    "id":"xerolftamia",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"HEMORRAGIA",
+                                                                    "id":"hemorragia",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"ICTERICIA",
+                                                                    "id":"ictericia",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"XANTELASMA",
+                                                                    "id":"xantelasma",
+                                                                    "checked":false
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label":"BOCA",
+                                                            "id":"exploracion_boca",
+                                                            "children":[
+                                                                {
+                                                                    "label":"QUEILOSIS",
+                                                                    "id":"queilosis",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"QUEILITIS",
+                                                                    "id":"queilitis",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"GLOSITIS",
+                                                                    "id":"glositis",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"ESTOMATITIS",
+                                                                    "id":"estomatitis",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"RESEQUEDAD",
+                                                                    "id":"resequedad_boca",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"ENCÍAS SANGRANTES",
+                                                                    "id":"encias_sangrantes",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"CARIES",
+                                                                    "id":"caries",
+                                                                    "checked":false
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label":"PIEL",
+                                                            "id":"exploracion_piel",
+                                                            "children":[
+                                                                {
+                                                                    "label":"MALA CICATRIZACIÓN DE HERIDAS",
+                                                                    "id":"mala_cicatrizacion",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"DESCAMACIÓN",
+                                                                    "id":"descamacion",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"EDEMA",
+                                                                    "id":"edema",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"PETEQUIAS",
+                                                                    "id":"petequias",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"ERITEMA PALMAR",
+                                                                    "id":"eritema_palmar",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"RESEQUEDAD",
+                                                                    "id":"resequedad_piel",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"ACANTOSIS NIGRICANS",
+                                                                    "id":"acantosis_nigricans",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"DERMATITIS PELAGROIDE",
+                                                                    "id":"dermatitis_pelagroide",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"PÚSTULA (ESPINILLAS)",
+                                                                    "id":"pustula",
+                                                                    "checked":false
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "label":"UÑAS",
+                                                            "id":"exploracion_uñas",
+                                                            "children":[
+                                                                {
+                                                                    "label":"COILONIQUIA",
+                                                                    "id":"coiloniquia",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"LEUCONIQUIA",
+                                                                    "id":"leuconiquia",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"SIN BRILLA",
+                                                                    "id":"sin_brilla",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"OPACAS",
+                                                                    "id":"uñas_opacas",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"PÁLIDAS",
+                                                                    "id":"uñas_palidas",
+                                                                    "checked":false
+                                                                },
+                                                                {
+                                                                    "label":"QUEBRADIZAS",
+                                                                    "id":"uñas_quebradizas",
+                                                                    "checked":false
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
                                                 }
                                             ]
                                         },
@@ -635,7 +837,235 @@
                                             "icon":"md-person",
                                             "type":"collapseList",
                                             "initialShow":true,
-                                            "children":[{}
+                                            "children":[
+                                                {
+                                                    "label":"TABLA GUÍA",
+                                                    "type":"info_table",
+                                                    "rows":[
+                                                        {
+                                                            "column1":"METS",
+                                                            "column2":"ACTIVIDAD VIGOROSA"
+                                                        },
+                                                        {
+                                                            "column1":"9",
+                                                            "column2":"DESPLAZAMIENTOS RÁPIDOS EN BICICLETA"
+                                                        },
+                                                        {
+                                                            "column1":"7,4",
+                                                            "column2":"SUBIR MONTAÑAS (CON CARGA DE 5KG)"
+                                                        },
+                                                        {
+                                                            "column1":"7",
+                                                            "column2":"DEPORTES Y JUEGOS COMPETITIVOS (EJEMPLO: JUEGOS TRADICIONALES, FÚTBOL, VOLEIBOL, BALONCESTO, NADAR)"
+                                                        },
+                                                        {
+                                                            "column1":"8",
+                                                            "column2":"TRABAJO INTENSO COMO MINERÍA DE CARBÓN EN GENERAL, AGRICULTURA, LIMPIEZA DEL CORRAL, ESFUERZO RIGUROSO, DESYERBAR PLANTAS O CAMPO"
+                                                        },
+                                                        {
+                                                            "column1":"8",
+                                                            "column2":"DESPLAZAMIENTO DE CARGAS PESADAS (MAYOR A 20KG)"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"DURANTE LOS ÚLTIMOS 7 DÍAS, ¿EN CUÁNTOS REALIZÓ ACTIVIDADES FÍSICAS VIGOROSAS?",
+                                                    "type":"input_toggle_group",
+                                                    "children":[
+                                                        {
+                                                            "label":"DÍAS POR SEMANA",
+                                                            "type":"input_number",
+                                                            "id":"dias_semana_vigorosas",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"NINGUNA ACTIVIDAD FÍSICA INTENSA",
+                                                            "type":"toggle",
+                                                            "checked":false
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"HABITUALMENTE, ¿CUÁNTO TIEMPO EN TOTAL DEDICÓ A UNA ACTIVIDAD FÍSICA INTENSA EN UNO DE ESOS DÍAS?",
+                                                    "type":"input_toggle_group",
+                                                    "children":[
+                                                        {
+                                                            "label":"HORAS POR DÍA",
+                                                            "type":"input_number",
+                                                            "id":"horas_dia_vigorosas",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"MINUTOS POR DÍA",
+                                                            "type":"input_number",
+                                                            "id":"minutos_dia_vigorosas",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"NO SABE/NO ESTÁ SEGURO",
+                                                            "type":"toggle",
+                                                            "checked":false
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"TABLA GUÍA",
+                                                    "type":"info_table",
+                                                    "rows":[
+                                                        {
+                                                            "column1":"METS",
+                                                            "column2":"ACTIVIDAD MODERADA"
+                                                        },
+                                                        {
+                                                            "column1":"3",
+                                                            "column2":"PINTAR, DECORAR"
+                                                        },
+                                                        {
+                                                            "column1":"4",
+                                                            "column2":"JARDINERÍA (SIN LEVANTAR PESO)"
+                                                        },
+                                                        {
+                                                            "column1":"2,5",
+                                                            "column2":"TAREAS DOMÉSTICAS (QUITAR EL POLVO, ANDAR O PASEAR, HACER LA CAMA"
+                                                        },
+                                                        {
+                                                            "column1":"3,5",
+                                                            "column2":"PRACTICAR CICLISMO POR PLACER"
+                                                        },
+                                                        {
+                                                            "column1":"4",
+                                                            "column2":"PARTICIPACIÓN EN JUEGOS Y DEPORTES CON NIÑOS, PASEOS CON ANIMALES"
+                                                        },
+                                                        {
+                                                            "column1":"4",
+                                                            "column2":"TRABAJOS DE CONSTRUCCIÓN GENERALES (EJEMPLOS: HACER TEJADOS, PINTAR, ETC), REPARACIONES DEL HOGAR"
+                                                        },
+                                                        {
+                                                            "column1":"5",
+                                                            "column2":"DESPLAZAMIENTO DE CARGAS (MENOR O IGUAL A 20KG)"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"DURANTE LOS ÚLTIMOS 7 DÍAS, ¿EN CUÁNTOS REALIZÓ ACTIVIDADES FÍSICAS MODERADAS?",
+                                                    "type":"input_toggle_group",
+                                                    "children":[
+                                                        {
+                                                            "label":"DÍAS POR SEMANA",
+                                                            "type":"input_number",
+                                                            "id":"dias_semana_moderadas",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"NINGUNA ACTIVIDAD FÍSICA MODERADA",
+                                                            "type":"toggle",
+                                                            "checked":false
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"HABITUALMENTE, ¿CUÁNTO TIEMPO EN TOTAL DEDICÓ A UNA ACTIVIDAD FÍSICA MODERADA EN UNO DE ESOS DÍAS?",
+                                                    "type":"input_toggle_group",
+                                                    "children":[
+                                                        {
+                                                            "label":"HORAS POR DÍA",
+                                                            "type":"input_number",
+                                                            "id":"horas_dia_moderadas",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"MINUTOS POR DÍA",
+                                                            "type":"input_number",
+                                                            "id":"minutos_dia_moderadas",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"NO SABE/NO ESTÁ SEGURO",
+                                                            "type":"toggle",
+                                                            "checked":false
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"DURANTE LOS ÚLTIMOS 7 DÍAS, ¿CUÁNTOS DÍAS CAMINÓ POR LO MENOS 10 MINUTOS?",
+                                                    "type":"input_toggle_group",
+                                                    "children":[
+                                                        {
+                                                            "label":"DÍAS POR SEMANA",
+                                                            "type":"input_number",
+                                                            "id":"dias_por_semana",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"NINGUNA CAMINATA",
+                                                            "type":"toggle",
+                                                            "checked":false
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"HABITUALMENTE, ¿CUÁNTO TIEMPO EN TOTAL DEDICÓ A CAMINAR EN UNO DE ESOS DÍAS?",
+                                                    "type":"input_toggle_group",
+                                                    "children":[
+                                                        {
+                                                            "label":"HORAS POR DÍA",
+                                                            "type":"input_number",
+                                                            "id":"horas_dia_caminar",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"MINUTOS POR DÍA",
+                                                            "type":"input_number",
+                                                            "id":"minutos_dia_caminar",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"NO SABE/NO ESTÁ SEGURO",
+                                                            "type":"toggle",
+                                                            "checked":false
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"DURANTE LOS ÚLTIMOS 7 DÍAS, ¿CUÁNTOS TIEMPO PASÓ SENTADO DURANTE UN DÍA HÁBIL?",
+                                                    "type":"input_toggle_group",
+                                                    "children":[
+                                                        {
+                                                            "label":"HORAS POR DÍA",
+                                                            "type":"input_number",
+                                                            "id":"horas_dia_sentado",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"MINUTOS POR DÍA",
+                                                            "type":"input_number",
+                                                            "id":"minutos_dia_sentado",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"NO SABE/NO ESTÁ SEGURO",
+                                                            "type":"toggle",
+                                                            "checked":false
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "label":"OTRAS ACTIVIDADES",
+                                                    "type":"textarea",
+                                                    "placeholder":"INGRESE OTRAS ACTIVIDADES",
+                                                    "value":""
+                                                }
                                             ]
                                         }
                                     ]
