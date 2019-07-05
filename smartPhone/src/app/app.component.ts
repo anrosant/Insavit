@@ -108,7 +108,7 @@ export class MyApp {
 
       setInterval(() => {
         this.httpClient.get(this.urlServerPlantilla).subscribe(res => {
-          this.storage.set('plantilla', res);
+          this.storage.set('templates', res);
         }, err => {
           console.log('error no puede conectarse al servidor para descarga de plantilla');
         });
@@ -119,18 +119,17 @@ export class MyApp {
         });
       }, 3000);
 
-      this.storage.get('plantilla').then((plantilla) => {
-        if (plantilla == null) {
-          console.log(plantilla);
-          this.httpClient.get('./assets/plantilla/plantilla.json').subscribe(res => {
+      this.storage.get('templates').then((templates) => {
+        if (templates == null) {
+          this.httpClient.get('./assets/plantilla/templates.json').subscribe(res => {
             console.log(res);
-            this.storage.set('plantilla', res);
+            this.storage.set('templates', res);
           }, err => {
             console.log('error no puede conectarse al servidor para descarga de plantilla');
           });
 
         } else {
-          console.log('si hay plantilla'); console.log(plantilla);
+          console.log('si hay plantilla'); console.log(templates);
         }
       });
 
@@ -330,8 +329,8 @@ export class MyApp {
   }
 
   getPlantillaApp() {
-    this.httpClient.get('./assets/plantilla/plantilla.json').subscribe(plantilla => {
-      this.plantillaApp = plantilla;
+    this.httpClient.get('./assets/plantilla/templates.json').subscribe(templates => {
+      this.plantillaApp = templates[0];
     }, error => {
       this.plantillaApp = null;
     });

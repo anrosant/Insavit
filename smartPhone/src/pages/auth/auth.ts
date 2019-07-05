@@ -38,7 +38,7 @@ export class AuthPage {
             }
         });
     }
-    
+
     attemptAuth() {
         const loader = this.loadingCtrl.create({
             content: "Espere ...",
@@ -48,7 +48,6 @@ export class AuthPage {
             this.intelSecurity.storage.read({ id: 'usuarioClave' })
                 .then((instanceID: number) => this.intelSecurity.data.getData(instanceID))
                 .then((data: string) => {
-                    console.log(data);
                     if (this.user.password == data) {
                         loader.dismiss();
                         const alertador = this.alertCtrl.create({
@@ -83,7 +82,7 @@ export class AuthPage {
                         buttons: ['OK']
                     });
                     alert.present();
-                    if (JSON.parse(res.data).userId != undefined) {
+                    if (JSON.parse(res.data).uid != undefined) {
                         this.intelSecurity.data.createFromData({ data: this.user.password })
                             .then((instanceID: Number) => {
                                 this.intelSecurity.storage.write({ id: "usuarioClave", instanceID: instanceID }).then(res => { console.log('exito en guardar en storage intel') });
@@ -118,8 +117,7 @@ export class AuthPage {
                     }
                     else {
                         const alert = this.alertCtrl.create({
-                            title: 'No hay Conexion a Internet',
-                            subTitle: 'Solo puedes iniciar sesion sin internet con una cuenta registrada. Inicia sesion con internet y automaticamente se registrara tu cuenta.',
+                            subTitle: 'Usuario o contraseña incorrectos',
                             buttons: ['OK']
                         });
                         alert.present();
@@ -137,13 +135,13 @@ export class AuthPage {
                     handler: () => {
                         console.log('Desvincular clicked');
                         this.storage.clear().then(() => {
-                            this.httpClient.get('./assets/plantilla/plantilla.json').subscribe(res => {
-                                this.storage.set('plantilla', res);
+                            this.httpClient.get('./assets/plantilla/templates.json').subscribe(res => {
+                                this.storage.set('templates', res);
                             }, err => {
                                 console.log('error no puede conectarse al servidor para descarga de plantilla');
                                 console.log(err);
                             });
-                            this.httpClient.get('./assets/calculos/calculos.json', { responseType: 'text' }).subscribe(res => {
+                            this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
                                 console.log('seteando calculos');
                                 console.log(res);
                                 this.storage.set('calculos', res);

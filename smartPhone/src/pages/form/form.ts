@@ -32,6 +32,7 @@ export class Form {
     });
 
     this.storage.get('calculos').then((calculos) => {
+      console.log(calculos.calculos);
       for (let calc of calculos.calculos) {
         this.funciones[calc.name] = eval('var a;a=' + calc.structure);
       }

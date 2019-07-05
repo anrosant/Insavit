@@ -89,8 +89,6 @@ export class HomeCVRPage {
             console.log('resume platform');
             // do something
             this.diagnostic.getLocationAuthorizationStatus().then(res => {
-                console.log('GET LOCATION STATUS');
-                console.log(JSON.stringify(res));
                 this.permisoGeolocalizacion = res;
             }).catch(err => {
                 console.log(JSON.stringify(err));
@@ -249,7 +247,7 @@ export class HomeCVRPage {
             this.messageButton = "Espere...";
             let libretaVersiones = await this.storage.get(fechaLibreta);
             this.libretaVersiones = libretaVersiones;
-            let plantillaApp = await this.storage.get('plantilla');
+            let plantillaApp = await this.storage.get('templates')[0];
             this.libreta = ((libretaVersiones) ? JSON.parse(JSON.stringify(libretaVersiones[libretaVersiones.length - 1])) : { fechaLibreta: this.fechaLibreta, codigoPlantilla: plantillaApp.codigo, data: plantillaApp.data });
             this.seccionSelected = this.libreta.data[0];
             let libretasEnviadas = await this.storage.get('libretasEnviadas');
