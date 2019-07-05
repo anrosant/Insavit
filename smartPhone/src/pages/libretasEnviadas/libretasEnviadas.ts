@@ -16,7 +16,6 @@ export class LibretasEnviadasPage {
 
     constructor(private events: Events, private datePipe: DatePipe, private storage:Storage,
                 public navCtrl: NavController, public navParams:NavParams) {
-        //eval("function prueba(){alert('soy una prueba')}");
         this.arreglo['f2'] = new Function("a", "b", "return a * b");
         this.arreglo['f3'] = function (a, b) {return a * b};
         this.arreglo['f4'] = function calcular(a, b) {return a * b};
@@ -63,32 +62,13 @@ export class LibretasEnviadasPage {
         });
     }
 
-    pruebax(nombreFuncion, p1, p2) {
-        //function
-        console.log(document.getElementById('idPrueba'));
-        console.log(this.getArgs(this.arreglo[nombreFuncion]));
-        console.log(this.fechasLibretasEnviadas);
-        console.log(Object.keys(this.fechasLibretasEnviadas));
-    }
-
-    ionViewDidEnter() {
-        console.log('libretasenviadaspage');
-        console.log(this.navCtrl.getViews());
-        console.log(this.navCtrl.last());
-    }
-
     clickCollapseButton(index, collapseId, $event) {
         let buttonElement = $event.currentTarget;
         let element = document.getElementById(collapseId);
         if(element.getAttribute('class') == "collapse") {
-            console.log('class colapse');
             buttonElement.getElementsByTagName('ion-icon')[0].setAttribute('class','icon icon-md ion-md-arrow-dropdown item-icon');
-            console.log(buttonElement.getElementsByTagName('ion-icon')[0]);
         } else if(element.getAttribute('class') == "collapse show") {
-            console.log('class colapse show');
-            console.log(index);
             buttonElement.getElementsByTagName('ion-icon')[0].setAttribute('class','icon icon-md ion-md-arrow-dropright item-icon');
-            console.log(buttonElement.getElementsByTagName('ion-icon')[0]);
         }
     }
 }

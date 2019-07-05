@@ -13,7 +13,6 @@ def create_form(request):
 
 
 def templates(request, uid):
-    template = loader.get_template("index.html")
     context = {}
     if request.method == "GET":
         try:

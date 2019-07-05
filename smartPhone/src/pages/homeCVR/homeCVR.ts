@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform,NavController, MenuController, Events, LoadingController,AlertController,NavParams,ToastController } from 'ionic-angular';
+import { Platform, NavController, MenuController, Events, LoadingController, AlertController, NavParams, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AuthPage } from '../auth/auth';
 import { DatePipe } from '@angular/common';
@@ -7,7 +7,7 @@ import { LibretaCVRPage } from '../libretaCVR/libretaCVR';
 import { HttpClient } from '@angular/common/http';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
-import { Coordinates,Geolocation } from '@ionic-native/geolocation';
+import { Coordinates, Geolocation } from '@ionic-native/geolocation';
 import { DatePicker } from '@ionic-native/date-picker';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 
@@ -36,25 +36,31 @@ export class HomeCVRPage {
     statusEnviandoLibretas = false;
     usuario = null;
 
-    constructor(private localNotifications: LocalNotifications, private datePicker: DatePicker,
-                private toastCtrl: ToastController, public navparams:NavParams, public loadingCtrl:LoadingController,
-                platform: Platform, public alertCtrl: AlertController, private geolocation: Geolocation,
-                private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy,
-                public httpClient:HttpClient, private events: Events, private datePipe: DatePipe,
-                public menuCtrl: MenuController, private storage: Storage, public navCtrl: NavController) {
+    constructor(private localNotifications: LocalNotifications,
+        private datePicker: DatePicker,
+        private toastCtrl: ToastController, public navparams: NavParams,
+        public loadingCtrl: LoadingController,
+        platform: Platform, public alertCtrl: AlertController,
+        private geolocation: Geolocation,
+        private diagnostic: Diagnostic,
+        private locationAccuracy: LocationAccuracy,
+        public httpClient: HttpClient, private events: Events,
+        private datePipe: DatePipe,
+        public menuCtrl: MenuController, private storage: Storage,
+        public navCtrl: NavController) {
+
         this.menuCtrl.enable(true);
         this.storage.get('fechaInstalacion').then(data => {
             console.log('(home) fecha get storage', JSON.stringify(data));
-            console.log('(home) pipe fecha',this.datePipe.transform(data,"yyyy-MM-dd"));
-            this.fechaMinima = this.datePipe.transform(data,"yyyy-MM-dd");
-            if(this.navparams.data.fechaLibreta) {
+            console.log('(home) pipe fecha', this.datePipe.transform(data, "yyyy-MM-dd"));
+            this.fechaMinima = this.datePipe.transform(data, "yyyy-MM-dd");
+            if (this.navparams.data.fechaLibreta) {
                 this.fechaLibreta = this.navparams.data.fechaLibreta;
                 this.changeDate(this.fechaLibreta);
             }
         });
         platform.ready().then(() => {
             this.localNotifications.on('trigger').subscribe(res => {
-                console.log("TRIGGER MSG");
                 let msg = res.text;
                 let alert = this.alertCtrl.create({
                     title: res.title,
@@ -69,14 +75,12 @@ export class HomeCVRPage {
             this.keysStorage = keys;
         });
         this.storage.get('libretasEnviadas').then((libretasEnviadas) => {
-            console.log('home: libretasEnviadas sotrage');
             console.log(libretasEnviadas);
             this.libretasEnviadas = libretasEnviadas;
         });
         this.storage.get('usuarioVinculado').then((val) => {
-            console.log('main (comprobando existencia de usuario vinculado):', JSON.stringify(val));
-            if(val != null && val.sesion) {
-                this.usuario = {username:val.usuario, data:val.data};
+            if (val != null && val.sesion) {
+                this.usuario = { username: val.usuario, uid: val.uid };
             }
         }).catch(error => {
             console.log('main (hubo error en catch en check existencia de usuario vinculado)', error);
@@ -92,8 +96,8 @@ export class HomeCVRPage {
                 console.log(JSON.stringify(err));
             });
         });
-        this.events.subscribe('app:envioLibretas',(status) => {
-            if(this.fechaLibreta) {
+        this.events.subscribe('app:envioLibretas', (status) => {
+            if (this.fechaLibreta) {
                 this.changeDate(this.fechaLibreta);
             }
             this.statusEnviandoLibretas = status;
@@ -104,28 +108,28 @@ export class HomeCVRPage {
         this.localNotifications.schedule({
             title: 'Encuesta - Parámetros siguientes',
             text: 'Tienes que realizar el cuestionario en la sección ABC',
-            trigger: {at: new Date(new Date().getTime() + 3600)},
+            trigger: { at: new Date(new Date().getTime() + 3600) },
             led: 'FF0000',
             sound: null
         });
     }
 
     ionViewDidEnter() {
-        this.events.subscribe('app:editarLibreta',(fechaLibreta) => {
+        this.events.subscribe('app:editarLibreta', (fechaLibreta) => {
             this.fechaLibreta = fechaLibreta;
             console.log(fechaLibreta);
             //this.changeDate(this.fechaLibreta);
         });
-        if(this.fechaLibreta) this.changeDate(this.fechaLibreta);
+        if (this.fechaLibreta) this.changeDate(this.fechaLibreta);
         this.diagnostic.requestLocationAuthorization().then(res => {
-            this.permisoGeolocalizacion=res;
+            this.permisoGeolocalizacion = res;
         }).catch(err => {
             console.log(JSON.stringify(err));
         });
     }
 
     crearLibreta() {
-        if(this.statusEnviandoLibretas) {
+        if (this.statusEnviandoLibretas) {
             const alert = this.alertCtrl.create({
                 title: 'Error',
                 message: `No puedes Crear o Editar Libretas mientras se estan enviando`,
@@ -133,9 +137,9 @@ export class HomeCVRPage {
             });
             alert.present();
         } else {
-            if(this.permisoGeolocalizacion == "GRANTED") {
+            if (this.permisoGeolocalizacion == "GRANTED") {
                 console.log(this.ubicacionSelected);
-                if(this.ubicacionSelected == true) {
+                if (this.ubicacionSelected == true) {
                     const loader = this.loadingCtrl.create({
                         content: `<ion-label> Espere...</ion-label>
                         <div class="custom-spinner-container">
@@ -145,27 +149,22 @@ export class HomeCVRPage {
                     });
                     loader.present();
                     this.locationAccuracy.canRequest().then((canRequest: boolean) => {
-                        if(canRequest) {
+                        if (canRequest) {
                             // the accuracy option will be ignored by iOS
                             this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(() => {
                                 console.log('Request successful');
-                                this.geolocation.getCurrentPosition({enableHighAccuracy:true,timeout: 12000}).then((res) => {
+                                this.geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 12000 }).then((res) => {
                                     loader.dismiss();
-                                    // resp.coords.latitude
-                                    // resp.coords.longitude
-                                    console.log('SE PUDO OBTENER COORDENADAS EN HOMECVR');
-                                    //let distancia=this.getDistanceFromLatLonInKm(res.coords.latitude,res.coords.longitude,-2.110992,-79.898687);
-                                    //console.log('Distancia:',distancia);
-                                    let fecha=new Date();
+                                    let fecha = new Date();
                                     this.libreta.fechaCreacion = (this.libretaVersiones != null ? this.libreta.fechaCreacion : fecha);
                                     this.libreta.fechaAcceso = fecha;
                                     this.libreta.fechaGuardado = null;
-                                    this.libreta.coordenadas = {latitude:res.coords.latitude, longitude:res.coords.longitude};
+                                    this.libreta.coordenadas = { latitude: res.coords.latitude, longitude: res.coords.longitude };
                                     this.libreta.gps = this.ubicacionSelected;
                                     this.libreta.motivo = this.motivo;
                                     this.libreta.usuario = this.usuario,
-                                    this.libreta.version = (this.libretaVersiones != null ? this.libretaVersiones[this.libretaVersiones.length-1].version+1:0);
-                                    this.navCtrl.push(LibretaCVRPage, {libretaVersiones:this.libretaVersiones, seccionSelected:this.seccionSelected, libretaTemporal:this.libreta});
+                                        this.libreta.version = (this.libretaVersiones != null ? this.libretaVersiones[this.libretaVersiones.length - 1].version + 1 : 0);
+                                    this.navCtrl.push(LibretaCVRPage, { libretaVersiones: this.libretaVersiones, seccionSelected: this.seccionSelected, libretaTemporal: this.libreta });
                                     //alert(distancia);
                                 }).catch((error) => {
                                     loader.dismiss();
@@ -205,7 +204,7 @@ export class HomeCVRPage {
                         });
                         alert.present();
                     });
-                } else if(this.ubicacionSelected == false) {
+                } else if (this.ubicacionSelected == false) {
                     let fecha = new Date();
                     this.libreta.fechaCreacion = (this.libretaVersiones != null ? this.libreta.fechaCreacion : fecha);
                     this.libreta.fechaAcceso = fecha;
@@ -214,8 +213,8 @@ export class HomeCVRPage {
                     this.libreta.gps = this.ubicacionSelected;
                     this.libreta.motivo = this.motivo;
                     this.libreta.usuario = this.usuario,
-                    this.libreta.version = (this.libretaVersiones != null ? this.libretaVersiones[this.libretaVersiones.length-1].version+1:0);
-                    this.navCtrl.push(LibretaCVRPage, {libretaVersiones:this.libretaVersiones, seccionSelected:this.seccionSelected, libretaTemporal:this.libreta});
+                        this.libreta.version = (this.libretaVersiones != null ? this.libretaVersiones[this.libretaVersiones.length - 1].version + 1 : 0);
+                    this.navCtrl.push(LibretaCVRPage, { libretaVersiones: this.libretaVersiones, seccionSelected: this.seccionSelected, libretaTemporal: this.libreta });
                 } else {
                     const alert = this.alertCtrl.create({
                         title: 'Error',
@@ -240,7 +239,7 @@ export class HomeCVRPage {
         this.ubicacionSelected = null;
         this.edicionLibreta = false;
         this.motivo = null;
-        if(!fechaLibreta) {
+        if (!fechaLibreta) {
             this.libreta = null;
             this.comprobandoLibreta = false;
             this.messageButton = "Selecciona una fecha de libreta";
@@ -251,24 +250,20 @@ export class HomeCVRPage {
             let libretaVersiones = await this.storage.get(fechaLibreta);
             this.libretaVersiones = libretaVersiones;
             let plantillaApp = await this.storage.get('plantilla');
-            this.libreta = ((libretaVersiones) ? JSON.parse(JSON.stringify(libretaVersiones[libretaVersiones.length-1])):{fechaLibreta:this.fechaLibreta,codigoPlantilla:plantillaApp.codigo,data:plantillaApp.data});
+            this.libreta = ((libretaVersiones) ? JSON.parse(JSON.stringify(libretaVersiones[libretaVersiones.length - 1])) : { fechaLibreta: this.fechaLibreta, codigoPlantilla: plantillaApp.codigo, data: plantillaApp.data });
             this.seccionSelected = this.libreta.data[0];
             let libretasEnviadas = await this.storage.get('libretasEnviadas');
-            let libretasFechasEnviadas:any = await this.promesaGetFechasEnviadas(libretasEnviadas);
-            console.log("CHANGE DATE");
+            let libretasFechasEnviadas: any = await this.promesaGetFechasEnviadas(libretasEnviadas);
             //this.schedudelNotification();
-            if(libretaVersiones != null && !libretasFechasEnviadas.includes(fechaLibreta)) {
-                console.log('<< Editar >>');
+            if (libretaVersiones != null && !libretasFechasEnviadas.includes(fechaLibreta)) {
                 this.creacionLibreta = false;
                 this.edicionLibreta = true;
                 this.messageButton = "Editar Libreta";
-            } else if(libretaVersiones == null && !libretasFechasEnviadas.includes(fechaLibreta)) {
-                console.log('<< Crear libreta >>');
+            } else if (libretaVersiones == null && !libretasFechasEnviadas.includes(fechaLibreta)) {
                 this.creacionLibreta = true;
                 this.edicionLibreta = false;
                 this.messageButton = "Crear Libreta";
-            } else if(libretaVersiones == null && libretasFechasEnviadas.includes(fechaLibreta)) {
-                console.log('<< Libreta Enviada >>');
+            } else if (libretaVersiones == null && libretasFechasEnviadas.includes(fechaLibreta)) {
                 this.messageButton = "Libreta enviada, no puedes acceder";
             }
             this.comprobandoLibreta = false;
@@ -279,20 +274,15 @@ export class HomeCVRPage {
         return new Promise(resolve => {
             console.log(libretasEnviadas);
             let listaFechasLibretasEnviadas = [];
-            if(!libretasEnviadas) {
+            if (!libretasEnviadas) {
                 libretasEnviadas = [];
             }
-            for(let i = 0; i < libretasEnviadas.length; i++) {
+            for (let i = 0; i < libretasEnviadas.length; i++) {
                 listaFechasLibretasEnviadas.push(libretasEnviadas[i].fechaLibreta);
             }
             console.log(listaFechasLibretasEnviadas);
             resolve(listaFechasLibretasEnviadas);
         });
-    }
-
-    prueba() {
-        console.log(this.seccionSelected);
-        console.log(this.ubicacionSelected);
     }
 
     compareFn(e1, e2): boolean {
@@ -301,7 +291,7 @@ export class HomeCVRPage {
 
     switchToSettings() {
         this.diagnostic.switchToSettings().then(res => {
-        console.log(JSON.stringify(res));
+            console.log(JSON.stringify(res));
         });
     }
 
@@ -316,12 +306,11 @@ export class HomeCVRPage {
     }
 
     changeUbicacion() {
-        console.log('cambiando');
         console.log(this.ubicacionSelected);
-        if(this.ubicacionSelected == true) {
+        if (this.ubicacionSelected == true) {
             this.motivo = null;
-        } else if(this.ubicacionSelected == false) {
-            if(!(this.creacionLibreta == false && this.edicionLibreta == false)) {
+        } else if (this.ubicacionSelected == false) {
+            if (!(this.creacionLibreta == false && this.edicionLibreta == false)) {
                 let alert = this.alertCtrl.create({
                     title: 'Motivo',
                     inputs: [
@@ -344,7 +333,7 @@ export class HomeCVRPage {
                         {
                             text: 'Guardar',
                             handler: data => {
-                                this.motivo=data.motivo;
+                                this.motivo = data.motivo;
                             }
                         }
                     ]
@@ -355,7 +344,7 @@ export class HomeCVRPage {
     }
 
     clickDatePicker() {
-        let element:HTMLElement = document.getElementById('inputDate') as HTMLElement;
+        let element: HTMLElement = document.getElementById('inputDate') as HTMLElement;
         element.click();
     }
 }

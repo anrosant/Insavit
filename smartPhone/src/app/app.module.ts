@@ -14,9 +14,10 @@ import { Network } from '@ionic-native/network';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { MyApp } from './app.component';
-//import { HomePage } from '../pages/home/home';
+import { HomePage } from '../pages/home/home';
 //import { HomePage2 } from '../pages/home2/home2';
 import { HomeCVRPage } from '../pages/homeCVR/homeCVR';
+import { Form } from '../pages/form/form';
 import { AgregarFormularioPage } from '../pages/agregarFormulario/agregarFormulario';
 import { modalEditarFormularioPage } from '../pages/modalEditarFormulario/modalEditarFormulario';
 import { AuthPage } from '../pages/auth/auth';
@@ -35,56 +36,61 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 //import { LongPressModule } from 'ionic-long-press';
 
 @NgModule({
-    declarations: [
-        MyApp,
-        HomeCVRPage,
-        AgregarFormularioPage,
-        modalEditarFormularioPage,
-        AuthPage,
-        Libreta2CVRPage,
-        PerfilPage,
-        LibretasEnviadasPage,
-        LibretaCVRPage,
-        misLibretasPage,
-        libretasPendientesPage
-    ],
-    imports: [
-        BrowserModule,
-        IonicModule.forRoot(MyApp),
-        IonicStorageModule.forRoot(),
-        HttpClientModule
-        //LongPressModule
-    ],
-    bootstrap: [IonicApp],
-    entryComponents: [
-        MyApp,
-        HomeCVRPage,
-        AgregarFormularioPage,
-        modalEditarFormularioPage,
-        AuthPage,
-        Libreta2CVRPage,
-        PerfilPage,
-        LibretasEnviadasPage,
-        LibretaCVRPage,
-        misLibretasPage,
-        libretasPendientesPage
-    ],
-    providers: [
-        StatusBar,
-        SplashScreen,
-        HTTP,
-        Network,
-        SecureStorage,
-        LocationAccuracy,
-        Diagnostic,
-        LocalNotifications,
-        File,
-        DatePipe,
-        Geolocation,
-        IntelSecurity,
-        DatePicker,
-        {provide: ErrorHandler, useClass: IonicErrorHandler}
-    ]
+  declarations: [
+    MyApp,
+    HomePage,
+    HomeCVRPage,
+    Form,
+    AgregarFormularioPage,
+    modalEditarFormularioPage,
+    AuthPage,
+    PerfilPage,
+    LibretasEnviadasPage,
+    LibretaCVRPage,
+    Libreta2CVRPage,
+    misLibretasPage,
+    libretasPendientesPage
+  ],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
+    HttpClientModule
+
+    //LongPressModule
+  ],
+  bootstrap: [IonicApp],
+  entryComponents: [
+    MyApp,
+    HomePage,
+    HomeCVRPage,
+    Form,
+    AgregarFormularioPage,
+    modalEditarFormularioPage,
+    AuthPage,
+    PerfilPage,
+    LibretasEnviadasPage,
+    LibretaCVRPage,
+    Libreta2CVRPage,
+    misLibretasPage,
+    libretasPendientesPage
+  ],
+  providers: [
+    StatusBar,
+    SplashScreen,
+    HTTP,
+    Network,
+    SecureStorage,
+    LocationAccuracy,
+    Diagnostic,
+    LocalNotifications,
+    File,
+    DatePipe,
+    Geolocation,
+    IntelSecurity,
+    DatePicker,
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
+  ]
 })
 
 export class AppModule {}

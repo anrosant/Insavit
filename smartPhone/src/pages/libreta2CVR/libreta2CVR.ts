@@ -17,8 +17,13 @@ export class Libreta2CVRPage {
     seccionSelected;
     seccionSelected2;
     funciones = [];
-    constructor(public alertCtrl:AlertController, private storage: Storage, public events:Events,
-                public httpClient:HttpClient, public file:File, public http:HTTP, public navCtrl: NavController,
+    constructor(public alertCtrl:AlertController,
+                private storage: Storage,
+                public events:Events,
+                public httpClient:HttpClient,
+                public file:File,
+                public http:HTTP,
+                public navCtrl: NavController,
                 public navParams:NavParams) {
         console.log(this.navParams.data);
         this.libretaTemporal = this.navParams.data.libretaTemporal;
@@ -26,39 +31,12 @@ export class Libreta2CVRPage {
         this.seccionSelected = this.navParams.data.seccionSelected;
         this.seccionSelected2 = this.navParams.data.seccionSelected2;
         this.storage.get('calculos').then((calculos) => {
-            console.log('(home) httpclient txt calculos');
-            //let array = calculos.toString().split(/\n\s*\n\s*\n\s*\n/);
-            let funcionesString = calculos.toString().split("<->");
-            console.log(funcionesString);
-            //console.log(array);
-            //console.log(eval('var a;a='+array[1]).name);
-            //console.log(eval("var a;a="+array[0])(4,5));
-
-            for(let i = 0; i < funcionesString.length; i++) {
-                this.funciones[eval('var a;a='+funcionesString[i]).name] = eval('var a;a='+funcionesString[i]);
-            }
-
-            //this.funciones[eval('var a;a='+funcionesString[1]).name]=eval('var a;a='+funcionesString[1]);
-            console.log('(libreta2) funciones');
-            console.log(this.funciones);
-            /*
-            let funcionx=this.funciones["prueba2"];
-            let args=this.getArgs(this.funciones['prueba2']);
-            let parametros=[this.getObjects(this.libretaTemporal,'id',args[0])[0],222];
-            let parametrosMapeados=this.mappingParametros(args);
-            let stringFuncion=this.construirFuncionDinamicaString('funcionx','parametrosMapeados',parametrosMapeados.length);
-            //let parametros=[this.getObjects(this.libretaTemporal,'id',args[0])[0],222];
-            console.log(parametrosMapeados);
-            console.log(stringFuncion);
-            console.log(eval(stringFuncion));
-            //let argumento=this.getObjects(this.libretaTemporal,'id',args[0])[0];
-            //argumento.value='25';
-            //let funcionString=this.dinamicParameterFunctionString(this.funciones['prueba2'],args);
-            //console.log(eval(this.dinamicParameterFunctionString('funcionx',args)));
-            */
+          for (let calc of calculos.calculos) {
+            this.funciones[calc.name] = eval('var a;a=' + calc.structure);
+          }
         }).catch(error => {
-            console.log('(home) error get calculos');
-            console.log(JSON.stringify(error));
+          console.log('(libreta2) error get calculos');
+          console.log(JSON.stringify(error));
         });
     }
 

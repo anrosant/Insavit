@@ -1,0 +1,28 @@
+page-home {
+	img {
+		max-height: 150px;
+		max-width: 150px;
+	}
+
+	ion-card-content {
+		padding-top: 15px !important;
+	}
+
+	ion-card-title {
+		padding: 3px !important;
+		font-size: 16px !important;
+		font-weight: bold !important;
+	}
+
+	ion-card-header {
+		padding: 8px !important;
+	}
+
+	.label-rigth {
+		text-align: right;
+	}
+
+	ion-label {
+		font-size: 14px !important;
+	}
+}

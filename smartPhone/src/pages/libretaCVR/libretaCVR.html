@@ -9,11 +9,6 @@
                     {{libretaTemporal.fechaLibreta}}
                 </ion-title>
             </div>
-            <!--div no-padding no-margin class="col-6" >
-                <ion-select text-wrap  interface="popover"  [compareWith]="compareFn" item-end [(ngModel)]="seccionSelected">
-                    <ion-option  *ngFor="let item of libretaTemporal.data" [value]="item">{{item.label}}</ion-option>
-                </ion-select>
-            </div-->
         </div>
     </ion-navbar>
 </ion-header>
@@ -51,7 +46,7 @@
                 <ion-input *ngIf="opt.label=='OTROS'" placeholder={{item.placeholder}} type="text" name={{item.id}} [(ngModel)]="item.value"></ion-input>
                 <ion-label *ngIf="opt.label!='OTROS'">{{opt.label}}</ion-label>
                 <ion-radio *ngIf="opt.label!='OTROS'" value={{opt.id}}></ion-radio>
-            </ion-item> 
+            </ion-item>
         </ion-list>
         <ion-list radio-group *ngIf="item.type=='radio'" name={{item.id}} [(ngModel)]="item.value">
             <ion-list-header>
@@ -60,7 +55,7 @@
             <ion-item *ngFor="let opt of item.children;">
                 <ion-label>{{opt.label}}</ion-label>
                 <ion-radio value={{opt.id}}></ion-radio>
-            </ion-item> 
+            </ion-item>
         </ion-list>
         <ion-item *ngIf="item.type=='date'">
             <ion-label>{{item.label}}</ion-label>
@@ -103,7 +98,7 @@
                             <ion-input *ngIf="opt.label=='OTROS'" placeholder={{item.placeholder_otros}} type="text" name={{opt.id}} [(ngModel)]="opt.value"></ion-input>
                             <ion-label *ngIf="opt.label!='OTROS'">{{opt.label}}</ion-label>
                             <ion-checkbox *ngIf="opt.label!='OTROS'" [(ngModel)]="opt.value" item-right checked="opt.value"></ion-checkbox>
-                        </ion-item> 
+                        </ion-item>
                     </ion-list>
                 </ion-col>
                 <ion-col col-4 align-self-center>
@@ -139,25 +134,5 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-        <!--div *ngIf="item.type=='input_text'" class="form-group col-12">
-            <label>{{item.label}}</label>
-            <input type="text" id="item.id" name="item.id" class="form-control" [(ngModel)]="item.value">
-        </div>
-        <div *ngIf="item.type=='input_number'" class="form-group col-12">
-            <label>{{item.label}}</label>
-            <input type="number" id="item.id" name="item.id" class="form-control" [(ngModel)]="item.value">
-        </div>
-        <div *ngIf="item.type=='date'" class="form-group col-12">
-            <label>{{item.label}}</label>
-            <input type="date" id="item.id" name="item.id" class="form-control" [(ngModel)]="item.value">
-        </div>
-        <div *ngIf="item.type=='radio'" class="form-group col-12">
-            <label>{{item.label}}</label>
-            <div *ngFor="let opt of item.children;" class="radio">
-                <label>
-                    <input type="radio" id={{opt.id}} [(ngModel)]="item.id" value={{opt.id}}>{{opt.label}}
-                </label>
-            </div> 
-        </div-->
     </div>
 </ion-content>
