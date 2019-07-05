@@ -344,7 +344,7 @@
                                                     "value":"",
                                                     "textarea":true,
                                                     "placeholder":"TRATAMIENTO",
-                                                    "placeholder_otros":"INGRESE OTRA ENFERMEDAD",
+                                                    "placeholder_otros":"OTROS",
                                                     "children":[
                                                         {
                                                             "label":"DIABETES",
@@ -419,7 +419,7 @@
                                                     "value":"",
                                                     "placeholder_1":"RESULTADOS",
                                                     "placeholder_2":"VALORES DE REFERENCIA",
-                                                    "input_placeholder":"INGRESE OTRA VALORACIÓN",
+                                                    "input_placeholder":"OTROS",
                                                     "children":[
                                                         {
                                                             "label":"HEMOGLOBINA",
