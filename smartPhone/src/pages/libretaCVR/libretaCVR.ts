@@ -77,6 +77,7 @@ export class LibretaCVRPage {
     clickNextPage(item2,indexCategoria,indexSubCategoria) {
         let param = this.navParams.data;
         param.seccionSelected = item2;
+        console.log("param",param);
         /*if(indexCategoria != null) {
             console.log('concategoria');
             param.seccionSelected2 = this.seccionSelected.children[indexCategoria].children[indexSubCategoria];

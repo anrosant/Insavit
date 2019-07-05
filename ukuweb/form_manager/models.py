@@ -32,6 +32,7 @@ class UserProfile(models.Model):
 
 
 class Template(models.Model):
+    uid = models.CharField(default=uuid.uuid4, editable=False, max_length=36)
     type = models.CharField(max_length=500)
     name = models.CharField(max_length=500)
     structure = models.TextField()
@@ -39,6 +40,7 @@ class Template(models.Model):
 
     def to_dict(self):
         return {
+            "uid": self.uid,
             "type": self.type,
             "name": self.name,
             "structure": self.structure,
