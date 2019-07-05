@@ -1,24 +1,18 @@
 page-homeCVR {
-	img{
+	img {
 		max-height:150px;
 		max-width:150px;
 		transition: 0.5s;
 	}
-
-	.emptyGPS{
+	.emptyGPS {
 		background:#2b687f;
 	}
-	.noLocationIcon{
+	.noLocationIcon {
 		min-height:200px;
 		min-width:200px;
 		opacity:1;
-
 	}
-
-	.reducirImagen{
+	.reducirImagen {
 		max-height:75px;
 	}
-
-
-
 }

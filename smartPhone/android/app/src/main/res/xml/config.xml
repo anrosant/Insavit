@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='utf-8'?>
+  <widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <access origin="*" />
+  
+  <feature name="IntelSecurity">
+    <param name="android-package" value="com.intel.security.Services"/>
+  </feature>
+
+
+  <feature name="CordovaHttpPlugin">
+    <param name="android-package" value="com.synconset.cordovahttp.CordovaHttpPlugin"/>
+  </feature>
+
+
+  <feature name="Permissions">
+    <param name="android-package" value="com.android.plugins.Permissions"/>
+  </feature>
+
+
+  <feature name="Badge">
+    <param name="android-package" value="de.appplant.cordova.plugin.badge.Badge"/>
+  </feature>
+
+
+  <feature name="DatePickerPlugin">
+    <param name="android-package" value="com.plugin.datepicker.DatePickerPlugin"/>
+  </feature>
+
+
+  <feature name="Device">
+    <param name="android-package" value="org.apache.cordova.device.Device"/>
+  </feature>
+
+
+  <feature name="File">
+    <param name="android-package" value="org.apache.cordova.file.FileUtils"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="Geolocation">
+    <param name="android-package" value="org.apache.cordova.geolocation.Geolocation"/>
+  </feature>
+
+
+  <feature name="LocalNotification">
+    <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification"/>
+  </feature>
+
+
+  <feature name="NetworkStatus">
+    <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager"/>
+  </feature>
+
+
+  <feature name="RequestLocationAccuracy">
+    <param name="android-package" value="cordova.plugin.RequestLocationAccuracy"/>
+  </feature>
+
+
+  <feature name="SecureStorage">
+    <param name="android-package" value="com.crypho.plugins.SecureStorage"/>
+  </feature>
+
+
+  <feature name="Whitelist">
+    <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="SQLitePlugin">
+    <param name="android-package" value="io.sqlc.SQLitePlugin"/>
+  </feature>
+
+
+  <feature name="Diagnostic">
+    <param name="android-package" value="cordova.plugins.Diagnostic"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="Diagnostic_Location">
+    <param name="android-package" value="cordova.plugins.Diagnostic_Location"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="Diagnostic_Bluetooth">
+    <param name="android-package" value="cordova.plugins.Diagnostic_Bluetooth"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="Diagnostic_Wifi">
+    <param name="android-package" value="cordova.plugins.Diagnostic_Wifi"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="Diagnostic_Camera">
+    <param name="android-package" value="cordova.plugins.Diagnostic_Camera"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="Diagnostic_Notifications">
+    <param name="android-package" value="cordova.plugins.Diagnostic_Notifications"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="Diagnostic_NFC">
+    <param name="android-package" value="cordova.plugins.Diagnostic_NFC"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+
+  <feature name="Diagnostic_External_Storage">
+    <param name="android-package" value="cordova.plugins.Diagnostic_External_Storage"/>
+    <param name="onload" value="true"/>
+  </feature>
+
+  </widget>

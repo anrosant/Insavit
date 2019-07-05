@@ -1,93 +1,163 @@
 <ion-header>
-  <ion-navbar color="navbar">
-    <button no-margin no-padding ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <div no-padding no-margin class="row align-items-center">
-      <div no-padding no-margin class="col-6">
-        <ion-title no-padding-right>
-      {{libretaTemporal.fechaLibreta}}
-    </ion-title>
-    
-      </div>
-      <div no-padding no-margin class="col-6" >
-      <ion-select text-wrap  interface="popover"  [compareWith]="compareFn" item-end [(ngModel)]="seccionSelected">
-        <ion-option  *ngFor="let item of libretaTemporal.data" [value]="item">{{item.label}}</ion-option>
-        
-      </ion-select>
-      </div>
-      
-    </div>
-    
-  </ion-navbar>
+    <ion-navbar color="navbar">
+        <button no-margin no-padding ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <div no-padding no-margin class="row align-items-center">
+            <div no-padding no-margin class="col-6">
+                <ion-title no-padding-right>
+                    {{libretaTemporal.fechaLibreta}}
+                </ion-title>
+            </div>
+            <!--div no-padding no-margin class="col-6" >
+                <ion-select text-wrap  interface="popover"  [compareWith]="compareFn" item-end [(ngModel)]="seccionSelected">
+                    <ion-option  *ngFor="let item of libretaTemporal.data" [value]="item">{{item.label}}</ion-option>
+                </ion-select>
+            </div-->
+        </div>
+    </ion-navbar>
 </ion-header>
-
 <ion-content>
-	<!--
-    <ion-item class="itemPequenio" color="menuItemSelected" text-center>
-      <ion-icon name="time"></ion-icon>
-      @ionicframework
-    </ion-item>
-	
-    <div *ngIf="seccionSelected.tipo=='horario'" style="text-align: center; background: rgb(29, 229, 33)" class="row aviso">
-    	<div class="col">
-    	<span><i class="far fa-clock"></i></span>
-    	<span> {{seccionSelected.label}} </span>	
-    	</div>
-    </div>
-    <div *ngIf="seccionSelected.tipo=='diario'" style="text-align: center; background: #1d92f2" class="row">
-      <div class="col">
-      <span> {{seccionSelected.label}} </span> 
-      </div>
-    </div>
-
-    -->
-
-
     <div *ngFor="let item of seccionSelected.children;let indexCategoria = index">
         <div *ngIf="item.type=='collapseList'">
             <button text-wrap ion-item color="secondary" data-toggle="collapse" [attr.href]="'#collapseExample'+indexCategoria"  aria-expanded="false" (click)="clickCollapseButton(indexCategoria,'collapseExample'+indexCategoria,$event)">
-              <ion-label >{{item.label}}</ion-label>
-              <ion-icon *ngIf="item.initialShow" item-end name="arrow-dropdown" ></ion-icon>
-              <ion-icon *ngIf="!item.initialShow" item-end name="arrow-dropright" ></ion-icon>
+                <ion-label>{{item.label}}</ion-label>
+                <ion-icon *ngIf="item.initialShow" item-end name="arrow-dropdown"></ion-icon>
+                <ion-icon *ngIf="!item.initialShow" item-end name="arrow-dropright"></ion-icon>
             </button>
             <div *ngIf="item.initialShow" class="collapse show" id="collapseExample{{indexCategoria}}">
-            <ion-list no-lines>
-              <button  *ngFor="let item2 of item.children;let indexSubCategoria = index"  ion-item  (click)="clickNextPage(indexCategoria,indexSubCategoria)">
-                  <ion-icon name="{{item2.icon}}" item-start ></ion-icon>
-                  <ion-label>{{item2.label}}</ion-label>
-              </button>
-            </ion-list>
+                <ion-list no-lines>
+                    <button *ngFor="let item2 of item.children;let indexSubCategoria = index" ion-item (click)="clickNextPage(item2,indexCategoria,indexSubCategoria)">
+                        <ion-icon name="{{item2.icon}}" item-start></ion-icon>
+                        <ion-label>{{item2.label}}</ion-label>
+                    </button>
+                </ion-list>
             </div>
             <div *ngIf="!item.initialShow" class="collapse" id="collapseExample{{indexCategoria}}">
-            <ion-list  no-lines>
-              <button  *ngFor="let item2 of item.children;let indexSubCategoria = index"  ion-item  (click)="clickNextPage(indexCategoria,indexSubCategoria)">
-                  <ion-icon name="{{item2.icon}}" item-start ></ion-icon>
-                  <ion-label>{{item2.label}}</ion-label>
-              </button>
-            </ion-list>
+                <ion-list no-lines>
+                    <button *ngFor="let item2 of item.children;let indexSubCategoria = index" ion-item (click)="clickNextPage(item2,indexCategoria,indexSubCategoria)">
+                        <ion-icon name="{{item2.icon}}" item-start></ion-icon>
+                        <ion-label>{{item2.label}}</ion-label>
+                    </button>
+                </ion-list>
             </div>
-          
         </div>
 
+        <ion-list radio-group *ngIf="item.type=='radio_input'" name={{item.id}} [(ngModel)]="item.value">
+            <ion-list-header>
+                <ion-label>{{item.label}}</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let opt of item.children;">
+                <ion-input *ngIf="opt.label=='OTROS'" placeholder={{item.placeholder}} type="text" name={{item.id}} [(ngModel)]="item.value"></ion-input>
+                <ion-label *ngIf="opt.label!='OTROS'">{{opt.label}}</ion-label>
+                <ion-radio *ngIf="opt.label!='OTROS'" value={{opt.id}}></ion-radio>
+            </ion-item> 
+        </ion-list>
+        <ion-list radio-group *ngIf="item.type=='radio'" name={{item.id}} [(ngModel)]="item.value">
+            <ion-list-header>
+                <ion-label>{{item.label}}</ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let opt of item.children;">
+                <ion-label>{{opt.label}}</ion-label>
+                <ion-radio value={{opt.id}}></ion-radio>
+            </ion-item> 
+        </ion-list>
+        <ion-item *ngIf="item.type=='date'">
+            <ion-label>{{item.label}}</ion-label>
+            <ion-datetime cancelText="CANCELAR" doneText="SELECCIONAR" mode="md" displayFormat="DD/MM/YYYY" [(ngModel)]="item.value" name={{item.id}}></ion-datetime>
+            <ion-icon item-end name="calendar"></ion-icon>
+        </ion-item>
+        <ion-item *ngIf="item.type=='input_number'">
+            <ion-label stacked>{{item.label}}</ion-label>
+            <ion-input type="number" name={{item.id}} [(ngModel)]="item.value"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="item.type=='input_text'">
+            <ion-label stacked>{{item.label}}</ion-label>
+            <ion-input type="text" name={{item.id}} [(ngModel)]="item.value"></ion-input>
+        </ion-item>
 
-        <div *ngIf="item.type=='buttonList'">
-            <button ion-item  (click)="clickNextPage(null,indexCategoria)">
-              <ion-icon name="{{item.icon}}" item-start ></ion-icon>
-              <ion-label >{{item.label}}</ion-label>
-            </button> 
+        <ion-grid *ngIf="item.type=='checkbox_input'">
+            <ion-label>{{item.label}}</ion-label>
+            <ion-row *ngFor="let opt of item.children;" align-items-center>
+                <ion-col align-self-center>
+                    <ion-list>
+                        <ion-item>
+                            <ion-input *ngIf="opt.label=='OTROS'" placeholder={{item.placeholder_otros}} type="text" name={{opt.id}} [(ngModel)]="opt.value"></ion-input>
+                            <ion-label *ngIf="opt.label!='OTROS'">{{opt.label}}</ion-label>
+                            <ion-checkbox *ngIf="opt.label!='OTROS'" [(ngModel)]="opt.value" item-right checked="opt.checked"></ion-checkbox>
+                        </ion-item>
+                    </ion-list>
+                </ion-col>
+                <ion-col *ngIf="item.textarea==true" align-self-center>
+                    <ion-textarea placeholder={{item.placeholder}} type="text" name={{opt.id}} [(ngModel)]="opt.text"></ion-textarea>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid *ngIf="item.type=='table'">
+            <ion-label>{{item.label}}</ion-label>
+            <ion-row *ngFor="let opt of item.children;" align-items-center>
+                <ion-col col-3 align-self-center>
+                    <ion-list>
+                        <ion-item>
+                            <ion-input *ngIf="opt.label=='OTROS'" placeholder={{item.placeholder_otros}} type="text" name={{opt.id}} [(ngModel)]="opt.value"></ion-input>
+                            <ion-label *ngIf="opt.label!='OTROS'">{{opt.label}}</ion-label>
+                            <ion-checkbox *ngIf="opt.label!='OTROS'" [(ngModel)]="opt.value" item-right checked="opt.value"></ion-checkbox>
+                        </ion-item> 
+                    </ion-list>
+                </ion-col>
+                <ion-col col-4 align-self-center>
+                    <ion-item>
+                        <ion-select okText="ACEPTAR" cancelText="CANCELAR" [(ngModel)]="opt.etapa" placeholder={{item.placeholder}}>
+                            <ion-option value="previo">PREVIO EMBARAZO</ion-option>
+                            <ion-option value="durante">DURANTE EL EMABARAZO</ion-option>
+                            <ion-option value="despues">POST-EMBARAZO</ion-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+                <ion-col col-4 align-self-center>
+                    <ion-textarea placeholder="OBSERVACIÓN" type="text" name={{opt.id}} [(ngModel)]="opt.observacion"></ion-textarea>
+                </ion-col>
+                <ion-col col-1 align-self-center>
+                    <ion-toggle [(ngModel)]="opt.refiere" checked="true"></ion-toggle>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid *ngIf="item.type=='table_2'">
+            <ion-label>{{item.label}}</ion-label>
+            <ion-row *ngFor="let opt of item.children;" align-items-center>
+                <ion-col col-3 align-self-center>
+                    <ion-input *ngIf="opt.label=='OTROS'" placeholder={{item.input_placeholder}} type="text" name={{opt.id}} [(ngModel)]="opt.value"></ion-input>
+                    <ion-label *ngIf="opt.label!='OTROS'">{{opt.label}}</ion-label>
+                </ion-col>
+                <ion-col col-5 align-self-center>
+                    <ion-textarea placeholder={{item.placeholder_1}} type="text" name={{opt.id}} [(ngModel)]="opt.text1"></ion-textarea>
+                </ion-col>
+                <ion-col col-4 align-self-center>
+                    <ion-textarea placeholder={{item.placeholder_2}} type="text" name={{opt.id}} [(ngModel)]="opt.text2"></ion-textarea>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <!--div *ngIf="item.type=='input_text'" class="form-group col-12">
+            <label>{{item.label}}</label>
+            <input type="text" id="item.id" name="item.id" class="form-control" [(ngModel)]="item.value">
         </div>
-
-        <div text-center *ngIf="item.type=='observation'">
-          <h4>{{item.label}}</h4>
-            <ion-item>
-            <ion-textarea style="border: 1px solid #6b7e9b" placeholder="" [(ngModel)]="item.value"></ion-textarea>
-          </ion-item>
-            
+        <div *ngIf="item.type=='input_number'" class="form-group col-12">
+            <label>{{item.label}}</label>
+            <input type="number" id="item.id" name="item.id" class="form-control" [(ngModel)]="item.value">
         </div>
-        
-        
-
+        <div *ngIf="item.type=='date'" class="form-group col-12">
+            <label>{{item.label}}</label>
+            <input type="date" id="item.id" name="item.id" class="form-control" [(ngModel)]="item.value">
+        </div>
+        <div *ngIf="item.type=='radio'" class="form-group col-12">
+            <label>{{item.label}}</label>
+            <div *ngFor="let opt of item.children;" class="radio">
+                <label>
+                    <input type="radio" id={{opt.id}} [(ngModel)]="item.id" value={{opt.id}}>{{opt.label}}
+                </label>
+            </div> 
+        </div-->
     </div>
-
 </ion-content>

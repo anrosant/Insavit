@@ -8,107 +8,83 @@ import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage
 import { DatePipe } from '@angular/common';
 import { File } from '@ionic-native/file';
 import { Geolocation } from '@ionic-native/geolocation';
-
-
 import { HttpClientModule } from '@angular/common/http';
-
 import { HTTP } from '@ionic-native/http';
 import { Network } from '@ionic-native/network';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
-
-
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { HomePage2 } from '../pages/home2/home2';
+//import { HomePage } from '../pages/home/home';
+//import { HomePage2 } from '../pages/home2/home2';
 import { HomeCVRPage } from '../pages/homeCVR/homeCVR';
 import { AgregarFormularioPage } from '../pages/agregarFormulario/agregarFormulario';
 import { modalEditarFormularioPage } from '../pages/modalEditarFormulario/modalEditarFormulario';
 import { AuthPage } from '../pages/auth/auth';
-import { AuthCVRPage } from '../pages/authCVR/authCVR';
-import { LibretaPage } from '../pages/libreta/libreta';
-import { Libreta2Page } from '../pages/libreta2/libreta2';
+//import { AuthCVRPage } from '../pages/authCVR/authCVR';
+//import { LibretaPage } from '../pages/libreta/libreta';
+//import { Libreta2Page } from '../pages/libreta2/libreta2';
 import { LibretaCVRPage } from '../pages/libretaCVR/libretaCVR';
 import { Libreta2CVRPage } from '../pages/libreta2CVR/libreta2CVR';
-
-
 import { PerfilPage } from '../pages/perfil/perfil';
 import { LibretasEnviadasPage } from '../pages/libretasEnviadas/libretasEnviadas';
 import { misLibretasPage } from '../pages/misLibretas/misLibretas';
 import { libretasPendientesPage } from '../pages/libretasPendientes/libretasPendientes';
-
 import { IntelSecurity } from '@ionic-native/intel-security';
-
 import { DatePicker } from '@ionic-native/date-picker';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-
-
-
-
 //import { LongPressModule } from 'ionic-long-press';
 
-
-
 @NgModule({
-  declarations: [
-    MyApp,
-    HomePage,
-    HomePage2,
-    HomeCVRPage,
-    AgregarFormularioPage,
-    modalEditarFormularioPage,
-    AuthPage,
-    AuthCVRPage,
-    LibretaPage,
-    PerfilPage,
-    LibretasEnviadasPage,
-    Libreta2Page,
-    LibretaCVRPage,
-    Libreta2CVRPage,
-    misLibretasPage,
-    libretasPendientesPage
-  ],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot(),
-    HttpClientModule
-    //LongPressModule
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HomePage,
-    HomePage2,
-    HomeCVRPage,
-    AgregarFormularioPage,
-    modalEditarFormularioPage,
-    AuthPage,
-    AuthCVRPage,
-    LibretaPage,
-    PerfilPage,
-    LibretasEnviadasPage,
-    Libreta2Page,
-    LibretaCVRPage,
-    Libreta2CVRPage,
-    misLibretasPage,
-    libretasPendientesPage
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    HTTP,
-    Network,
-    SecureStorage,
-    LocationAccuracy,
-    Diagnostic,
-    LocalNotifications,
-    File,
-    DatePipe,
-    Geolocation,
-    IntelSecurity,
-    DatePicker,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
-  ]
+    declarations: [
+        MyApp,
+        HomeCVRPage,
+        AgregarFormularioPage,
+        modalEditarFormularioPage,
+        AuthPage,
+        Libreta2CVRPage,
+        PerfilPage,
+        LibretasEnviadasPage,
+        LibretaCVRPage,
+        misLibretasPage,
+        libretasPendientesPage
+    ],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(MyApp),
+        IonicStorageModule.forRoot(),
+        HttpClientModule
+        //LongPressModule
+    ],
+    bootstrap: [IonicApp],
+    entryComponents: [
+        MyApp,
+        HomeCVRPage,
+        AgregarFormularioPage,
+        modalEditarFormularioPage,
+        AuthPage,
+        Libreta2CVRPage,
+        PerfilPage,
+        LibretasEnviadasPage,
+        LibretaCVRPage,
+        misLibretasPage,
+        libretasPendientesPage
+    ],
+    providers: [
+        StatusBar,
+        SplashScreen,
+        HTTP,
+        Network,
+        SecureStorage,
+        LocationAccuracy,
+        Diagnostic,
+        LocalNotifications,
+        File,
+        DatePipe,
+        Geolocation,
+        IntelSecurity,
+        DatePicker,
+        {provide: ErrorHandler, useClass: IonicErrorHandler}
+    ]
 })
+
 export class AppModule {}
