@@ -1,138 +1,133 @@
 <ion-header>
-  <ion-navbar color="navbar">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>
-      {{libretaTemporal.fechaLibreta}}
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar color="navbar">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            {{libretaTemporal.fechaLibreta}}
+        </ion-title>
+    </ion-navbar>
 </ion-header>
-
 <ion-content>
-
     <div *ngFor="let item of seccionSelected2.children;let i = index">
         <div *ngIf="item.type=='collapseList'">
-              <button text-wrap ion-item color="secondary" data-toggle="collapse" [attr.href]="'#collapse'+i"  aria-expanded="false" (click)="clickCollapseButton(i,'collapse'+i,$event)">
-                <ion-label>{{seccionSelected2.label}} - {{item.label}}</ion-label>
+            <button text-wrap ion-item color="secondary" data-toggle="collapse" [attr.href]="'#collapse'+i"  aria-expanded="false" (click)="clickCollapseButton(i,'collapse'+i,$event)">
+                <ion-label>{{seccionSelected2.label}}</ion-label>
                 <ion-icon *ngIf="item.initialShow" item-end name="arrow-dropdown" ></ion-icon>
                 <ion-icon *ngIf="!item.initialShow" item-end name="arrow-dropright" ></ion-icon>
-              </button>
-              <div *ngIf="item.initialShow" class="collapse show" id="collapse{{i}}" >
-
-                  <div *ngFor="let item2 of item.children; let j = index">
+            </button>
+            <div *ngIf="item.initialShow" class="collapse show" id="collapse{{i}}" >
+                <div *ngFor="let item2 of item.children; let j = index">
                     <div *ngIf="item2.type=='input_number'" padding>
-                    <!--<br>-->
-                    <div class="row" [class.align-items-center]="!item2.error">
-                      <div class="col-6 offset-1">
-                        <span>{{item2.label}}</span>
-                      </div>
-                      <div class="col-4">
-                        <input type="text" text-center class="form-control form-control-lg" [class.is-invalid]="item2.error"  name="prueba" [(ngModel)]="item2.value" (keyup)="keyupFunction($event,item2.keyupFunction)" (blur)="blurFunction($event,item2.blurFunction)" >
-                        <div text-center class="invalid-feedback">
-                          {{item2.error}}
+                        <!--<br>-->
+                        <div class="row" [class.align-items-center]="!item2.error">
+                            <div class="col-6 offset-1">
+                                <span>{{item2.label}}</span>
+                            </div>
+                            <div class="col-4">
+                                <input type="text" text-center class="form-control form-control-lg" [class.is-invalid]="item2.error"  name="prueba" [(ngModel)]="item2.value" (keyup)="keyupFunction($event,item2.keyupFunction)" (blur)="blurFunction($event,item2.blurFunction)" >
+                                <div text-center class="invalid-feedback">
+                                    {{item2.error}}
+                                </div>
+                            </div>
                         </div>
-                      </div>
-
+                        <!--<br>-->
                     </div>
-                    <!--<br>-->
-                    </div>
-
                     <div *ngIf="item2.type=='input_calculo'" padding>
                         <!--<br>-->
                         <div class="row">
-                          <div class="col-6 offset-1">
-                            <span>{{item2.label}}</span>
-                          </div>
-                          <div class="col-4">
-                            <!--<ion-spinner item-start name="dots" *ngIf="pruebaActivo"></ion-spinner>-->
-                            <input *ngIf="!item2.error" text-center class="form-control form-control-lg" type="text" name="prueba" [(ngModel)]="item2.value"  disabled>
-                            <input *ngIf="item2.error" text-center class="form-control is-invalid" type="text" name="prueba" [(ngModel)]="item2.value"  disabled>
-                            <div text-center class="invalid-feedback">
-                              {{item2.error}}
+                            <div class="col-6 offset-1">
+                                <span>{{item2.label}}</span>
                             </div>
-
-
-                          </div>
-
+                            <div class="col-4">
+                                <!--<ion-spinner item-start name="dots" *ngIf="pruebaActivo"></ion-spinner>-->
+                                <input *ngIf="!item2.error" text-center class="form-control form-control-lg" type="text" name="prueba" [(ngModel)]="item2.value"  disabled>
+                                <input *ngIf="item2.error" text-center class="form-control is-invalid" type="text" name="prueba" [(ngModel)]="item2.value"  disabled>
+                                <div text-center class="invalid-feedback">
+                                    {{item2.error}}
+                                </div>
+                            </div>
                         </div>
                         <!--<br>-->
                     </div>
-
                     <div *ngIf="item2.type=='button'" padding>
-
-                      <button *ngIf="item2.function && item2.function!=null"  ion-item color="navbar" text-center (click)="clickFunction($event,item2.function)">
-                        <ion-label>{{item2.label}}</ion-label>
-                      </button>
-                      <button *ngIf="!item2.function || item2.function==null"  ion-item color="navbar" text-center>
-                        <ion-label>{{item2.label}}</ion-label>
-                      </button>
-
+                        <button *ngIf="item2.function && item2.function!=null"  ion-item color="navbar" text-center (click)="clickFunction($event,item2.function)">
+                            <ion-label>{{item2.label}}</ion-label>
+                        </button>
+                        <button *ngIf="!item2.function || item2.function==null"  ion-item color="navbar" text-center>
+                            <ion-label>{{item2.label}}</ion-label>
+                        </button>
                     </div>
-
-                  </div>
-
-              </div>
-              <div *ngIf="!item.initialShow" class="collapse" id="collapse{{i}}">
-
-
-                    <div *ngFor="let item2 of item.children">
+                    <div *ngIf="item2.type=='radio'">
+                        <ion-list radio-group>
+                            <ion-list-header>
+                                <ion-label>{{item2.label}}</ion-label>
+                            </ion-list-header>
+                            <ion-item *ngFor="let opt of item2.children;">
+                                <ion-label>{{opt.label}}</ion-label>
+                                <ion-radio value={{opt.label}}></ion-radio>
+                            </ion-item> 
+                        </ion-list>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!item.initialShow" class="collapse" id="collapse{{i}}">
+                <div *ngFor="let item2 of item.children">
                     <div *ngIf="item2.type=='input_number'" padding>
-                    <!--<br>-->
-                    <div class="row">
-                      <div class="col-6 offset-1">
-                        <span>{{item2.label}}</span>
-                      </div>
-                      <div class="col-4">
-                        <!--<ion-spinner item-start name="dots" *ngIf="pruebaActivo"></ion-spinner>-->
-                        <input *ngIf="!item2.error" text-center class="form-control" type="number" name="prueba" [(ngModel)]="item2.value" (keyup)="keyupFunction(item2.keyupFunction)" (blur)="blurFunction(item2.blurFunction)">
-                        <input *ngIf="item2.error" text-center class="form-control is-invalid" type="number" name="prueba" [(ngModel)]="item2.value" (keyup)="keyupFunction(item2.keyupFunction)" (blur)="blurFunction(item2.blurFunction)">
-                        <div text-center class="invalid-feedback">
-                          {{item2.error}}
+                        <!--<br>-->
+                        <div class="row">
+                            <div class="col-6 offset-1">
+                                <span>{{item2.label}}</span>
+                            </div>
+                            <div class="col-4">
+                                <!--<ion-spinner item-start name="dots" *ngIf="pruebaActivo"></ion-spinner>-->
+                                <input *ngIf="!item2.error" text-center class="form-control" type="number" name="prueba" [(ngModel)]="item2.value" (keyup)="keyupFunction(item2.keyupFunction)" (blur)="blurFunction(item2.blurFunction)">
+                                <input *ngIf="item2.error" text-center class="form-control is-invalid" type="number" name="prueba" [(ngModel)]="item2.value" (keyup)="keyupFunction(item2.keyupFunction)" (blur)="blurFunction(item2.blurFunction)">
+                                <div text-center class="invalid-feedback">
+                                    {{item2.error}}
+                                </div>
+                            </div>
                         </div>
-                      </div>
-
+                        <!--<br>-->
                     </div>
-                    <!--<br>-->
-                    </div>
-
                     <div *ngIf="item2.type=='input_calculo'" padding>
                         <!--<br>-->
                         <div class="row">
-                          <div class="col-6 offset-1">
-                            <span>{{item2.label}}</span>
-                          </div>
-                          <div class="col-4">
-                            <!--<ion-spinner item-start name="dots" *ngIf="pruebaActivo"></ion-spinner>-->
-                            <input *ngIf="!item2.error" text-center class="form-control" type="text" name="prueba" [(ngModel)]="item2.value"   disabled>
-                            <input *ngIf="item2.error" text-center class="form-control is-invalid" type="text" name="prueba" [(ngModel)]="item2.value"   disabled>
-                            <div text-center class="invalid-feedback">
-                              {{item2.error}}
+                            <div class="col-6 offset-1">
+                                <span>{{item2.label}}</span>
                             </div>
-
-
-                          </div>
-
+                            <div class="col-4">
+                                <!--<ion-spinner item-start name="dots" *ngIf="pruebaActivo"></ion-spinner>-->
+                                <input *ngIf="!item2.error" text-center class="form-control" type="text" name="prueba" [(ngModel)]="item2.value"   disabled>
+                                <input *ngIf="item2.error" text-center class="form-control is-invalid" type="text" name="prueba" [(ngModel)]="item2.value"   disabled>
+                                <div text-center class="invalid-feedback">
+                                    {{item2.error}}
+                                </div>
+                            </div>
                         </div>
                         <!--<br>-->
                     </div>
-
                     <div *ngIf="item2.type=='button'" padding>
-
-                      <button *ngIf="item2.function!=null"  ion-item color="navbar" text-center (click)="clickFunction(item2.function)">
-                        <ion-label>{{item2.label}}</ion-label>
-                      </button>
-                      <button *ngIf="item2.function==null"  ion-item color="navbar" text-center>
-                        <ion-label>{{item2.label}}</ion-label>
-                      </button>
+                        <button *ngIf="item2.function!=null"  ion-item color="navbar" text-center (click)="clickFunction(item2.function)">
+                            <ion-label>{{item2.label}}</ion-label>
+                        </button>
+                        <button *ngIf="item2.function==null"  ion-item color="navbar" text-center>
+                            <ion-label>{{item2.label}}</ion-label>
+                        </button>
                     </div>
-
-                  </div>
-
-              </div>
-
+                    <div *ngIf="item2.type=='radio'">
+                        <ion-list radio-group>
+                            <ion-list-header>
+                                <ion-label>{{item2.label}}</ion-label>
+                            </ion-list-header>
+                            <ion-item *ngFor="let opt of item2.children;">
+                                <ion-label>{{opt.label}}</ion-label>
+                                <ion-radio value={{opt.label}}></ion-radio>
+                            </ion-item> 
+                        </ion-list>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
-
 </ion-content>

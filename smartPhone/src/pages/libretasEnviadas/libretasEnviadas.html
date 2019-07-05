@@ -1,54 +1,39 @@
 <ion-header>
-  <ion-navbar color="navbar">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>
-      Mis Libretas
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar color="navbar">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            Mis Libretas
+        </ion-title>
+    </ion-navbar>
 </ion-header>
-
 <ion-content>
-  <div *ngIf="!libretasEnviadas" text-center>
-    <h2>No hay libretas enviadas</h2>
-  </div>
-  <div *ngIf="libretasEnviadas">
-    <div *ngFor="let item of keysFechasLibretasEnviadas;let i = index">
-        
-          <button text-wrap ion-item color="secondary" data-toggle="collapse" [attr.href]="'#collapseEnviada'+i"  aria-expanded="false" (click)="clickCollapseButton(i,'collapseEnviada'+i,$event)">
-            <ion-label >{{item}}</ion-label>
-            <ion-note item-start>Fecha Envio:  </ion-note>
-            <ion-icon *ngIf="i==0" item-end name="arrow-dropdown" ></ion-icon>
-            <ion-icon *ngIf="i!=0" item-end name="arrow-dropright" ></ion-icon>
-          </button>
-          <div *ngIf="i==0" class="collapse show" id="collapseEnviada{{i}}" >
-          
-            
-          <ion-list color="sidebarHeader" >
-            <button  *ngFor="let item2 of fechasLibretasEnviadas[item];let j = index"  ion-item color="sidebarHeader" >
-                
-                <ion-label>{{item2}}</ion-label>
-            </button>
-          </ion-list>
-            
-
-          </div>
-          <div *ngIf="i!=0" class="collapse" id="collapseEnviada{{i}}">
-          <ion-list color="sidebarHeader" >
-            <button  *ngFor="let item2 of fechasLibretasEnviadas[item];let j = index"  ion-item color="sidebarHeader">
-                
-                <ion-label>{{item2}}</ion-label>
-            </button>
-          </ion-list>
-          </div>
-          
-        
-
+    <div *ngIf="!libretasEnviadas" text-center>
+        <h2>No hay libretas enviadas</h2>
     </div>
-    
-  </div>
-   
-
-
+    <div *ngIf="libretasEnviadas">
+        <div *ngFor="let item of keysFechasLibretasEnviadas;let i = index">
+            <button text-wrap ion-item color="secondary" data-toggle="collapse" [attr.href]="'#collapseEnviada'+i"  aria-expanded="false" (click)="clickCollapseButton(i,'collapseEnviada'+i,$event)">
+                <ion-label >{{item}}</ion-label>
+                <ion-note item-start>Fecha Envio:  </ion-note>
+                <ion-icon *ngIf="i==0" item-end name="arrow-dropdown" ></ion-icon>
+                <ion-icon *ngIf="i!=0" item-end name="arrow-dropright" ></ion-icon>
+            </button>
+            <div *ngIf="i==0" class="collapse show" id="collapseEnviada{{i}}" >
+                <ion-list color="sidebarHeader" >
+                    <button  *ngFor="let item2 of fechasLibretasEnviadas[item];let j = index"  ion-item color="sidebarHeader" >
+                        <ion-label>{{item2}}</ion-label>
+                    </button>
+                </ion-list>
+            </div>
+            <div *ngIf="i!=0" class="collapse" id="collapseEnviada{{i}}">
+                <ion-list color="sidebarHeader" >
+                    <button  *ngFor="let item2 of fechasLibretasEnviadas[item];let j = index"  ion-item color="sidebarHeader">
+                        <ion-label>{{item2}}</ion-label>
+                    </button>
+                </ion-list>
+            </div>
+        </div>
+    </div>
 </ion-content>

@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -15,32 +13,28 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-.item-inner{
+.item-inner {
 	border:0px;
 }
-
 .item-md.item-block .item-inner {
 	border:none;
 }
-button:focus{
+button:focus {
 	outline:none;
 }
-
-a{
+a {
 	outline:none!important;
 	text-decoration: none!important;
 }
-
 .alert-radio-label {
 	white-space: normal!important
 }
 ion-label{
 	white-space: normal!important
 }
-
-
-.scroll-content { padding-bottom: 0!important; }
-
-
-.toast-wrapper { background-color: rgba(165, 64, 53,0.9)!important}
-
+.scroll-content {
+    padding-bottom: 0!important;
+}
+.toast-wrapper {
+    background-color: rgba(165, 64, 53,0.9)!important
+}

@@ -1,44 +1,35 @@
 <ion-header>
-  <ion-navbar color='navbar'>
-    <ion-title text-center>
-      Iniciar Sesion
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar color='navbar'>
+        <ion-title text-center>
+            Iniciar Sesion
+        </ion-title>
+    </ion-navbar>
 </ion-header>
-
 <ion-content padding>
-
-
-  <div padding text-center>
-    <img src="./assets/imgs/user.png">
-    <br>
-    <br>
-    <ion-item margin-top color="light" *ngIf="!usuarioVinculado">
-      <ion-label color="navbar" fixed>
-        <ion-icon name="person"></ion-icon>
-      </ion-label>
-      <ion-input type="text" placeholder="Usuario" [(ngModel)]="user.username" name="username"></ion-input>
-    </ion-item>
-
-    <button ion-item color="light" margin-top *ngIf="usuarioVinculado">
-      <ion-icon name="person" item-start></ion-icon>
-      <ion-label color="light" margin-left item-start>{{usuarioVinculado.usuario}}</ion-label>
-      <ion-note item-end color="menuItemSelected"> {{usuarioVinculado.usuario}}</ion-note>
-    </button>
-
-    <ion-item margin-top color="light">
-      <ion-label color="navbar" fixed>
-        <ion-icon name="key" md="md-key"></ion-icon>
-      </ion-label>
-      <ion-input type="password" placeholder="Clave" [(ngModel)]="user.password" name="password"></ion-input>
-    </ion-item>
-    <br>
-
-  </div>
-
-  <button color="navbar" *ngIf="!usuarioVinculado" [disabled]="!user.username || !user.password" ion-button block (click)="attemptAuth()">Ingresar</button>
-  <button ion-button icon-start  size="small" *ngIf="usuarioVinculado" [disabled]="!user.password" block (click)="attemptAuth()">Ingresar</button>
-  <button ion-button icon-end color="light" size="small" *ngIf="usuarioVinculado" block (click)="desvincular()">Iniciar con otra cuenta</button>
-
-
+    <div padding text-center>
+        <img src="./assets/imgs/user.png">
+        <br>
+        <br>
+        <ion-item margin-top color="light" *ngIf="!usuarioVinculado">
+            <ion-label color="navbar" fixed>
+                <ion-icon name="person"></ion-icon>
+            </ion-label>
+            <ion-input type="text" placeholder="Usuario" [(ngModel)]="user.username" name="username"></ion-input>
+        </ion-item>
+        <button ion-item color="light" margin-top *ngIf="usuarioVinculado">
+            <ion-icon name="person" item-start></ion-icon>
+            <ion-label color="light" margin-left item-start>{{usuarioVinculado.usuario}}</ion-label>
+            <ion-note item-end color="menuItemSelected"> {{usuarioVinculado.usuario}}</ion-note>
+        </button>
+        <ion-item margin-top color="light">
+            <ion-label color="navbar" fixed>
+                <ion-icon name="key" md="md-key"></ion-icon>
+            </ion-label>
+            <ion-input type="password" placeholder="Clave" [(ngModel)]="user.password" name="password"></ion-input>
+        </ion-item>
+        <br>
+    </div>
+    <button color="navbar" *ngIf="!usuarioVinculado" [disabled]="!user.username || !user.password" ion-button block (click)="ingresar()">Ingresar</button>
+    <button ion-button icon-start  size="small" *ngIf="usuarioVinculado" [disabled]="!user.password" block (click)="ingresar()">Ingresar</button>
+    <button ion-button icon-end color="light" size="small" *ngIf="usuarioVinculado" block (click)="desvincular()">Iniciar con otra cuenta</button>
 </ion-content>
