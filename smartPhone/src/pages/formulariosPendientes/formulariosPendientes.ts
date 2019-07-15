@@ -29,35 +29,26 @@ export class formulariosPendientesPage {
 
     getFormulariosPendientes() {
         this.formulariosPendientes = [];
-        console.log('-----FOR EACH PENDIENTES-------');
         this.storage.get("formsData").then((formsData) => {
-            console.log(formsData);
             Object.keys(formsData).forEach((key, index) => {
-                console.log(key, index);
-                console.log(formsData[key]);
                 for (let formData of formsData[key]){
-                  console.log(formData);
                   let bugs = this.getValues(formData.data, 'error');
                   let empty_values = this.getValues(formData.data, 'value');
-                  let bug_list = bugs.map(function (bug) {
-                    if (bug != "")
-                      return bug;
-                  });
-                  let empty_list = empty_values.map(function (value) {
-                    if (value == "")
-                      return value;
-                  });
-                  console.log("bugs",bugs);
-                  console.log("vacíos",empty_values);
+                  let countErr = 0;
+                  let countEmpty = 0;
+                  for (let i = 0; i < bugs.length; i++) {
+                      if (bugs[i] != '') {
+                          countErr = countErr + 1;
+                      }
+                  }
+                  for (let i = 0; i < empty_values.length; i++) {
+                      if (empty_values[i] == '') {
+                          countEmpty = countEmpty + 1;
+                      }
+                  }
 
-                  console.log("bugs_list", bug_list);
-                  console.log("vacíos_list", empty_list);
-
-                  formData["vacios"] = empty_list.length;
-                  formData["errores"] = bug_list.length;
-
-                  console.log("FORMDATA", formData);
-
+                  formData["vacios"] = countEmpty;
+                  formData["errores"] = countErr;
                   this.formulariosPendientes.push(formData);
                 }
             });

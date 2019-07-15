@@ -183,8 +183,6 @@ export class AuthPage {
                                 console.log(err);
                             });
                             this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
-                                console.log('seteando calculos');
-                                console.log(res);
                                 this.storage.set('calculos', res);
                             }, err => {
                                 console.log('error no puede conectarse al servidor para descarga de plantilla');

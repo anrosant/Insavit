@@ -108,8 +108,6 @@ export class MyApp {
             this.storage.get('calculos').then((calculos) => {
                 if (calculos == null) {
                     this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
-                        console.log('seteando calculos');
-                        console.log(res);
                         this.storage.set('calculos', res);
                     }, err => {
                         console.log('error no puede conectarse al servidor para descarga de calculos', err);
