@@ -1,0 +1,31 @@
+page-form {
+	ion-icon {
+		pointer-events: none;
+	}
+    ion-select {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        //background: $color('secundary');
+        .select-text,.select-icon-inner {
+            text-align: right;
+        	color:#f4f4f4!important;
+        }
+    }
+    .back-button {
+        margin:0px!important;
+        padding:0px!important;
+    }
+    .aviso {
+        animation:animationPageEnter 1.2s;
+    }
+    @keyframes animationPageEnter {
+        0%   {max-height:0px;opacity:0.5}
+        100% {max-height:300px;opacity:1}
+    }
+    ion-grid {
+        grid-padding-width: 15px;
+    }
+    .col {
+        border: think solid gray;
+    }
+}

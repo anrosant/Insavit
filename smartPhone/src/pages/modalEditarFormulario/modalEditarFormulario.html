@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-navbar color="rojoBotonLibreta">
+    <ion-navbar color="rojoBotonFormulario">
         <ion-title>
             Editar Formulario
         </ion-title>
@@ -20,7 +20,7 @@
         <ion-item >
             <ion-label color="navbar3">Plantilla</ion-label>
             <ion-select select-md-placeholder-color="blue" placeholder="Selecciona una plantilla" (ionChange)="changeSelect()" [(ngModel)]="formUserData.formTemplate">
-                <ion-option value="Libreta Principal">Libreta Principal</ion-option>
+                <ion-option value="Formulario Principal">Formulario Principal</ion-option>
                 <ion-option value="Otro">Otro</ion-option>
             </ion-select>
         </ion-item>
@@ -34,5 +34,5 @@
             <ion-textarea placeholder="Escribe una descripcion..." [(ngModel)]="formUserData.formDescription"></ion-textarea>
         </ion-item>
     </ion-card>
-    <button color="rojoBotonLibreta" *ngIf="formUserData.formName!=formularioEdicion.nombre || formUserData.formTemplate!=formularioEdicion.plantilla || formUserData.formDescription!=formularioEdicion.descripcion" ion-button block (click)="deshacerCambios()">REFRESH</button>
+    <button color="rojoBotonFormulario" *ngIf="formUserData.formName!=formularioEdicion.nombre || formUserData.formTemplate!=formularioEdicion.plantilla || formUserData.formDescription!=formularioEdicion.descripcion" ion-button block (click)="deshacerCambios()">REFRESH</button>
 </ion-content>

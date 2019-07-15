@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LibretasEnviadasPage } from '../libretasEnviadas/libretasEnviadas';
+import { FormulariosEnviadosPage } from '../formulariosEnviados/formulariosEnviados';
 import { Coordinates,Geolocation } from '@ionic-native/geolocation';
 import { NavController , NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -12,7 +12,7 @@ import { Storage } from '@ionic/storage';
 export class PerfilPage {
     position;
     datosUsuario : null;
-    libretasEnviadas;
+    formulariosEnviados;
     fechaInstalacion;
     usuario = {
         usuario:'cbenitez',
@@ -28,7 +28,7 @@ export class PerfilPage {
                 "canton":"PANGUA",
                 "parroquia":"EL CORAZON",
                 "usuario":"juan",
-                "rol":"Libretas principales"
+                "rol":"Formularios principales"
              }
     };
 
@@ -54,8 +54,8 @@ export class PerfilPage {
             }
         });
 
-        this.storage.get('libretasEnviadas').then((val) => {
-            this.libretasEnviadas = val;
+        this.storage.get('formulariosEnviados').then((val) => {
+            this.formulariosEnviados = val;
             console.log(val);
         });
 

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, AlertController, ViewController, Events, MenuController, App } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
 import { Network } from '@ionic-native/network';
-import { HomeCVRPage } from '../homeCVR/homeCVR';
 import { HomePage } from '../home/home';
 import { Storage } from '@ionic/storage';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage';
@@ -20,6 +19,7 @@ export class AuthPage {
     user = { username: "", password: "" };
     url = "http://150.136.230.16/api/validate_user/";
     usuarioVinculado;
+    infoTemplates = [];
 
     constructor(private intelSecurity: IntelSecurity,
         public httpClient: HttpClient, public appCtrl: App,
@@ -38,7 +38,7 @@ export class AuthPage {
             }
         });
     }
-    
+
     attemptAuth() {
         const loader = this.loadingCtrl.create({
             content: "Espere ...",
@@ -48,7 +48,6 @@ export class AuthPage {
             this.intelSecurity.storage.read({ id: 'usuarioClave' })
                 .then((instanceID: number) => this.intelSecurity.data.getData(instanceID))
                 .then((data: string) => {
-                    console.log(data);
                     if (this.user.password == data) {
                         loader.dismiss();
                         const alertador = this.alertCtrl.create({
@@ -58,8 +57,10 @@ export class AuthPage {
                         });
                         alertador.present();
                         this.usuarioVinculado.sesion = true;
-                        this.storage.set('usuarioVinculado', this.usuarioVinculado).then(data => {
+                        this.getInfoPlantilla().then((result) => {
+                          this.storage.set('usuarioVinculado', this.usuarioVinculado).then(data => {
                             this.appCtrl.getRootNav().setRoot(HomePage);
+                          });
                         });
                     }
                     else {
@@ -83,15 +84,18 @@ export class AuthPage {
                         buttons: ['OK']
                     });
                     alert.present();
-                    if (JSON.parse(res.data).userId != undefined) {
+                    if (JSON.parse(res.data).uid != undefined) {
                         this.intelSecurity.data.createFromData({ data: this.user.password })
                             .then((instanceID: Number) => {
                                 this.intelSecurity.storage.write({ id: "usuarioClave", instanceID: instanceID }).then(res => { console.log('exito en guardar en storage intel') });
                                 this.storage.set('usuarioVinculado', { usuario: this.user.username, sesion: true, uid: JSON.parse(res.data).uid })
                                     .then((data) => {
                                         loader.dismiss();
-                                        console.log('se vinculo el usuario y se guardo la informacion del servidor', data);
-                                        this.appCtrl.getRootNav().setRoot(HomePage);
+                                        this.getInfoPlantilla().then((result) => {
+                                          this.storage.set('se vinculo el usuario y se guardo la informacion del servidor', this.usuarioVinculado).then(data => {
+                                            this.appCtrl.getRootNav().setRoot(HomePage);
+                                          });
+                                        });
                                     })
                                     .catch(error => {
                                         loader.dismiss();
@@ -118,14 +122,49 @@ export class AuthPage {
                     }
                     else {
                         const alert = this.alertCtrl.create({
-                            title: 'No hay Conexion a Internet',
-                            subTitle: 'Solo puedes iniciar sesion sin internet con una cuenta registrada. Inicia sesion con internet y automaticamente se registrara tu cuenta.',
+                            subTitle: 'Usuario o contraseña incorrectos',
                             buttons: ['OK']
                         });
                         alert.present();
                     }
                 });
         }
+    }
+    async getInfoPlantilla() {
+        await this.storage.get('templates').then((templates) => {
+            for (let template of templates) {
+                if (template.type == "SIMPLE") {
+                    this.infoTemplates.push({
+                        uuid: template.uid,
+                        name: template.name,
+                        type: template.type,
+                        done_quantity: 0,
+                        remain_quantity: template.quantity,
+                        data: template.data
+                    });
+                } else {
+                    this.infoTemplates.push({
+                        uuid: template.uid,
+                        name: template.name,
+                        type: template.type,
+                        quantity: [{
+                            type: "INICIAL",
+                            done_quantity: 0,
+                            remain_quantity: template.quantity
+
+                        },
+                        {
+                            type: "SEGUIMIENTO",
+                            done_quantity: 0,
+                            remain_quantity: template.quantity
+                        }],
+                        data: template.data
+                    });
+                }
+            }
+        });
+        await this.storage.set('infoTemplates', this.infoTemplates);
+
     }
     desvincular() {
         const confirm = this.alertCtrl.create({
@@ -137,15 +176,13 @@ export class AuthPage {
                     handler: () => {
                         console.log('Desvincular clicked');
                         this.storage.clear().then(() => {
-                            this.httpClient.get('./assets/plantilla/plantilla.json').subscribe(res => {
-                                this.storage.set('plantilla', res);
+                            this.httpClient.get('./assets/plantilla/templates.json').subscribe(res => {
+                                this.storage.set('templates', res);
                             }, err => {
                                 console.log('error no puede conectarse al servidor para descarga de plantilla');
                                 console.log(err);
                             });
-                            this.httpClient.get('./assets/calculos/calculos.json', { responseType: 'text' }).subscribe(res => {
-                                console.log('seteando calculos');
-                                console.log(res);
+                            this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
                                 this.storage.set('calculos', res);
                             }, err => {
                                 console.log('error no puede conectarse al servidor para descarga de plantilla');
