@@ -1,6 +1,8 @@
 node_modules
 *.pyc
 package-lock.json
+package.json
+config.xml
 
 *~
 *.sw[mnpcod]

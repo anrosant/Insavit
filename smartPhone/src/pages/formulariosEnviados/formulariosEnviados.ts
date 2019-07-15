@@ -4,14 +4,14 @@ import { Storage } from '@ionic/storage';
 import { DatePipe } from '@angular/common';
 
 @Component({
-    selector: 'page-libretasEnviadas',
-    templateUrl: 'libretasEnviadas.html'
+    selector: 'page-formulariosEnviados',
+    templateUrl: 'formulariosEnviados.html'
 })
 
-export class LibretasEnviadasPage {
-    libretasEnviadas = null;
-    keysFechasLibretasEnviadas;
-    fechasLibretasEnviadas = {};
+export class FormulariosEnviadosPage {
+    formulariosEnviados = null;
+    keysFechasFormulariosEnviados;
+    fechasFormulariosEnviados = {};
     arreglo = [];
 
     constructor(private events: Events, private datePipe: DatePipe, private storage:Storage,
@@ -19,32 +19,32 @@ export class LibretasEnviadasPage {
         this.arreglo['f2'] = new Function("a", "b", "return a * b");
         this.arreglo['f3'] = function (a, b) {return a * b};
         this.arreglo['f4'] = function calcular(a, b) {return a * b};
-        this.getLibretasEnviadas();
-        this.events.subscribe('app:envioLibretas',(status) => {
+        this.getFormulariosEnviados();
+        this.events.subscribe('app:envioFormularios',(status) => {
             if(!status) {
-                this.getLibretasEnviadas();
+                this.getFormulariosEnviados();
             }
         });
     }
 
-    getLibretasEnviadas(){
-        this.fechasLibretasEnviadas = [];
-        this.libretasEnviadas = null;
-        this.keysFechasLibretasEnviadas = [];
-        this.storage.get('libretasEnviadas').then(res => {
+    getFormulariosEnviados(){
+        this.fechasFormulariosEnviados = [];
+        this.formulariosEnviados = null;
+        this.keysFechasFormulariosEnviados = [];
+        this.storage.get('formulariosEnviados').then(res => {
             if(res) {
-                this.libretasEnviadas = res;
-                console.log(this.libretasEnviadas);
-                for(let i = 0; i < this.libretasEnviadas.length; i++) {
-                    let fecha = this.datePipe.transform(this.libretasEnviadas[i].fechaEnvio, "yyyy-MM-dd");
-                    if(this.fechasLibretasEnviadas[fecha]) {
-                        this.fechasLibretasEnviadas[fecha].push(this.libretasEnviadas[i].fechaLibreta);
+                this.formulariosEnviados = res;
+                console.log(this.formulariosEnviados);
+                for(let i = 0; i < this.formulariosEnviados.length; i++) {
+                    let fecha = this.datePipe.transform(this.formulariosEnviados[i].fechaEnvio, "yyyy-MM-dd");
+                    if(this.fechasFormulariosEnviados[fecha]) {
+                        this.fechasFormulariosEnviados[fecha].push(this.formulariosEnviados[i].fechaFormulario);
                     } else {
-                        this.fechasLibretasEnviadas[fecha] = [this.libretasEnviadas[i].fechaLibreta];
+                        this.fechasFormulariosEnviados[fecha] = [this.formulariosEnviados[i].fechaFormulario];
                     }
                 }
-                this.keysFechasLibretasEnviadas = Object.keys(this.fechasLibretasEnviadas);
-                console.log(this.keysFechasLibretasEnviadas);
+                this.keysFechasFormulariosEnviados = Object.keys(this.fechasFormulariosEnviados);
+                console.log(this.keysFechasFormulariosEnviados);
             }
         });
     }

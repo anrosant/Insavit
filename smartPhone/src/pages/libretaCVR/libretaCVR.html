@@ -77,7 +77,7 @@
                     <ion-input *ngIf="op.label=='OTROS'" placeholder={{opt.placeholder}} type="text" [(ngModel)]="opt.value" (keyup)="keyupFunction($event,item.keyupFunction)"></ion-input>
                     <ion-label *ngIf="op.label!='OTROS'">{{op.label}}</ion-label>
                     <ion-radio *ngIf="op.label!='OTROS'" value={{op.label}} checked=false (click)="clickFunction($event,item.keyupFunction)"></ion-radio>
-                </ion-item> 
+                </ion-item>
             </ion-list>
         </ion-list>
 
@@ -190,7 +190,7 @@
                             <ion-input *ngIf="opt.label=='OTROS'" placeholder={{item.placeholder_otros}} type="text" [(ngModel)]="opt.value" (keyup)="keyupFunction($event,item.keyupFunction)"></ion-input>
                             <ion-label *ngIf="opt.label!='OTROS'">{{opt.label}}</ion-label>
                             <ion-checkbox *ngIf="opt.label!='OTROS'" [(ngModel)]="opt.value" item-right checked="opt.value" (click)="clickFunction($event,item.keyupFunction)"></ion-checkbox>
-                        </ion-item> 
+                        </ion-item>
                     </ion-list>
                 </ion-col>
                 <ion-col col-4 align-self-center>

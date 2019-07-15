@@ -14,7 +14,7 @@
             <img width="75%" padding-left padding-right src="assets/imgs/user.png">
         </div>
         <h4>
-            {{usuario.data.usuario}}
+            {{usuario.usuario}}
         </h4>
         <ion-list>
             <ion-item text-center >
@@ -45,8 +45,8 @@
             </ion-item>
             <ion-item id="perfil-list-item-container12">
                 <div id="perfil-markdown18" style="text-align:center;" class="show-list-numbers-and-dots">
-                    <p *ngIf="libretasEnviadas" style="margin-top:0px;color:#877979;">
-                        {{libretasEnviadas.length}} Libretas enviadas
+                    <p *ngIf="formulariosEnviados" style="margin-top:0px;color:#877979;">
+                        {{formulariosEnviados.length}} Formularios enviadas
                     </p>
                 </div>
             </ion-item>

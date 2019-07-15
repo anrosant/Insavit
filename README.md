@@ -1,4 +1,4 @@
-# uku
+# UKU
 ## Requirements
 
 * Python +2.7.x

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, MenuController, Events ,ViewController,NavParams} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { LibretaCVRPage } from '../libretaCVR/libretaCVR';
 import { HttpClient } from '@angular/common/http';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';

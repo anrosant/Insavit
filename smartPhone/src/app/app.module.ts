@@ -16,40 +16,32 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 //import { HomePage2 } from '../pages/home2/home2';
-import { HomeCVRPage } from '../pages/homeCVR/homeCVR';
-import { Form } from '../pages/form/form';
+import { FormPage } from '../pages/form/form';
+import { FollowUpPage } from '../pages/followUp/followUp';
 import { AgregarFormularioPage } from '../pages/agregarFormulario/agregarFormulario';
 import { modalEditarFormularioPage } from '../pages/modalEditarFormulario/modalEditarFormulario';
 import { AuthPage } from '../pages/auth/auth';
-//import { AuthCVRPage } from '../pages/authCVR/authCVR';
-//import { LibretaPage } from '../pages/libreta/libreta';
-//import { Libreta2Page } from '../pages/libreta2/libreta2';
-import { LibretaCVRPage } from '../pages/libretaCVR/libretaCVR';
-import { Libreta2CVRPage } from '../pages/libreta2CVR/libreta2CVR';
 import { PerfilPage } from '../pages/perfil/perfil';
-import { LibretasEnviadasPage } from '../pages/libretasEnviadas/libretasEnviadas';
-import { misLibretasPage } from '../pages/misLibretas/misLibretas';
-import { libretasPendientesPage } from '../pages/libretasPendientes/libretasPendientes';
+import { FormulariosEnviadosPage } from '../pages/formulariosEnviados/formulariosEnviados';
+import { FormulariosPage } from '../pages/formularios/formularios';
+import { formulariosPendientesPage } from '../pages/formulariosPendientes/formulariosPendientes';
 import { IntelSecurity } from '@ionic-native/intel-security';
 import { DatePicker } from '@ionic-native/date-picker';
 import { LocalNotifications } from '@ionic-native/local-notifications';
-//import { LongPressModule } from 'ionic-long-press';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    HomeCVRPage,
-    Form,
+    FormPage,
+    FollowUpPage,
     AgregarFormularioPage,
     modalEditarFormularioPage,
     AuthPage,
     PerfilPage,
-    LibretasEnviadasPage,
-    LibretaCVRPage,
-    Libreta2CVRPage,
-    misLibretasPage,
-    libretasPendientesPage
+    FormulariosEnviadosPage,
+    FormulariosPage,
+    formulariosPendientesPage
   ],
   imports: [
     BrowserModule,
@@ -63,17 +55,15 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
   entryComponents: [
     MyApp,
     HomePage,
-    HomeCVRPage,
-    Form,
+    FormPage,
+    FollowUpPage,
     AgregarFormularioPage,
     modalEditarFormularioPage,
     AuthPage,
     PerfilPage,
-    LibretasEnviadasPage,
-    LibretaCVRPage,
-    Libreta2CVRPage,
-    misLibretasPage,
-    libretasPendientesPage
+    FormulariosEnviadosPage,
+    FormulariosPage,
+    formulariosPendientesPage
   ],
   providers: [
     StatusBar,

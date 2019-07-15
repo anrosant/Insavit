@@ -4,16 +4,16 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>
-            Mis Libretas
+            Formularios
         </ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <div *ngIf="!libretasEnviadas" text-center>
-        <h3>No hay libretas enviadas</h3>
+    <div *ngIf="!formulariosEnviados" text-center>
+        <h3>No hay formularios enviados</h3>
     </div>
-    <div *ngIf="libretasEnviadas">
-        <div *ngFor="let item of keysFechasLibretasEnviadas;let i = index">
+    <div *ngIf="formulariosEnviados">
+        <div *ngFor="let item of keysFechasFormulariosEnviados;let i = index">
             <button text-wrap ion-item color="secondary" data-toggle="collapse" [attr.href]="'#collapseEnviada'+i" aria-expanded="false" (click)="clickCollapseButton(i,'collapseEnviada'+i,$event)">
                 <ion-label>{{item}}</ion-label>
                 <ion-note item-start>Fecha Envio: </ion-note>
@@ -22,7 +22,7 @@
             </button>
             <div *ngIf="i==0" class="collapse show" id="collapseEnviada{{i}}">
                 <ion-list color="sidebarHeader">
-                    <button *ngFor="let item2 of fechasLibretasEnviadas[item];let j = index" ion-item color="sidebarHeader">
+                    <button *ngFor="let item2 of fechasFormulariosEnviados[item];let j = index" ion-item color="sidebarHeader">
 
                         <ion-label>{{item2}}</ion-label>
                     </button>
@@ -30,7 +30,7 @@
             </div>
             <div *ngIf="i!=0" class="collapse" id="collapseEnviada{{i}}">
                 <ion-list color="sidebarHeader">
-                    <button *ngFor="let item2 of fechasLibretasEnviadas[item];let j = index" ion-item color="sidebarHeader">
+                    <button *ngFor="let item2 of fechasFormulariosEnviados[item];let j = index" ion-item color="sidebarHeader">
 
                         <ion-label>{{item2}}</ion-label>
                     </button>
