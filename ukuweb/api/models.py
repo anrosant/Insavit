@@ -2,56 +2,49 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from form_manager.models import UserProfile
+from form_manager.models import UserProfile, TemplateType
 import dateutil.parser
-
-
-class Interviewed(models.Model):
-    alias = models.CharField(max_length=150, unique=True)
-    name = models.CharField(max_length=150, null=True, blank=True)
-    last_name = models.CharField(max_length=200, null=True, blank=True)
-    email = models.CharField(max_length=100, null=True, blank=True)
-    birthdate = models.DateField(blank=True, null=True)
-    address = models.CharField(max_length=500, null=True, blank=True)
-    phone = models.CharField(max_length=15, null=True, blank=True)
-
-    def complete_name(self):
-        if self.name and self.last_name:
-            return "{} - {} {}".format(self.alias, self.name, self.last_name)
-        if self.name:
-            return "{} - {}".format(self.alias, self.name)
-        return self.alias
+import datetime
+import uuid
 
 
 class FormDataManager(models.Manager):
-    def create(self, form):
+    def create(self, formData):
         """
-        form = {
-            "codigoPlantilla": "formularioPrueba",
-            "coordenadas": null,
-            "data": [],
-            "fechaAcceso": "2019-07-03T15:32:51.585Z",
-            "fechaCreacion": "2019-07-03T15:32:51.585Z",
-            "fechaGuardado": "2019-07-03T15:32:51.585Z",
+        "formData": {
+            "code": "00001"
+            "createdDate": Sat Jul 20 2019 12:51:34 GMT-0500 (hora de Ecuador)
+            "data": {}
+            "name": "Nutrición - Puyo"
+            "type": "SIMPLE"
+            "uuid": "e471fda6-1590-4341-9cf4-a29e9d59b0ae",
             "gps": false,
-            "motivo": "No puedo",
-            "usuario": {"username": "user example"}
-        }
+            "coordinates": null
+        },
+        "user": {
+            "username": "user example",
+            "uid": "e779204e-acd5-4c31-8e0b-4527f2f5dcc2"
+            }
         """
-        access_date = dateutil.parser.parse(form.get("fechaAcceso"))
-        created_date = dateutil.parser.parse(form.get("fechaCreacion"))
-        send_date = dateutil.parser.parse(form.get("fechaGuardado"))
-        form_data = self.model(
-            type=form.get("codigoPlantilla"),
-            coordinates=form.get("coordenadas", None),
-            data=form.get("data"),
-            access_date=access_date,
-            created_date=created_date,
-            send_date=send_date,
-            include_gps=True if form.get("gps") == "true" else False,
-            reason=form.get("motivo", None),
+        form = formData["formData"]
+        created_date = dateutil.parser.parse(form.get("createdDate"))
+        type = (
+            TemplateType.objects.get(name=form.get("type"))
+            if form.get("type")
+            else None
         )
-        user = form.get("usuario", None)
+        form_data = self.model(
+            uid=form.get("uuid"),
+            type=type,
+            name=form.get("name"),
+            coordinates=form.get("coordinates", None),
+            data=form.get("data"),
+            created_date=created_date,
+            send_date=datetime.datetime.now(),
+            include_gps=True if form.get("gps") == "true" else False,
+            code=form.get("code", None),
+        )
+        user = formData.get("user", None)
         if user:
             user = UserProfile.objects.get(uid=user.get("uid"))
             form_data.user = user
@@ -59,27 +52,28 @@ class FormDataManager(models.Manager):
 
 
 class FormData(models.Model):
-    type = models.CharField(max_length=500, blank=True)
+    uid = models.CharField(default=uuid.uuid4, editable=False, max_length=36)
+    name = models.CharField(max_length=500, blank=True)
+    type = models.ForeignKey(TemplateType, null=True)
     coordinates = models.CharField(max_length=100, null=True)
     data = models.TextField()
-    access_date = models.DateField(null=True, blank=True)
     created_date = models.DateField(null=True, blank=True)
     send_date = models.DateField(null=True, blank=True)
     include_gps = models.BooleanField(default=False)
-    reason = models.TextField(null=True, blank=True)
     objects = FormDataManager()
     user = models.ForeignKey(UserProfile, null=True)
-    interviewed = models.ForeignKey(Interviewed, null=True)
+    code = models.CharField(max_length=5, null=True)
 
     def to_dict(self):
         return {
-            "codigoPlantilla": self.type if self.type else "",
-            "coordenadas": self.coordinates if self.coordinates else "",
+            "uid": self.uid,
+            "name": self.name if self.name else "",
+            "type": self.type.name if self.type else "",
+            "coordinates": self.coordinates if self.coordinates else "",
             "data": self.data,
-            "fechaAcceso": self.access_date,
-            "fechaCreacion": self.created_date,
-            "fechaGuardado": self.send_date,
-            "gps": self.include_gps,
-            "motivo": self.reason if self.reason else "",
-            "usuario": self.user.uid if self.user else "",
+            "createdDate": self.created_date,
+            "sendDate": self.send_date,
+            "include_gps": self.include_gps,
+            "code": self.code if self.code else "",
+            "user": self.user.uid if self.user else None,
         }

@@ -3,20 +3,19 @@ import { NavController, MenuController, Events, AlertController, Platform } from
 import { Storage } from '@ionic/storage';
 import { AuthPage } from '../auth/auth';
 import { DatePipe } from '@angular/common';
-import uuid from 'uuid/v4';
-
 import { HttpClient } from '@angular/common/http';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
-import { FormPage } from '../form/form'
-import { FollowUpPage } from '../followUp/followUp'
+import { FormPage } from '../form/form';
+import { FollowUpPage } from '../followUp/followUp';
+import uuid from 'uuid/v4';
 
 @Component({
     selector: 'page-home',
     templateUrl: 'home.html'
 })
 export class HomePage {
-    formulariosEnviados;
+    sentForms;
     templates;
     infoTemplates = [];
     formsData = {};
@@ -29,8 +28,8 @@ export class HomePage {
 
         this.menuCtrl.enable(true);
 
-        this.storage.get('formulariosEnviados').then((formulariosEnviados) => {
-            this.formulariosEnviados = formulariosEnviados;
+        this.storage.get('sentForms').then((sentForms) => {
+            this.sentForms = sentForms;
         });
 
         this.storage.get('templates').then((templates) => {
@@ -45,6 +44,10 @@ export class HomePage {
             }
         });
     }
+    pad(num, size) {
+        var s = "00000" + num;
+        return s.substr(s.length-size);
+    }
 
     increase_done_quantity(template) {
         if (template.type == "SIMPLE") {
@@ -54,33 +57,6 @@ export class HomePage {
             for (let type of template.quantity) {
                 if (type.type == "INICIAL")
                     type.done_quantity += 1;
-            }
-        }
-        this.storage.set('infoTemplates', this.infoTemplates);
-    }
-
-    decrease_done_quantity(template) {
-        if (template.type == "SIMPLE") {
-            template.done_quantity -= 1;
-        }
-        else {
-            for (let type of template.quantity) {
-                if (type.type == "INICIAL")
-                    type.done_quantity -= 1;
-            }
-        }
-        this.storage.set('infoTemplates', this.infoTemplates);
-
-    }
-
-    increase_remain_quantity(template) {
-        if (template.type == "SIMPLE") {
-            template.remain_quantity += 1;
-        }
-        else {
-            for (let type of template.quantity) {
-                if (type.type == "INICIAL")
-                    type.remain_quantity += 1;
             }
         }
         this.storage.set('infoTemplates', this.infoTemplates);
@@ -128,7 +104,7 @@ export class HomePage {
         if (forms != null) {
             let form = forms[forms.length - 1];
             let code_number = parseInt(form.code[form.code.length - 1]) + 1;
-            let new_code = "0000" + code_number;
+            let new_code = this.pad(code_number, 5);
             currentForm = {
                 uuid: formUuid,
                 code: new_code,
@@ -140,7 +116,7 @@ export class HomePage {
             forms.push(currentForm);
         }
         else {
-            let new_code = "00001";
+            let new_code = this.pad(1, 5);
             currentForm = {
                 uuid: formUuid,
                 code: new_code,

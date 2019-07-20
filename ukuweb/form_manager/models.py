@@ -27,7 +27,7 @@ class TemplateType(models.Model):
     FOLLOWUP = "02"
     SIMPLE = "03"
     COMPOUND = "04"
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=20)
     code = models.CharField(max_length=2)
 
     def __unicode__(self):

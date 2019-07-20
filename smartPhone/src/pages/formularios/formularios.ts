@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, MenuController, Events ,ViewController,NavParams} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { FormulariosEnviadosPage } from '../formulariosEnviados/formulariosEnviados';
-import { formulariosPendientesPage } from '../formulariosPendientes/formulariosPendientes';
+import { SentFormsPage } from '../sentForms/sentForms';
+import { PendingFormsPage } from '../pendingForms/pendingForms';
 import { HttpClient } from '@angular/common/http';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
@@ -13,8 +13,8 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 })
 
 export class FormulariosPage {
-    tabFormulariosEnviados = FormulariosEnviadosPage;
-    tabFormulariosPendientes = formulariosPendientesPage;
+    tabSentForms = SentFormsPage;
+    tabPendingForms = PendingFormsPage;
     constructor(public navParams:NavParams, public viewCtrl: ViewController, private diagnostic: Diagnostic,
                 private locationAccuracy: LocationAccuracy, public httpClient:HttpClient,
                 private events: Events, public menuCtrl: MenuController, private storage: Storage,

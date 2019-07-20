@@ -25,7 +25,6 @@ export class FormPage {
 
         this.menuCtrl.enable(true);
         this.template = this.navParams.data.template;
-        // this.formData = this.template.data;
         this.formData = this.navParams.data.formData;
         this.selectedTemplate = this.navParams.data.selectedTemplate;
         this.currentForm = this.navParams.data.currentForm;
@@ -49,7 +48,6 @@ export class FormPage {
         this.forms[index] = this.currentForm;
         this.formsData[this.templateUuid] = this.forms;
         this.storage.set("formsData", this.formsData);
-        // this.storage.set(this.templateUuid, this.forms);
     }
 
     editForm(index) {

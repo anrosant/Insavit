@@ -1,0 +1,45 @@
+<ion-header>
+    <ion-navbar color="navbar">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            Formularios
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <div *ngIf="!sentForms" text-center>
+        <h3>No hay formularios enviados</h3>
+    </div>
+    <div *ngIf="sentForms">
+        <div *ngFor="let sentForm of sentForms;let i = index">
+            <ion-item text-wrap data-toggle="collapse" [attr.href]="'#collapse'+i" aria-expanded="false">
+                <ion-avatar item-start>
+                    <img src="assets/imgs/formulario4.png">
+                </ion-avatar>
+                <h3>{{sentForm.name}}</h3>
+                <p style="color: #488aff"> Código: {{sentForm.code}}</p>
+            </ion-item>
+            <div class="collapse" id="collapse{{i}}">
+                <div class="container">
+                    <div padding-left padding-right class="row">
+                        <div class="col-12">
+                            <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Creacion:</strong> {{sentForm.createdDate | date:'yyyy/MM/dd HH:mm:ss'}} </ion-label>
+                            <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Enviado:</strong> {{sentForm.sendDate |  date:'yyyy/MM/dd HH:mm:ss'}}</ion-label>
+                            <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Tipo:</strong> {{sentForm.type}}</ion-label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button ion-button block icon-start clear small (click)="clickDeleteSendForm(i)">
+                                <ion-icon name="trash"></ion-icon>
+                                <div>Eliminar</div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

@@ -22,9 +22,9 @@ import { AgregarFormularioPage } from '../pages/agregarFormulario/agregarFormula
 import { modalEditarFormularioPage } from '../pages/modalEditarFormulario/modalEditarFormulario';
 import { AuthPage } from '../pages/auth/auth';
 import { PerfilPage } from '../pages/perfil/perfil';
-import { FormulariosEnviadosPage } from '../pages/formulariosEnviados/formulariosEnviados';
+import { SentFormsPage } from '../pages/sentForms/sentForms';
 import { FormulariosPage } from '../pages/formularios/formularios';
-import { formulariosPendientesPage } from '../pages/formulariosPendientes/formulariosPendientes';
+import { PendingFormsPage } from '../pages/pendingForms/pendingForms';
 import { IntelSecurity } from '@ionic-native/intel-security';
 import { DatePicker } from '@ionic-native/date-picker';
 import { LocalNotifications } from '@ionic-native/local-notifications';
@@ -39,9 +39,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     modalEditarFormularioPage,
     AuthPage,
     PerfilPage,
-    FormulariosEnviadosPage,
+    SentFormsPage,
     FormulariosPage,
-    formulariosPendientesPage
+    PendingFormsPage
   ],
   imports: [
     BrowserModule,
@@ -61,9 +61,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     modalEditarFormularioPage,
     AuthPage,
     PerfilPage,
-    FormulariosEnviadosPage,
+    SentFormsPage,
     FormulariosPage,
-    formulariosPendientesPage
+    PendingFormsPage
   ],
   providers: [
     StatusBar,

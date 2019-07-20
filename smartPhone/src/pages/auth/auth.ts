@@ -18,7 +18,7 @@ export class AuthPage {
 
     user = { username: "", password: "" };
     url = "http://150.136.230.16/api/validate_user/";
-    usuarioVinculado;
+    linkedUser;
     infoTemplates = [];
 
     constructor(private intelSecurity: IntelSecurity,
@@ -31,10 +31,9 @@ export class AuthPage {
         // Or to get a key/value pair
         this.menuCtrl.enable(false);
         console.log('(auth) params constructor', JSON.stringify(this.navParams.data));
-        this.storage.get('usuarioVinculado').then((val) => {
+        this.storage.get('linkedUser').then((val) => {
             if (val) {
-                this.usuarioVinculado = val;
-                console.log('usuarioVinculado', JSON.stringify(this.usuarioVinculado));
+                this.linkedUser = val;
             }
         });
     }
@@ -44,7 +43,7 @@ export class AuthPage {
             content: "Espere ...",
         });
         loader.present();
-        if (this.usuarioVinculado) {
+        if (this.linkedUser) {
             this.intelSecurity.storage.read({ id: 'usuarioClave' })
                 .then((instanceID: number) => this.intelSecurity.data.getData(instanceID))
                 .then((data: string) => {
@@ -56,11 +55,11 @@ export class AuthPage {
                             buttons: ['OK']
                         });
                         alertador.present();
-                        this.usuarioVinculado.sesion = true;
+                        this.linkedUser.sesion = true;
                         this.getInfoPlantilla().then((result) => {
-                          this.storage.set('usuarioVinculado', this.usuarioVinculado).then(data => {
-                            this.appCtrl.getRootNav().setRoot(HomePage);
-                          });
+                            this.storage.set('linkedUser', this.linkedUser).then(data => {
+                                this.appCtrl.getRootNav().setRoot(HomePage);
+                            });
                         });
                     }
                     else {
@@ -87,20 +86,23 @@ export class AuthPage {
                     if (JSON.parse(res.data).uid != undefined) {
                         this.intelSecurity.data.createFromData({ data: this.user.password })
                             .then((instanceID: Number) => {
-                                this.intelSecurity.storage.write({ id: "usuarioClave", instanceID: instanceID }).then(res => { console.log('exito en guardar en storage intel') });
-                                this.storage.set('usuarioVinculado', { usuario: this.user.username, sesion: true, uid: JSON.parse(res.data).uid })
-                                    .then((data) => {
-                                        loader.dismiss();
-                                        this.getInfoPlantilla().then((result) => {
-                                          this.storage.set('se vinculo el usuario y se guardo la informacion del servidor', this.usuarioVinculado).then(data => {
-                                            this.appCtrl.getRootNav().setRoot(HomePage);
-                                          });
-                                        });
-                                    })
-                                    .catch(error => {
-                                        loader.dismiss();
-                                        console.log('error de guardado storage', error);
+                                this.intelSecurity.storage.write({
+                                    id: "usuarioClave",
+                                    instanceID: instanceID
+                                });
+                                this.storage.set('linkedUser', {
+                                    username: this.user.username,
+                                    sesion: true,
+                                    uid: JSON.parse(res.data).uid
+                                }).then((data) => {
+                                    loader.dismiss();
+                                    this.getInfoPlantilla().then((result) => {
+                                        this.appCtrl.getRootNav().setRoot(HomePage);
                                     });
+                                }).catch(error => {
+                                    loader.dismiss();
+                                    console.log('error de guardado storage', error);
+                                });
 
                             })
                             .catch((error: any) => {
@@ -188,7 +190,7 @@ export class AuthPage {
                                 console.log('error no puede conectarse al servidor para descarga de plantilla');
                                 console.log(err);
                             });
-                            this.usuarioVinculado = null;
+                            this.linkedUser = null;
                             this.secureStorage.create('security')
                                 .then((storage: SecureStorageObject) => {
                                     storage.clear();
