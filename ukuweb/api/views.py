@@ -49,21 +49,25 @@ def validate_user(request):
 def save_form_data(request):
     """
     form = {
-        "codigoPlantilla": "formularioPrueba",
-        "coordenadas": null,
-        "data": [],
-        "fechaAcceso": "22/01/2019",
-        "fechaCreacion": "22/01/2019",
-        "fechaGuardado": "22/01/2019",
-        "gps": false,
-        "motivo": "No puedo",
-        "usuario": {"username": "user example",
-                    "uid": "e779204e-acd5-4c31-8e0b-4527f2f5dcc2"}
+        "formData": {
+            "code": "00001"
+            "createdDate": Sat Jul 20 2019 12:51:34 GMT-0500 (hora de Ecuador)
+            "data": {}
+            "name": "Nutrición - Puyo"
+            "type": "SIMPLE"
+            "uuid": "e471fda6-1590-4341-9cf4-a29e9d59b0ae",
+            "gps": false,
+            "coordinates": null
+        },
+        "user": {
+            "username": "user example",
+            "uid": "e779204e-acd5-4c31-8e0b-4527f2f5dcc2"
+            }
     }
     """
     context = {}
     if request.method == "POST":
-        uid = request.data["usuario"].get("uid")
+        uid = request.data["user"].get("uid")
         userProfile = UserProfile.objects.filter(uid=uid)
         if userProfile.exists() and userProfile[0]:
             try:

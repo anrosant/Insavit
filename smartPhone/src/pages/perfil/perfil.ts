@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormulariosEnviadosPage } from '../formulariosEnviados/formulariosEnviados';
+import { SentFormsPage } from '../sentForms/sentForms';
 import { Coordinates,Geolocation } from '@ionic-native/geolocation';
 import { NavController , NavParams, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
@@ -12,7 +12,7 @@ import { Storage } from '@ionic/storage';
 export class PerfilPage {
     position;
     datosUsuario : null;
-    formulariosEnviados;
+    sentForms;
     fechaInstalacion;
     usuario = {
         usuario:'cbenitez',
@@ -34,28 +34,16 @@ export class PerfilPage {
 
     constructor(private geolocation: Geolocation, private storage: Storage, public navCtrl: NavController,
                 public navParams:NavParams, public alertCtrl: AlertController) {
-        // Or to get a key/value pair
-        // this.menuCtrl.enable(false);
-        // //this.usuarioVinculado=this.navParams.get('usuarioVinculado');
-        // console.log('(auth) params constructor', JSON.stringify(this.navParams.data));
-        // const alertador = this.alertCtrl.create({
-        //    title: 'Credenciales In!',
-        //    subTitle: JSON.stringify(this.navParams),
-        //    buttons: ['OK']
-        // });
-        // alertador.present();
-
-        this.storage.get('usuarioVinculado').then((val) => {
+        this.storage.get('linkedUser').then((val) => {
             if(val) {
                 this.usuario = val
-                console.log('usuarioVinculado', JSON.stringify(this.datosUsuario));
             } else {
                 console.log('(auth) final then get storage vinculado');
             }
         });
 
-        this.storage.get('formulariosEnviados').then((val) => {
-            this.formulariosEnviados = val;
+        this.storage.get('sentForms').then((val) => {
+            this.sentForms = val;
             console.log(val);
         });
 
