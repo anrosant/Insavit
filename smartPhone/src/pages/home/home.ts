@@ -18,6 +18,7 @@ export class HomePage {
     sentForms;
     templates;
     infoTemplates = [];
+    pendingForms = [];
     formsData = {};
 
     constructor(private diagnostic: Diagnostic,
@@ -35,11 +36,14 @@ export class HomePage {
         this.storage.get('templates').then((templates) => {
             this.templates = templates;
         });
+        this.storage.get('pendingForms').then((pendingForms) => {
+            this.pendingForms = pendingForms;
+        });
         this.storage.get('infoTemplates').then((templates) => {
             this.infoTemplates = templates;
         });
         this.storage.get("formsData").then((formsData) => {
-            if (formsData != null) {
+            if (formsData != null && (Object.keys(formsData).length > 0)) {
                 this.formsData = formsData;
             }
         });
@@ -77,7 +81,7 @@ export class HomePage {
 
     startFollowUpForm(template, selectedTemplate, templateUuid, index) {
         let forms;
-        if (this.formsData != null) {
+        if (this.formsData != null && (Object.keys(this.formsData).length > 0)) {
             forms = this.formsData[templateUuid];
             let initialForms = [];
             for (let form of forms) {
@@ -89,7 +93,8 @@ export class HomePage {
                 index: index,
                 selectedTemplate: selectedTemplate,
                 forms: initialForms,
-                formsData: this.formsData
+                formsData: this.formsData,
+                pendingForms: this.pendingForms
             });
         }
     }
@@ -98,10 +103,10 @@ export class HomePage {
         // Generate a code for Interviewed
         let currentForm = {};
         let forms;
-        if (this.formsData != null) {
+        if (this.formsData != null && (Object.keys(this.formsData).length>0)) {
             forms = this.formsData[templateUuid];
         }
-        if (forms != null) {
+        if (forms != null && (forms.length > 0)) {
             let form = forms[forms.length - 1];
             let code_number = parseInt(form.code[form.code.length - 1]) + 1;
             let new_code = this.pad(code_number, 5);
@@ -129,6 +134,20 @@ export class HomePage {
         }
         this.formsData[templateUuid] = forms
         this.storage.set("formsData", this.formsData);
+        if (this.pendingForms != null && (this.pendingForms.length > 0)){
+          this.pendingForms.push({
+            template: templateUuid,
+            formData: currentForm,
+            index: this.formsData[templateUuid].length -1
+          });
+        }else{
+          this.pendingForms = [{
+            template: templateUuid,
+            formData: currentForm,
+            index: 0
+          }];
+        }
+        this.storage.set("pendingForms", this.pendingForms);
         this.decrease_remain_quantity(template)
         this.increase_done_quantity(template)
         this.navCtrl.push(FormPage, {
@@ -137,7 +156,8 @@ export class HomePage {
             formData: selectedTemplate,
             currentForm: currentForm,
             forms: forms,
-            formsData: this.formsData
+            formsData: this.formsData,
+            pendingForms: this.pendingForms
         });
     }
 

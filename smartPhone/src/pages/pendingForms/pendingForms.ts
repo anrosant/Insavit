@@ -10,11 +10,11 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class PendingFormsPage {
-    pendingForms = [];
     comprobandoPendientes = true;
     sendingForms = false;
     infoTemplates;
     formsData;
+    pendingForms = [];
 
     constructor(public alertCtrl: AlertController, public httpClient: HttpClient, private events: Events,
         private datePipe: DatePipe, private storage: Storage, public navCtrl: NavController,
@@ -28,44 +28,39 @@ export class PendingFormsPage {
         this.storage.get('infoTemplates').then((infoTemplates) => {
             this.infoTemplates = infoTemplates;
         });
+        this.storage.get("formsData").then((formsData) => {
+          this.formsData = formsData;
+        });
+
 
     }
 
     getPendingForms() {
-        this.pendingForms = [];
-        this.storage.get("formsData").then((formsData) => {
-            if (formsData != null) {
-                Object.keys(formsData).forEach((key, index) => {
-                    for (let formData of formsData[key]) {
-                        let bugs = this.getValues(formData.data, 'error');
-                        let empty_values = this.getValues(formData.data, 'value');
-                        let countErr = 0;
-                        let countEmpty = 0;
-                        for (let i = 0; i < bugs.length; i++) {
-                            if (bugs[i] != '') {
-                                countErr = countErr + 1;
-                            }
+        this.storage.get("pendingForms").then((pendingForms) => {
+            if (pendingForms != null && (pendingForms.length > 0)) {
+                for (let pendingForm of pendingForms) {
+                    let bugs = this.getValues(pendingForm.formData.data, 'error');
+                    let empty_values = this.getValues(pendingForm.formData.data, 'value');
+                    let countErr = 0;
+                    let countEmpty = 0;
+                    for (let i = 0; i < bugs.length; i++) {
+                        if (bugs[i] != '') {
+                            countErr = countErr + 1;
                         }
-                        for (let i = 0; i < empty_values.length; i++) {
-                            if (empty_values[i] == '') {
-                                countEmpty = countEmpty + 1;
-                            }
-                        }
-
-                        formData["vacios"] = countEmpty;
-                        formData["errores"] = countErr;
-                        this.pendingForms.push({
-                            template: key,
-                            formData: formData,
-                            index: index
-                        });
                     }
-                });
+                    for (let i = 0; i < empty_values.length; i++) {
+                        if (empty_values[i] == '') {
+                            countEmpty = countEmpty + 1;
+                        }
+                    }
+                    pendingForm.formData["vacios"] = countEmpty;
+                    pendingForm.formData["errores"] = countErr;
+                    this.pendingForms = pendingForms;
+                    this.storage.set("pendingForms", this.pendingForms);
+                }
             }
-            this.formsData = formsData;
         }).then(res => {
             this.comprobandoPendientes = false;
-
         });
         this.events.subscribe('app:envioFormularios', (status) => {
             this.sendingForms = status;
@@ -113,6 +108,7 @@ export class PendingFormsPage {
             delete this.formsData[templateUuid];
         }
         this.storage.set("formsData", this.formsData);
+        this.storage.set("pendingForms", this.pendingForms);
         for (let template of this.infoTemplates) {
             if (template.uuid == templateUuid) {
                 this.decrease_done_quantity(template);
@@ -129,7 +125,7 @@ export class PendingFormsPage {
                 {
                     text: 'Enviar',
                     handler: () => {
-                        this.events.publish('pendingForms:enviarFormularios');
+                        this.events.publish('pendingForms:enviarFormularios', this.pendingForms);
                     }
                 },
                 {

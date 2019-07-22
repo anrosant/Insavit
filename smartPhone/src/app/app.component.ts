@@ -32,18 +32,12 @@ export class MyApp {
     plantillaApp;
     formularioTemporal;
     rootParams;
-    pendingForms;
-
     observacionPage;
     fenomenosPage;
     sendingForms = false;
-    messageFormularioEnviada = "Enviando...";
-    // urlServerEnvioFormulario="http://ec2-13-58-239-128.us-east-2.compute.amazonaws.com/formularios";
     urlServerEnvioFormulario = "http://150.136.230.16/api/send_form/";
     urlServerPlantilla = "http://150.136.230.16/api/templates/";
     urlServerCalculos = "http://150.136.230.16/api/validations/";
-    // urlServerPlantilla = "http://192.168.0.10:8000/prueba/plantilla";
-    // urlServerCalculos = "http://192.168.0.10:8000/prueba/calculos";
 
     constructor(private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy, public http: HTTP, public alertCtrl: AlertController, private geolocation: Geolocation, public loadingCtrl: LoadingController, public appCtrl: App, public httpClient: HttpClient, private storage: Storage, public menuCtrl: MenuController, private events: Events, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
         platform.ready().then(() => {
@@ -68,9 +62,6 @@ export class MyApp {
                 }
             });
             this.getPlantillaApp();
-            this.storage.get("formsData").then((formsData) => {
-                this.pendingForms = formsData;
-            });
 
 
             this.storage.get('linkedUser').then((val) => {
@@ -81,9 +72,6 @@ export class MyApp {
                 else {
                     this.appCtrl.getRootNav().setRoot(AuthPage);
                 }
-
-            }).catch(error => {
-                console.log('main (hubo error en catch en check existencia de usuario vinculado)', error);
 
             });
 
@@ -135,110 +123,96 @@ export class MyApp {
     }
 
     promesaEnvioFormulario(linkedUser, formulario) {
-        var data = {"formData": formulario,
-                    "user": linkedUser}
-        delete data["user"]["sesion"]
-        console.log(data);
         return new Promise((resolve, reject) => {
-            this.httpClient.post(this.urlServerEnvioFormulario, data).subscribe(res => {
-                console.log(res);
-                let responseJson = {
-                    responseData: res.data,
-                    fechaEnvio: new Date(),
-                    error: false
-                };
-                resolve(responseJson);
-            }, err => {
-                console.log(err);
-                let responseJson = {
-                    responseData: err,
-                    fechaEnvio: null,
-                    error: true
-                };
-                resolve(responseJson);
-            });
-
+            var data = {
+                "formData": formulario,
+                "user": linkedUser
+            }
+            this.httpClient.post(this.urlServerEnvioFormulario,
+                data).subscribe(res => {
+                    let responseJson = {
+                        responseData: res["data"],
+                        fechaEnvio: new Date(),
+                        error: false
+                    };
+                    resolve(responseJson);
+                }, err => {
+                    console.log(err);
+                    let responseJson = {
+                        responseData: err,
+                        fechaEnvio: null,
+                        error: true
+                    };
+                    resolve(responseJson);
+                });
         });
     }
 
-    deleteFormData(formsData, templateUuid, index) {
-        formsData[templateUuid].splice(index, 1);
-        if (formsData[templateUuid].length == 0) {
-            delete formsData[templateUuid];
-        }
-        this.storage.set("formsData", formsData);
-    }
 
-    async enviarFormulariosEvent() {
+    async enviarFormulariosEvent(pendingForms) {
         this.events.publish('app:envioFormularios', true);
         let formularios = [];
         let alert;
         let alert2;
-        var linkedUser;
-        this.storage.get("linkedUser").then((user) => {
-          linkedUser = user;
-        })
         if (this.sendingForms == false) {
-            this.messageFormularioEnviada = "Enviando...";
             alert = this.alertCtrl.create({
-                title: "Enviando",
+                title: "Enviando...",
                 buttons: ["ok"]
-            });;
+            });
             alert.present();
             this.sendingForms = true;
-            let formsData = await this.storage.get("formsData");
-            if (formsData != null) {
-                let pendingForms = formsData;
-                let pendingFormsKeys = Object.keys(pendingForms)
-                for (let index = 0; index < pendingFormsKeys.length; index++) {
-                    let templateUuid = pendingFormsKeys[index];
-                    for (let formData of pendingForms[templateUuid]) {
-                        let result = await this.promesaEnvioFormulario(linkedUser, formData);
-                        if (result['error']) {
-                            this.sendingForms = false;
-                            if (alert) {
-                                alert.dismiss();
-                            }
-                            alert2 = this.alertCtrl.create({
-                                title: "Se detuvo el envio. Problemas de conexion con el servidor",
-                                buttons: ["ok"]
-                            });;
-                            alert2.present();
-                            break;
-                        }
-                        else {
-                            var formularioEnviado = {
-                                sendDate: result["fechaEnvio"],
-                                createdDate: result["responseData"]["createdDate"],
-                                name: result["responseData"]["name"],
-                                code: result["responseData"]["code"],
-                                type: result["responseData"]["type"],
-                            }
-                            this.storage.get("sentForms").then((sentForms) => {
-                                if (sentForms) {
-                                    sentForms.push(formularioEnviado);
-                                }
-                                else {
-                                    sentForms = [formularioEnviado];
-                                }
-                                this.storage.set("sentForms", sentForms);
-                                this.deleteFormData(pendingForms, templateUuid, index);
-                            });
-                        }
+            let linkedUser = await this.storage.get("linkedUser");
+            let newPendingForms = pendingForms.slice();
+            for (let pendingForm of newPendingForms) {
+                let templateUuid = pendingForm.template;
+                let index = pendingForm.index;
+                let formData = pendingForm.formData;
+                let result = await this.promesaEnvioFormulario(linkedUser, formData);
+                if (result['error']) {
+                    this.sendingForms = false;
+                    if (alert) {
+                        alert.dismiss();
                     }
+                    alert2 = this.alertCtrl.create({
+                        title: "Se detuvo el envio. Problemas de conexion con el servidor",
+                        buttons: ["ok"]
+                    });
+                    alert2.present();
+                    break;
+                }
+                else {
+                    var formularioEnviado = {
+                        sendDate: result["fechaEnvio"],
+                        createdDate: result["responseData"]["createdDate"],
+                        name: result["responseData"]["name"],
+                        code: result["responseData"]["code"],
+                        type: result["responseData"]["type"],
+                    }
+                    let sentForms = await this.storage.get("sentForms");
+                    // Add sentForm
+                    if (sentForms != null && sentForms.length > 0) {
+                        sentForms.push(formularioEnviado);
+                    }
+                    else {
+                        sentForms = [formularioEnviado];
+                    }
+                    await this.storage.set("sentForms", sentForms);
+                    //Delete pendingForm
+                    pendingForms.shift();
+                    await this.storage.set("pendingForms", pendingForms);
                 }
             }
-            if (Object.keys(formsData).length == 0) {
+
+            if (pendingForms.length == 0) {
+                alert.dismiss();
                 this.sendingForms = false;
-                if (alert) {
-                    alert.dismiss();
-                }
                 alert2 = this.alertCtrl.create({
-                    title: "Todas las formularios han sido correctamente enviadas",
+                    message: "Todas las formularios han sido correctamente enviadas",
                     buttons: ["ok"]
                 });
                 alert2.present();
             }
+
             this.events.publish('app:envioFormularios', false);
         }
         else {
@@ -273,9 +247,6 @@ export class MyApp {
 
         this.appCtrl.getRootNav().setRoot(page, this.rootParams);
 
-        console.log('(app) rootparams');
-        console.log(this.rootParams);
-
     }
 
     listenToLoginEvents() {
@@ -289,7 +260,6 @@ export class MyApp {
                 alert.present();
             }
             else {
-                console.log('(app) formulario temporal event');
                 this.formularioTemporal = formularioTemporal;
             }
 
@@ -308,8 +278,8 @@ export class MyApp {
             }
         });
 
-        this.events.subscribe('pendingForms:enviarFormularios', () => {
-            this.enviarFormulariosEvent();
+        this.events.subscribe('pendingForms:enviarFormularios', (pendingForms) => {
+            this.enviarFormulariosEvent(pendingForms);
         });
 
 

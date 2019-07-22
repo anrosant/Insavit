@@ -21,6 +21,7 @@ export class FollowUpPage {
     index;
     formsData;
     infoTemplates = [];
+    pendingForms = [];
     constructor(private diagnostic: Diagnostic,
         private events: Events,
         public navParams: NavParams,
@@ -38,6 +39,7 @@ export class FollowUpPage {
         this.index = this.navParams.data.index;
         this.selectedTemplate = this.navParams.data.selectedTemplate;
         this.formsData = this.navParams.data.formsData;
+        this.pendingForms = this.navParams.data.pendingForms;
     }
 
     increase_done_quantity() {
@@ -94,7 +96,21 @@ export class FollowUpPage {
         this.formsData[templateUuid] = forms;
         this.storage.set("formsData", this.formsData);
 
-        // this.storage.set(templateUuid, forms);
+        if (this.pendingForms != null && (this.pendingForms.length > 0)){
+          this.pendingForms.push({
+            template: templateUuid,
+            formData: currentForm,
+            index: this.formsData[templateUuid].length -1
+          });
+        }else{
+          this.pendingForms = [{
+            template: templateUuid,
+            formData: currentForm,
+            index: 0
+          }];
+        }
+        this.storage.set("pendingForms", this.pendingForms);
+
         this.increase_done_quantity();
         this.decrease_remain_quantity();
         this.navCtrl.push(FormPage, {
@@ -103,7 +119,8 @@ export class FollowUpPage {
             formData: this.selectedTemplate,
             currentForm: currentForm,
             forms: this.initialForms,
-            formsData: this.formsData
+            formsData: this.formsData,
+            pendingForms: this.pendingForms
         });
     }
 }
