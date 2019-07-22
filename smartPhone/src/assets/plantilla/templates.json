@@ -29,18 +29,24 @@
                                     {
                                         "label":"NOMBRE DE LA MADRE",
                                         "type":"input_text",
+                                        "id":"nombre_madre",
+                                        "blurFunction":"{\"validateLengthInputText\":[\"nombre_madre\"],\"validateEmptyInputText\":[\"nombre_madre\"]}",
                                         "error":"",
                                         "value":""
                                     },
                                     {
                                         "label":"FECHA DE NACIMIENTO",
                                         "type":"date",
+                                        "id":"fecha_nacimiento_madre",
+                                        "blurFunction":"{\"validateEmptyDatepicker\":[\"fecha_nacimiento_madre\"]}",
                                         "error":"",
                                         "value":""
                                     },
                                     {
                                         "label":"TELÉFONO",
                                         "type":"input_number",
+                                        "id":"telefono",
+                                        "blurFunction":"{\"validateEmptyInputNumber\":[\"telefono\"]}",
                                         "error":"",
                                         "value":""
                                     },
@@ -129,7 +135,7 @@
                                         "value":""
                                     },
                                     {
-                                        "label":"¿RECIBE SU FAMILIA ALGÚN TIPO DE AYUDA POR PARTE DEUNA ORGANIZACIÓN PÚBLICA Y PRIVADA? POR EJEMPLO:",
+                                        "label":"¿RECIBE SU FAMILIA ALGÚN TIPO DE AYUDA POR PARTE DE UNA ORGANIZACIÓN PÚBLICA Y PRIVADA? POR EJEMPLO:",
                                         "type":"checkbox_input",
                                         "error":"",
                                         "textarea":true,
@@ -232,8 +238,9 @@
                                                     {
                                                         "label":"SÍNTOMAS GASTROINTESTINALES",
                                                         "type":"table",
-                                                        "placeholder":"SELECCIONE UNA ETAPA",
+                                                        "placeholder":"OBSERVACIÓN",
                                                         "placeholder_otros":"OTROS",
+                                                        "placeholder_refiere":"REFIERE",
                                                         "children":[
                                                             {
                                                                 "label":"FALTA APETITO",
@@ -289,6 +296,28 @@
                                                                 "text1":"",
                                                                 "text2":"",
                                                                 "refiere":false
+                                                            }
+                                                        ],
+                                                        "selects":[
+                                                            {
+                                                                "placeholder":"ETAPA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "value":"",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"PREVIO EMBARAZO",
+                                                                        "value":"previo_embarazo"
+                                                                    },
+                                                                    {
+                                                                        "label":"DURANTE EL EMBARAZO",
+                                                                        "value":"durante_embarazo"
+                                                                    },
+                                                                    {
+                                                                        "label":"POST-EMBARAZO",
+                                                                        "value":"post_embarazo"
+                                                                    }
+                                                                ]
                                                             }
                                                         ]
                                                     },
@@ -2296,22 +2325,34 @@
                                             {
                                                 "label":"TALLA (cm)",
                                                 "text1":"",
-                                                "text2":""
+                                                "text2":"",
+                                                "id":"talla_antropometrica",
+                                                "error":"",
+                                                "blurFunction":"{\"validateNegativeInputNumber\":[\"talla_antropometrica\"]}"
                                             },
                                             {
                                                 "label":"PESO (kg)",
                                                 "text1":"",
-                                                "text2":""
+                                                "text2":"",
+                                                "id":"peso_antropometrica",
+                                                "error":"",
+                                                "blurFunction":"{\"validateNegativeInputNumber\":[\"peso_antropometrica\"]}"
                                             },
                                             {
                                                 "label":"P. CEFÁLICO (cm)",
                                                 "text1":"",
-                                                "text2":""
+                                                "text2":"",
+                                                "id":"cefalico_antropometrica",
+                                                "error":"",
+                                                "blurFunction":"{\"validateNegativeInputNumber\":[\"cefalico_antropometrica\"]}"
                                             },
                                             {
                                                 "label":"PERÍMETRO BRAQUIAL (cm)",
                                                 "text1":"",
-                                                "text2":""
+                                                "text2":"",
+                                                "id":"perimetro_antropometrica",
+                                                "error":"",
+                                                "blurFunction":"{\"validateNegativeInputNumber\":[\"perimetro_antropometrica\"]}"
                                             }
                                         ]
                                     }

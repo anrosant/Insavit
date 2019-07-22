@@ -1,28 +1,24 @@
 {
-  "calculos": [{
-      "name": "blurTermometroSeco10",
-      "structure": "function blurTermometroSeco10(termometroSeco10) {\ntermometroSeco10.error = '';\nif (termometroSeco10.value != '') {\nvar test2Decimal = /^(\\+|-)?\\d+(\\.\\d{2})$/.test(termometroSeco10.value);\nif (!test2Decimal) {\ntermometroSeco10.error = 'Debe ser decimal de doble precicion';\n} else {\nif (parseFloat(termometroSeco10.value) <= 45 && parseFloat(termometroSeco10.value) >= 25) {\nif (termometroSeco10.value[0] == '+') {\ntermometroSeco10.value = termometroSeco10.value.substr(1);\n}\n} else {\ntermometroSeco10.error = 'Fuera del rango (25 - 45)';\n}\n}\n}\n}"
-    },
-    {
-      "name": "blurTermometroSeco15",
-      "structure": "function blurTermometroSeco15(termometroSeco15){\ntermometroSeco15.error='';\nif(termometroSeco15.value!='' ){\nvar test2Decimal=/^(\\+|-)?\\d+(\\.\\d{2})$/.test(termometroSeco15.value);\nif(!test2Decimal){\ntermometroSeco15.error='Debe ser decimal de doble precicion';\n}\nelse{\nif(parseFloat(termometroSeco15.value)<=45 && parseFloat(termometroSeco15.value)>=25){\nif(termometroSeco15.value[0]=='+'){\ntermometroSeco15.value=termometroSeco15.value.substr(1);\n}\n}else{\ntermometroSeco15.error='Fuera del rango (25 - 45)';\n}\n}\n}\n}"
-    },
-    {
-      "name": "blurTermometroHumedo10",
-      "structure": "function blurTermometroHumedo10(termometroHumedo10){\ntermometroHumedo10.error='';\nif(termometroHumedo10.value!='' ){\nvar test2Decimal=/^(\\+|-)?\\d+(\\.\\d{2})$/.test(termometroHumedo10.value);\nif(!test2Decimal){\ntermometroHumedo10.error='Debe ser decimal de doble precicion';\n}\nelse{\nif(parseFloat(termometroHumedo10.value)<=0 && parseFloat(termometroHumedo10.value)>=-20){\nif(termometroHumedo10.value[0]=='+'){\ntermometroHumedo10.value=termometroHumedo10.value.substr(1);\n}\n}else{\ntermometroHumedo10.error='Fuera del rango (-20 - 0)';\n}\n}\n}\n}"
-    },
-    {
-      "name": "blurTermometroHumedo15",
-      "structure": "function blurTermometroHumedo15(termometroHumedo15){\ntermometroHumedo15.error='';\nif(termometroHumedo15.value!='' ){\nvar test2Decimal=/^(\\+|-)?\\d+(\\.\\d{2})$/.test(termometroHumedo15.value);\nif(!test2Decimal){\ntermometroHumedo15.error='Debe ser decimal de doble precicion';\n}\nelse{\nif(parseFloat(termometroHumedo15.value)<=0 && parseFloat(termometroHumedo15.value)>=-20){\nif(termometroHumedo15.value[0]=='+'){\ntermometroHumedo15.value=termometroHumedo15.value.substr(1);\n}\n}else{\ntermometroHumedo15.error='Fuera del rango (-20 - 0)';\n}\n}\n}\n}"
-    },
-    {
-      "name": "calcular10",
-      "structure": "function calcular10(termometroSeco10,termometroHumedo10,resultado10){\nif(termometroSeco10.value && termometroHumedo10.value)\nresultado10.value=parseFloat(termometroSeco10.value)-parseFloat(termometroHumedo10.value);\n}"
-    },
-    {
-      "name":"calcular15",
-      "structure": "function calcular15(termometroSeco15,termometroHumedo15,resultado15){\nif(termometroSeco15.value && termometroHumedo15.value)\nresultado15.value=parseFloat(termometroSeco15.value)-parseFloat(termometroHumedo15.value);\n}"
-    }
-
-  ]
+    "calculos": [
+        {
+            "name":"validateLengthInputText",
+            "structure":"function validateLengthInputText(item1){if(item1.value.length<=5){item1.error='EL STRING DEBE TENER MÁS DE 5 CARACTERES';}else{item1.error='';}}"
+        },
+        {
+            "name":"validateEmptyInputText",
+            "structure":"function validateEmptyInputText(item1){if(item1.value==''){item1.error='ESTA PREGUNTA ES OBLIGATORIA';}else{item1.error='';}}"
+        },
+        {
+            "name":"validateEmptyInputNumber",
+            "structure":"function validateEmptyInputNumber(item1){if(item1.value==''){item1.error='ESTA PREGUNTA ES OBLIGATORIA';}else{item1.error='';}}"
+        },
+        {
+            "name":"validateEmptyDatepicker",
+            "structure":"function validateEmptyDatepicker(item1){if(item1.value==''){item1.error='ESTA PREGUNTA ES OBLIGATORIA';}else{item1.error='';}}"
+        },
+        {
+            "name":"validateNegativeInputNumber",
+            "structure":"function validateNegativeInputNumber(item1){if(item1.value!=''){var numero=parseFloat(item1.value);if(isNaN(numero)){item1.error='EL VALOR QUE INGRESÓ NO ES UN NÚMERO';}else if((!isNaN(numero))&&(numero > 0)){item1.error='';}else if((!isNaN(numero))&&(numero <= 0)){item1.error='EL VALOR DEBE SER POSITIVO';}}}"
+        }
+    ]
 }

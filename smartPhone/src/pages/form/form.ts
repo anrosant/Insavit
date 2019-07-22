@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage';
 
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
     selector: 'page-form',
@@ -64,15 +65,12 @@ export class FormPage {
     mappingParametros(parameters) {
         let parametrosMapeados = [];
         for (let i = 0; i < parameters.length; i++) {
-            parametrosMapeados.push(this.getObjects(this.formData, 'id',
-                parameters[i])[0]);
+            parametrosMapeados.push(this.getObjects(this.formData, 'id',parameters[i])[0]);
         }
         return parametrosMapeados;
     }
 
-    construirFuncionDinamicaString(stringFuncion,
-        stringParametros,
-        lengthParametros) {
+    construirFuncionDinamicaString(stringFuncion,stringParametros,lengthParametros) {
         let funcionString = stringFuncion + '(';
         for (let i = 0; i < lengthParametros; i++) {
             if (i == lengthParametros - 1) {
@@ -90,10 +88,8 @@ export class FormPage {
             let funcion = this.funciones[functionName];
             let args = this.getArgs(funcion);
             let parametrosMapeados = this.mappingParametros(args);
-            let stringFuncionMapeada = this.construirFuncionDinamicaString('funcion',
-                'parametrosMapeados', parametrosMapeados.length);
+            let stringFuncionMapeada = this.construirFuncionDinamicaString('funcion','parametrosMapeados', parametrosMapeados.length);
             eval(stringFuncionMapeada);
-
         }
         catch (err) {
             let alert = this.alertCtrl.create({
@@ -105,6 +101,7 @@ export class FormPage {
             console.log(err.message);
         }
     }
+
     getObjects(obj, key, val) {
         var objects = [];
         for (var i in obj) {
@@ -125,6 +122,25 @@ export class FormPage {
                 }
         }
         return objects;
+    }
+
+    triggerFunctionValidation(nombre_funcion, args) {
+        try {
+            let funcion = this.funciones[nombre_funcion];
+            let parametrosMapeados = this.mappingParametros(args);
+            let stringFuncionMapeada = this.construirFuncionDinamicaString('funcion','parametrosMapeados', parametrosMapeados.length);
+            eval(stringFuncionMapeada);
+            console.log("error:" + parametrosMapeados[0].error);
+        }
+        catch (err) {
+            let alert = this.alertCtrl.create({
+                title: "Error",
+                subTitle: "La funcion de calculo tiene un error interno",
+                buttons: ["ok"]
+            });;
+            alert.present();
+            console.log(err.message);
+        }
     }
 
     getArgs(func) {
@@ -160,7 +176,6 @@ export class FormPage {
         alert('backbutton');
     }
 
-
     keyupFunction($event, functionName) {
         if (functionName) {
             this.triggerFunction(functionName);
@@ -169,11 +184,14 @@ export class FormPage {
     }
 
     blurFunction($event, functionName) {
-        if (functionName) {
-            this.triggerFunction(functionName);
+        if(functionName!='') {
+            let funcion = JSON.parse(functionName);
+            for(let key in funcion) {
+                let value = funcion[key];
+                this.triggerFunctionValidation(key, value); //KEY: NOMBRE DE LA FUNCIÓN, VALUE: LISTA DE ARGUMENTOS
+            }
         }
         this.saveForm();
-
     }
 
     clickFunction($event, functionName) {
@@ -182,4 +200,5 @@ export class FormPage {
         }
         this.saveForm();
     }
+
 }

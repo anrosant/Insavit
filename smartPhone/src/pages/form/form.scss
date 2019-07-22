@@ -28,4 +28,35 @@ page-form {
     .col {
         border: think solid gray;
     }
+    .invalid_label {
+        color: #f53d3d !important;
+    }
+    .invalid_input {
+        border: 1px solid #f53d3d;
+    }
+    .invalid_datepicker {
+        color: #f53d3d !important;
+    }
+    .error_message {
+        display: block !important;
+        color: #f53d3d !important;
+        font-size: 16px;
+    }
+    ion-item ion-label, ion-list-header ion-label, ion-grid ion-label, ion-input, ion-datetime {
+        font-size: 16px !important;
+        color: black !important;
+    }
+    .pregunta {
+        font-weight: bold !important;
+    }
+    ion-textarea {
+        font-size: 16px !important;
+        color: black !important;
+    }
+    ion-select {
+        color: #999 !important;
+    }
+    ion-grid > ion-label {
+        padding-left: 35px !important;
+    }
 }
