@@ -16,6 +16,7 @@ export class FormPage {
     selectedTemplate;
     currentForm;
     forms;
+    pendingForms;
     templateUuid;
     funciones = [];
     constructor(private diagnostic: Diagnostic, public alertCtrl: AlertController,
@@ -31,6 +32,7 @@ export class FormPage {
         this.templateUuid = this.template.uuid;
         this.forms = this.navParams.data.forms;
         this.formsData = this.navParams.data.formsData;
+        this.pendingForms = this.navParams.data.pendingForms;
 
         this.storage.get('calculos').then((calculos) => {
             for (let calc of calculos.calculos) {
@@ -48,6 +50,9 @@ export class FormPage {
         this.forms[index] = this.currentForm;
         this.formsData[this.templateUuid] = this.forms;
         this.storage.set("formsData", this.formsData);
+
+        this.pendingForms[this.pendingForms.length - 1].formData = this.currentForm;
+        this.storage.set("pendingForms", this.pendingForms);
     }
 
     editForm(index) {

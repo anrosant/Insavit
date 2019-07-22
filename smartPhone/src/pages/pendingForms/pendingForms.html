@@ -23,9 +23,6 @@
         <ion-spinner item-end name="bubbles" color="menuItemNote"></ion-spinner>
     </div>
     <div *ngIf="!comprobandoPendientes">
-        <div *ngIf="pendingForms.length==0" text-center>
-            <h3>No hay formularios pendientes</h3>
-        </div>
         <div *ngIf="pendingForms.length!=0">
             <ion-card margin-bottom *ngFor="let form of pendingForms;let i = index">
                 <ion-item text-wrap data-toggle="collapse" [attr.href]="'#collapse'+i" aria-expanded="false">

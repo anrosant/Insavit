@@ -9,17 +9,15 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <div *ngIf="!sentForms" text-center>
-        <h3>No hay formularios enviados</h3>
-    </div>
-    <div *ngIf="sentForms">
-        <div *ngFor="let sentForm of sentForms;let i = index">
+    <div *ngIf="sentForms.length!=0">
+        <ion-card margin-bottom *ngFor="let sentForm of sentForms;let i = index">
             <ion-item text-wrap data-toggle="collapse" [attr.href]="'#collapse'+i" aria-expanded="false">
                 <ion-avatar item-start>
                     <img src="assets/imgs/formulario4.png">
                 </ion-avatar>
                 <h3>{{sentForm.name}}</h3>
                 <p style="color: #488aff"> Código: {{sentForm.code}}</p>
+                <ion-icon item-end ios="ios-more" md="md-more"></ion-icon>
             </ion-item>
             <div class="collapse" id="collapse{{i}}">
                 <div class="container">
@@ -40,6 +38,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </ion-card>
     </div>
 </ion-content>
