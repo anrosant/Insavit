@@ -103,3 +103,18 @@ function calcular15(termometroSeco15,termometroHumedo15,resultado15){
 	resultado15.value=parseFloat(termometroSeco15.value)-parseFloat(termometroHumedo15.value);
 }
 
+<->
+
+
+function validateNegativeInputNumber(item1){
+	if(item1.value!=''){
+		var numero = parseFloat(item1.value);
+		if(isNan(numero)) {
+			item1.error='EL VALOR QUE INGRESÓ NO ES UN NÚMERO';
+		} else if((!isNan(numero)) && (numero > 0)) {
+			item1.error='';
+		} else if((!isNan(numero)) && (numero <= 0)){
+			item1.error='EL VALOR DEBE SER POSITIVO';
+		}
+	}
+}

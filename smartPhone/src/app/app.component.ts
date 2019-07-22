@@ -95,7 +95,7 @@ export class MyApp {
     }
 
     getTemplates() {
-        setInterval(() => {
+        /*setInterval(() => {
             this.httpClient.get(this.urlServerPlantilla).subscribe(res => {
                 this.storage.set('templates', res);
             }, err => {
@@ -106,7 +106,7 @@ export class MyApp {
             }, err => {
                 console.log('error no puede conectarse al servidor para descarga de calculos');
             });
-        }, 3000);
+        }, 3000);*/
 
         this.storage.get('templates').then((templates) => {
             if (templates == null) {
