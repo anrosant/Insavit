@@ -141,6 +141,7 @@ export class AuthPage {
                         name: template.name,
                         type: template.type,
                         done_quantity: 0,
+                        gps: template.gps,
                         remain_quantity: template.quantity,
                         data: template.data
                     });
@@ -148,6 +149,7 @@ export class AuthPage {
                     this.infoTemplates.push({
                         uuid: template.uid,
                         name: template.name,
+                        gps: template.gps,
                         type: template.type,
                         quantity: [{
                             type: "INICIAL",

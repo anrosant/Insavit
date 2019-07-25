@@ -19,7 +19,9 @@ export class FollowUpPage {
     selectedTemplate;
     initialForms;
     index;
+    geolocationAuth;
     formsData;
+    coordinates;
     infoTemplates = [];
     pendingForms = [];
     constructor(private diagnostic: Diagnostic,
@@ -37,9 +39,11 @@ export class FollowUpPage {
         this.initialForms = this.navParams.data.forms;
         this.template = this.navParams.data.template;
         this.index = this.navParams.data.index;
+        this.coordinates= this.navParams.data.coordinates,
         this.selectedTemplate = this.navParams.data.selectedTemplate;
         this.formsData = this.navParams.data.formsData;
         this.pendingForms = this.navParams.data.pendingForms;
+        this.geolocationAuth = this.navParams.data.geolocationAuth;
     }
 
     increase_done_quantity() {
@@ -87,10 +91,14 @@ export class FollowUpPage {
             uuid: formUuid,
             code: code_form,
             name: this.template.name,
+            gps: this.template.gps,
             data: {},
             type: "SEGUIMIENTO",
             createdDate: new Date()
         };
+        if(this.template.gps == "required"){
+          currentForm["coordinates"] = this.coordinates;
+        }
         let forms = Object.assign([], this.initialForms);
         forms.push(currentForm);
         this.formsData[templateUuid] = forms;
@@ -120,7 +128,8 @@ export class FollowUpPage {
             currentForm: currentForm,
             forms: this.initialForms,
             formsData: this.formsData,
-            pendingForms: this.pendingForms
+            pendingForms: this.pendingForms,
+            geolocationAuth: this.geolocationAuth
         });
     }
 }

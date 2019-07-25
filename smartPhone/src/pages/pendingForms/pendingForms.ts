@@ -117,7 +117,7 @@ export class PendingFormsPage {
         }
     }
 
-    clickEnviarFormularios() {
+    clickSendForms() {
         const confirm = this.alertCtrl.create({
             title: 'Seguro que quieres enviar tus formularios?',
             message: 'Al enviarlas ya no podras acceder a ellas',
