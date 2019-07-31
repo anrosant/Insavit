@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, MenuController, NavParams, Events, AlertController, Platform, LoadingController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, MenuController, NavParams, Events, AlertController, Platform, LoadingController, Navbar } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Coordinates, Geolocation } from '@ionic-native/geolocation';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
@@ -24,6 +24,8 @@ export class FormPage {
     funciones = [];
     loading;
 
+    @ViewChild(Navbar) navbarName: Navbar;
+
     constructor(
         private diagnostic: Diagnostic,
         public alertCtrl: AlertController,
@@ -34,7 +36,8 @@ export class FormPage {
         private geolocation: Geolocation,
         private locationAccuracy: LocationAccuracy,
         public loadingController: LoadingController,
-        public navCtrl: NavController) {
+        public navCtrl: NavController, 
+        public platform:Platform) {
 
         this.menuCtrl.enable(true);
         this.template = this.navParams.data.template;
@@ -58,6 +61,28 @@ export class FormPage {
         }).catch(error => {
             console.log(JSON.stringify(error));
         });
+    }
+
+    ionViewDidEnter(){
+        this.navbarName.backButtonClick = () => {            
+            var array = Array.from(document.querySelectorAll("ion-datetime, ion-input, ion-list, ion-checkbox"));
+            var elementos = [];
+            var errores = 0;
+            
+            for(var el of array) {
+                if(el.id) {
+                    elementos.push(el.id);        
+                }
+            }
+
+            var params = this.mappingParametros(elementos);
+            for(var pa of params) {
+                errores += this.blurFunction("", pa.blurFunction);
+            }
+            if(errores == 0) {
+                this.navCtrl.pop();
+            }
+        }
     }
 
     saveForm() {
@@ -126,6 +151,8 @@ export class FormPage {
             });
             alert.present();
             console.log(err.message);
+            console.log(this.funciones);
+            console.log(this.funciones[functionName]);
         }
     }
 
@@ -155,16 +182,16 @@ export class FormPage {
         try {
             let funcion = this.funciones[nombre_funcion];
             let parametrosMapeados = this.mappingParametros(args);
-            let stringFuncionMapeada = this.construirFuncionDinamicaString('funcion', 'parametrosMapeados', parametrosMapeados.length);
-            eval(stringFuncionMapeada);
-            console.log("error:" + parametrosMapeados[0].error);
+            let stringFuncionMapeada = this.construirFuncionDinamicaString('funcion','parametrosMapeados', parametrosMapeados.length);
+            var valor = eval(stringFuncionMapeada);
+            return valor;
         }
         catch (err) {
             let alert = this.alertCtrl.create({
                 title: "Error",
                 subTitle: "La funcion de calculo tiene un error interno",
                 buttons: ["ok"]
-            });;
+            });
             alert.present();
             console.log(err.message);
         }
@@ -199,10 +226,6 @@ export class FormPage {
         this.navCtrl.push(FormPage, param);
     }
 
-    backButtonAction() {
-        alert('backbutton');
-    }
-
     keyupFunction($event, functionName) {
         if (functionName) {
             this.triggerFunction(functionName);
@@ -211,14 +234,16 @@ export class FormPage {
     }
 
     blurFunction($event, functionName) {
-        if (functionName != '') {
+        var valores = 0;
+        if(functionName!='') {
             let funcion = JSON.parse(functionName);
             for (let key in funcion) {
                 let value = funcion[key];
-                this.triggerFunctionValidation(key, value); //KEY: NOMBRE DE LA FUNCIÓN, VALUE: LISTA DE ARGUMENTOS
+                valores += this.triggerFunctionValidation(key, value); //KEY: NOMBRE DE LA FUNCIÓN, VALUE: LISTA DE ARGUMENTOS
             }
         }
         this.saveForm();
+        return valores;
     }
 
     clickFunction($event, functionName) {
