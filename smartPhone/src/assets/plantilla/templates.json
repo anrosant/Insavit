@@ -1,14 +1,4 @@
 [{
-        "uid": "18d131f1-1cd5-49f3-ca1d-f33fe1983f54",
-        "type": "SIMPLE",
-        "name": "Nutrición - Puyo",
-        "quantity": 30,
-        "data": {
-            "children": [{}]
-        },
-        "gps": "not-required"
-    },
-    {
         "uid": "39f736d2-7fc4-49f3-ab0e-feefe1405d62",
         "type": "COMPUESTA",
         "name": "Nutrición - Tena",
@@ -1184,7 +1174,7 @@
                                                             }
                                                         ]
                                                     },
-                                                    { 
+                                                    {
                                                         "label":"FRECUENCIA SEMANAL",
                                                         "type":"radio",
                                                         "id":"frecuencia_semanal",
@@ -1277,7 +1267,7 @@
                                                                         "text1":"",
                                                                         "text2":""
                                                                     }
-                                                                ]                                                        
+                                                                ]
                                                             },
                                                             {
                                                                 "label":"PROTEÍNAS",
@@ -3083,7 +3073,7 @@
                                                 "children":[
                                                     {
                                                         "label":"RECORDATORIO 24 HORAS DE LA MADRE",
-                                                        "type":"table_recordatorio",                                                        
+                                                        "type":"table_recordatorio",
                                                         "placeholder_1":"HORA",
                                                         "placeholder_2":"PREPARACIÓN",
                                                         "placeholder_3":"ALIMENTOS",
