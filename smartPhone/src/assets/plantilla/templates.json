@@ -1231,6 +1231,10 @@
                                                         ]
                                                     },
                                                     {
+                                                        "label":"VER PORCIONES",
+                                                        "type":"button_porciones"
+                                                    },
+                                                    {
                                                         "label":"ALIMENTACIÓN",
                                                         "type":"table_3",
                                                         "options":[
@@ -2388,6 +2392,10 @@
                                                 "value":""
                                             }
                                         ]
+                                    },
+                                    {
+                                        "label":"VER DEPOSICIONES",
+                                        "type":"button_deposiciones"
                                     },
                                     {
                                         "label":"¿CÓMO SON LAS DEPOSICIONES DEL BEBÉ?",

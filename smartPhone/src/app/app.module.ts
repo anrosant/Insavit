@@ -28,6 +28,8 @@ import { PendingFormsPage } from '../pages/pendingForms/pendingForms';
 import { IntelSecurity } from '@ionic-native/intel-security';
 import { DatePicker } from '@ionic-native/date-picker';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { PopoverPage } from '../pages/form/popover';
+import { PopoverPage2 } from '../pages/form/popover2';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     PerfilPage,
     SentFormsPage,
     FormulariosPage,
-    PendingFormsPage
+    PendingFormsPage,
+    PopoverPage,
+    PopoverPage2
   ],
   imports: [
     BrowserModule,
@@ -63,7 +67,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
     PerfilPage,
     SentFormsPage,
     FormulariosPage,
-    PendingFormsPage
+    PendingFormsPage,
+    PopoverPage,
+    PopoverPage2
   ],
   providers: [
     StatusBar,
