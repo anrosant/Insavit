@@ -18,11 +18,11 @@
             <ion-card-content *ngIf="template.type == 'SIMPLE'; else card2">
                 <ion-list>
                     <ion-item>
-                        <ion-label>Realizadas</ion-label>
+                        <ion-label>REALIZADAS</ion-label>
                         <ion-label slot="end" class="label-rigth">{{ template.done_quantity }}</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>Por realizar</ion-label>
+                        <ion-label>POR REALIZAR</ion-label>
                         <ion-label slot="end" class="label-rigth">{{ template.remain_quantity }}</ion-label>
                     </ion-item>
                 </ion-list>
@@ -32,9 +32,9 @@
             <ng-template #card2>
                 <ion-card-content *ngFor="let type of template.quantity">
                     <ion-list>
-                        <h3>{{ type.type }} </h3>
+                        <h2>{{ type.type }}</h2>
                         <ion-item>
-                            <ion-label>Realizadas</ion-label>
+                            <ion-label>REALIZADAS</ion-label>
                             <ion-label slot="end" class="label-rigth">{{ type.done_quantity }}</ion-label>
                         </ion-item>
                         <ion-item>

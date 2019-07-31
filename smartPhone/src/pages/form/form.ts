@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, MenuController, NavParams, Events, AlertController, Platform, LoadingController, Navbar } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Coordinates, Geolocation } from '@ionic-native/geolocation';

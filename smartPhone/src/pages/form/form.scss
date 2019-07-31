@@ -58,6 +58,10 @@ page-form {
     }
     .pregunta {
         font-weight: bold !important;
+        text-align: left !important;
+    }
+    ion-label, ion-grid {
+    	text-align: left !important;
     }
     ion-textarea {
         font-size: 16px !important;
