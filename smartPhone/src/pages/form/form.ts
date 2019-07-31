@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 export class FormPage {
     template;
     formData;
-    formsData = [];
+    formsData = {};
     selectedTemplate;
     currentForm;
     forms;
@@ -22,7 +22,9 @@ export class FormPage {
     coordinates;
     templateUuid;
     funciones = [];
+    infoTemplates = [];
     loading;
+    infoTemplateIndex;
 
     @ViewChild(Navbar) navbarName: Navbar;
 
@@ -36,8 +38,8 @@ export class FormPage {
         private geolocation: Geolocation,
         private locationAccuracy: LocationAccuracy,
         public loadingController: LoadingController,
-        public navCtrl: NavController, 
-        public platform:Platform) {
+        public navCtrl: NavController,
+        public platform: Platform) {
 
         this.menuCtrl.enable(true);
         this.template = this.navParams.data.template;
@@ -45,14 +47,20 @@ export class FormPage {
         this.selectedTemplate = this.navParams.data.selectedTemplate;
         this.currentForm = this.navParams.data.currentForm;
         this.templateUuid = this.template.uuid;
+        this.infoTemplateIndex = this.navParams.data.infoTemplateIndex;
         this.forms = this.navParams.data.forms;
-        this.formsData = this.navParams.data.formsData;
+        if (this.navParams.data.formsData != null) {
+            this.formsData = this.navParams.data.formsData;
+        } else {
+            this.storage.get("formsData").then((formsData) => {
+                if (formsData != null) {
+                    this.formsData = formsData;
+                }
+            })
+        }
         this.geolocationAuth = this.navParams.data.geolocationAuth;
         this.pendingForms = this.navParams.data.pendingForms;
-
-        this.loading = this.loadingController.create({
-            content: 'Obteniendo ubicación ...',
-        });
+        this.infoTemplates = this.navParams.data.infoTemplates;
 
         this.storage.get('calculos').then((calculos) => {
             for (let calc of calculos.calculos) {
@@ -63,38 +71,98 @@ export class FormPage {
         });
     }
 
-    ionViewDidEnter(){
-        this.navbarName.backButtonClick = () => {            
+    ionViewDidEnter() {
+        this.navbarName.backButtonClick = () => {
             var array = Array.from(document.querySelectorAll("ion-datetime, ion-input, ion-list, ion-checkbox"));
             var elementos = [];
             var errores = 0;
-            
-            for(var el of array) {
-                if(el.id) {
-                    elementos.push(el.id);        
+
+            for (var el of array) {
+                if (el.id) {
+                    elementos.push(el.id);
                 }
             }
 
             var params = this.mappingParametros(elementos);
-            for(var pa of params) {
+            for (var pa of params) {
                 errores += this.blurFunction("", pa.blurFunction);
             }
-            if(errores == 0) {
+            if (errores == 0) {
                 this.navCtrl.pop();
             }
         }
     }
 
-    saveForm() {
+    increase_done_quantity(template, formType, index) {
+        if (formType == "SIMPLE") {
+            template.done_quantity += 1;
+        }
+        else {
+            for (let type of template.quantity) {
+                if (type.type == formType)
+                    type.done_quantity += 1;
+            }
+        }
+        this.infoTemplates[index] = this.template;
+        this.storage.set('infoTemplates', this.infoTemplates);
+    }
+
+    decrease_remain_quantity(template, formType, index) {
+        if (formType == "SIMPLE") {
+            template.remain_quantity -= 1;
+        }
+        else {
+            for (let type of template.quantity) {
+                if (type.type == formType)
+                    type.remain_quantity -= 1;
+            }
+        }
+        this.infoTemplates[index] = this.template;
+        this.storage.set('infoTemplates', this.infoTemplates);
+    }
+
+    save(index) {
         this.currentForm.saveDate = new Date();
         this.currentForm.data = this.formData;
-        let index = this.forms.length - 1;
         this.forms[index] = this.currentForm;
         this.formsData[this.templateUuid] = this.forms;
         this.storage.set("formsData", this.formsData);
-
         this.pendingForms[this.pendingForms.length - 1].formData = this.currentForm;
         this.storage.set("pendingForms", this.pendingForms);
+    }
+
+    async saveForm() {
+        let index = this.forms.length;
+        let formsDataIsNull = this.formsData == null;
+        let formDataExists = (this.formsData != null &&
+            this.formsData.hasOwnProperty(this.templateUuid));
+        let currentFormExists = false;
+        if (formsDataIsNull || !formDataExists) {
+            this.decrease_remain_quantity(this.template,
+                this.currentForm.type,
+                this.infoTemplateIndex);
+            this.increase_done_quantity(this.template,
+                this.currentForm.type,
+                this.infoTemplateIndex);
+        }
+        else {
+            for (let form of this.formsData[this.templateUuid]) {
+                if (form.uuid == this.currentForm.uuid) {
+                    currentFormExists = true;
+                }
+            }
+            if (!currentFormExists) {
+                this.storage.set("pendingForms", this.pendingForms);
+                this.decrease_remain_quantity(this.template,
+                    this.currentForm.type,
+                    this.infoTemplateIndex);
+                this.increase_done_quantity(this.template,
+                    this.currentForm.type,
+                    this.infoTemplateIndex);
+            }
+        }
+        this.save(this.forms.length - 1);
+
     }
 
     editForm(index) {
@@ -182,7 +250,7 @@ export class FormPage {
         try {
             let funcion = this.funciones[nombre_funcion];
             let parametrosMapeados = this.mappingParametros(args);
-            let stringFuncionMapeada = this.construirFuncionDinamicaString('funcion','parametrosMapeados', parametrosMapeados.length);
+            let stringFuncionMapeada = this.construirFuncionDinamicaString('funcion', 'parametrosMapeados', parametrosMapeados.length);
             var valor = eval(stringFuncionMapeada);
             return valor;
         }
@@ -235,7 +303,7 @@ export class FormPage {
 
     blurFunction($event, functionName) {
         var valores = 0;
-        if(functionName!='') {
+        if (functionName != '') {
             let funcion = JSON.parse(functionName);
             for (let key in funcion) {
                 let value = funcion[key];
@@ -260,6 +328,9 @@ export class FormPage {
                 if (canRequest) {
                     this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
                         () => {
+                            this.loading = this.loadingController.create({
+                                content: 'Obteniendo ubicación ...',
+                            });
                             this.loading.present();
                             this.geolocation.getCurrentPosition({
                                 enableHighAccuracy: true,

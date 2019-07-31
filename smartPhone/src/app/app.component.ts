@@ -39,7 +39,20 @@ export class MyApp {
     urlServerPlantilla = "http://150.136.230.16/api/templates/";
     urlServerCalculos = "http://150.136.230.16/api/validations/";
 
-    constructor(private diagnostic: Diagnostic, private locationAccuracy: LocationAccuracy, public http: HTTP, public alertCtrl: AlertController, private geolocation: Geolocation, public loadingCtrl: LoadingController, public appCtrl: App, public httpClient: HttpClient, private storage: Storage, public menuCtrl: MenuController, private events: Events, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+    constructor(private diagnostic: Diagnostic,
+      private locationAccuracy: LocationAccuracy,
+      public http: HTTP,
+      public alertCtrl: AlertController,
+      private geolocation: Geolocation,
+      public loadingCtrl: LoadingController,
+      public appCtrl: App,
+      public httpClient: HttpClient,
+      private storage: Storage,
+      public menuCtrl: MenuController,
+      private events: Events,
+      platform: Platform,
+      statusBar: StatusBar,
+      splashScreen: SplashScreen) {
         platform.ready().then(() => {
             this.events.subscribe('pendingForms:editarFormulario', (fechaFormulario) => {
                 this.selectItemMenuGeneral(this.listaGeneral[0], 0, null);
@@ -153,13 +166,12 @@ export class MyApp {
         this.events.publish('app:envioFormularios', true);
         let formularios = [];
         let alert;
-        let alert2;
+        let loading;
         if (this.sendingForms == false) {
-            alert = this.alertCtrl.create({
-                title: "Enviando...",
-                buttons: ["ok"]
+            loading = this.loadingCtrl.create({
+                content: 'Enviando formularios ...',
             });
-            alert.present();
+            loading.present();
             this.sendingForms = true;
             let linkedUser = await this.storage.get("linkedUser");
             let newPendingForms = pendingForms.slice();
@@ -170,14 +182,14 @@ export class MyApp {
                 let result = await this.promesaEnvioFormulario(linkedUser, formData);
                 if (result['error']) {
                     this.sendingForms = false;
-                    if (alert) {
-                        alert.dismiss();
+                    if (loading) {
+                        loading.dismiss();
                     }
-                    alert2 = this.alertCtrl.create({
+                    alert = this.alertCtrl.create({
                         title: "Se detuvo el envio. Problemas de conexion con el servidor",
                         buttons: ["ok"]
                     });
-                    alert2.present();
+                    alert.present();
                     break;
                 }
                 else {
@@ -204,26 +216,25 @@ export class MyApp {
             }
 
             if (pendingForms.length == 0) {
-                alert.dismiss();
+                loading.dismiss();
                 this.sendingForms = false;
-                alert2 = this.alertCtrl.create({
+                alert = this.alertCtrl.create({
                     message: "Todas las formularios han sido correctamente enviadas",
                     buttons: ["ok"]
                 });
-                alert2.present();
+                alert.present();
             }
 
             this.events.publish('app:envioFormularios', false);
         }
         else {
-            if (alert2) {
-                alert2.dismiss();
+            if (loading) {
+                loading.dismiss();
             }
-            alert = this.alertCtrl.create({
-                title: "Enviando",
-                buttons: ["ok"]
+            loading = this.loadingCtrl.create({
+                content: 'Enviando formularios ...',
             });
-            alert.present();
+            loading.present();
         }
     }
 

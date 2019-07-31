@@ -67,13 +67,13 @@ export class PendingFormsPage {
         });
     }
 
-    decrease_done_quantity(template) {
-        if (template.type == "SIMPLE") {
+    decrease_done_quantity(template, formType) {
+        if (formType == "SIMPLE") {
             template.done_quantity -= 1;
         }
         else {
             for (let type of template.quantity) {
-                if (type.type == "INICIAL")
+                if (type.type == formType)
                     type.done_quantity -= 1;
             }
         }
@@ -81,13 +81,13 @@ export class PendingFormsPage {
 
     }
 
-    increase_remain_quantity(template) {
-        if (template.type == "SIMPLE") {
+    increase_remain_quantity(template, formType) {
+        if (formType == "SIMPLE") {
             template.remain_quantity += 1;
         }
         else {
             for (let type of template.quantity) {
-                if (type.type == "INICIAL")
+                if (type.type == formType)
                     type.remain_quantity += 1;
             }
         }
@@ -111,8 +111,8 @@ export class PendingFormsPage {
         this.storage.set("pendingForms", this.pendingForms);
         for (let template of this.infoTemplates) {
             if (template.uuid == templateUuid) {
-                this.decrease_done_quantity(template);
-                this.increase_remain_quantity(template);
+                this.decrease_done_quantity(template, form.formData.type);
+                this.increase_remain_quantity(template, form.formData.type);
             }
         }
     }

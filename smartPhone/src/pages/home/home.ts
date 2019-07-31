@@ -24,6 +24,7 @@ export class HomePage {
     geolocationAuth;
     coordinates = null;
     loading;
+    selectedSection;
 
     constructor(private diagnostic: Diagnostic,
         private events: Events,
@@ -50,15 +51,12 @@ export class HomePage {
         });
         this.storage.get('infoTemplates').then((templates) => {
             this.infoTemplates = templates;
+            this.selectedSection = templates[0];
         });
         this.storage.get("formsData").then((formsData) => {
             if (formsData != null && (Object.keys(formsData).length > 0)) {
                 this.formsData = formsData;
             }
-        });
-
-        this.loading = this.loadingController.create({
-            content: 'Obteniendo ubicación ...',
         });
     }
     pad(num, size) {
@@ -66,33 +64,8 @@ export class HomePage {
         return s.substr(s.length - size);
     }
 
-    increase_done_quantity(template) {
-        if (template.type == "SIMPLE") {
-            template.done_quantity += 1;
-        }
-        else {
-            for (let type of template.quantity) {
-                if (type.type == "INICIAL")
-                    type.done_quantity += 1;
-            }
-        }
-        this.storage.set('infoTemplates', this.infoTemplates);
-    }
-
-    decrease_remain_quantity(template) {
-        if (template.type == "SIMPLE") {
-            template.remain_quantity -= 1;
-        }
-        else {
-            for (let type of template.quantity) {
-                if (type.type == "INICIAL")
-                    type.remain_quantity -= 1;
-            }
-        }
-        this.storage.set('infoTemplates', this.infoTemplates);
-    }
-
-    startFollowUpForm(template, selectedTemplate, templateUuid, index) {
+    async startFollowUpForm(template, selectedTemplate, templateUuid, index) {
+        this.formsData = await this.storage.get("formsData");
         let forms;
         if (this.formsData != null && (Object.keys(this.formsData).length > 0)) {
             forms = this.formsData[templateUuid];
@@ -101,87 +74,104 @@ export class HomePage {
                 if (form.type == "INICIAL")
                     initialForms.push(form);
             }
-            this.navCtrl.push(FollowUpPage, {
-                template: template,
-                index: index,
-                coordinates: this.coordinates,
-                geolocationAuth: this.geolocationAuth,
-                selectedTemplate: selectedTemplate,
-                forms: initialForms,
-                formsData: this.formsData,
-                pendingForms: this.pendingForms
+            this.storage.get('pendingForms').then((pendingForms) => {
+                this.pendingForms = pendingForms;
+                this.navCtrl.push(FollowUpPage, {
+                    template: template,
+                    coordinates: this.coordinates,
+                    geolocationAuth: this.geolocationAuth,
+                    selectedTemplate: selectedTemplate,
+                    forms: initialForms,
+                    formsData: this.formsData,
+                    pendingForms: this.pendingForms,
+                    infoTemplates: this.infoTemplates,
+                    infoTemplateIndex: index
+                });
             });
+        } else{
+          let alert = this.alertCtrl.create({
+              subTitle: "No existen formularios iniciales.",
+              buttons: ["cerrar"]
+          });
+          alert.present();
         }
     }
 
-    startInitialForm(template, selectedTemplate, templateUuid, formUuid, type) {
+    startInitialForm(template, selectedTemplate, templateUuid, formUuid, type, index) {
         // Generate a code for Interviewed
-        let currentForm = {};
-        let forms;
-        if (this.formsData != null && (Object.keys(this.formsData).length > 0)) {
-            forms = this.formsData[templateUuid];
-        }
-        if (forms != null && (forms.length > 0)) {
-            let form = forms[forms.length - 1];
-            let code_number = parseInt(form.code[form.code.length - 1]) + 1;
-            let new_code = this.pad(code_number, 5);
-            currentForm = {
-                uuid: formUuid,
-                code: new_code,
-                type: type,
-                name: template.name,
-                gps: template.gps,
-                data: {},
-                createdDate: new Date()
-            };
-            if(template.gps == "required"){
-              currentForm["coordinates"] = this.coordinates;
+        this.storage.get('formsData').then((formsData) => {
+            this.formsData = formsData;
+            let currentForm = {};
+            let forms;
+            if (this.formsData != null &&
+                (Object.keys(this.formsData).length > 0) &&
+                this.formsData.hasOwnProperty(templateUuid)) {
+                forms = this.formsData[templateUuid].slice(0);
             }
-            forms.push(currentForm);
-        }
-        else {
-            let new_code = this.pad(1, 5);
-            currentForm = {
-                uuid: formUuid,
-                code: new_code,
-                type: type,
-                name: template.name,
-                gps: template.gps,
-                data: {},
-                createdDate: new Date()
-            };
-            if(template.gps == "required"){
-              currentForm["coordinates"] = this.coordinates;
+            if (forms != null && (forms.length > 0)) {
+                let form = forms[forms.length - 1];
+                let code_number = parseInt(form.code) + 1;
+                let new_code = this.pad(code_number, 5);
+                currentForm = {
+                    uuid: formUuid,
+                    code: new_code,
+                    type: type,
+                    name: template.name,
+                    gps: template.gps,
+                    data: {},
+                    createdDate: new Date()
+                };
+                if (template.gps == "required") {
+                    currentForm["coordinates"] = this.coordinates;
+                }
+                forms.push(currentForm);
             }
-            forms = [currentForm];
-        }
-        this.formsData[templateUuid] = forms
-        this.storage.set("formsData", this.formsData);
-        if (this.pendingForms != null && (this.pendingForms.length > 0)) {
-            this.pendingForms.push({
-                template: templateUuid,
-                formData: currentForm,
-                index: this.formsData[templateUuid].length - 1
+            else {
+                let new_code = this.pad(1, 5);
+                currentForm = {
+                    uuid: formUuid,
+                    code: new_code,
+                    type: type,
+                    name: template.name,
+                    gps: template.gps,
+                    data: {},
+                    createdDate: new Date()
+                };
+                if (template.gps == "required") {
+                    currentForm["coordinates"] = this.coordinates;
+                }
+                forms = [currentForm];
+            }
+            var pendingForms = []
+            this.storage.get('pendingForms').then((pendingForms) => {
+                this.pendingForms = pendingForms;
+                if (this.pendingForms != null && (this.pendingForms.length > 0)) {
+                    pendingForms = this.pendingForms.slice(0);
+                    pendingForms.push({
+                        template: templateUuid,
+                        formData: currentForm,
+                        index: this.formsData[templateUuid].length
+                    });
+                } else {
+                    pendingForms = [{
+                        template: templateUuid,
+                        formData: currentForm,
+                        index: 0
+                    }];
+                }
+                this.navCtrl.push(FormPage, {
+                    template: template,
+                    selectedTemplate: selectedTemplate,
+                    formData: selectedTemplate,
+                    currentForm: currentForm,
+                    forms: forms,
+                    formsData: this.formsData,
+                    pendingForms: pendingForms,
+                    geolocationAuth: this.geolocationAuth,
+                    infoTemplates: this.infoTemplates,
+                    infoTemplateIndex: index
+                });
             });
-        } else {
-            this.pendingForms = [{
-                template: templateUuid,
-                formData: currentForm,
-                index: 0
-            }];
-        }
-        this.storage.set("pendingForms", this.pendingForms);
-        this.decrease_remain_quantity(template)
-        this.increase_done_quantity(template)
-        this.navCtrl.push(FormPage, {
-            template: template,
-            selectedTemplate: selectedTemplate,
-            formData: selectedTemplate,
-            currentForm: currentForm,
-            forms: forms,
-            formsData: this.formsData,
-            pendingForms: this.pendingForms,
-            geolocationAuth: this.geolocationAuth
         });
     }
 
@@ -192,6 +182,9 @@ export class HomePage {
                 if (canRequest) {
                     this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
                         () => {
+                            this.loading = this.loadingController.create({
+                                content: 'Obteniendo ubicación ...',
+                            });
                             this.loading.present();
                             this.geolocation.getCurrentPosition({
                                 enableHighAccuracy: true,
@@ -224,20 +217,35 @@ export class HomePage {
                             });
                         }).catch(err => {
                             this.geolocationAuth = "DENIED";
-                            console.log(this.geolocationAuth);
                             this.chooseFormTypeToInit(
                                 template,
                                 templateUuid,
                                 type,
                                 index);
                         });
+                } else {
+                    this.chooseFormTypeToInit(
+                        template,
+                        templateUuid,
+                        type,
+                        index);
                 }
             }).catch(err => {
                 console.log(JSON.stringify(err));
+                this.chooseFormTypeToInit(
+                    template,
+                    templateUuid,
+                    type,
+                    index);
             });
 
         }).catch(err => {
             console.log(JSON.stringify(err));
+            this.chooseFormTypeToInit(
+                template,
+                templateUuid,
+                type,
+                index);
         });
     }
 
@@ -247,22 +255,30 @@ export class HomePage {
         }
         else if (type == "INICIAL") {
             let formUuid = uuid();
-            this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type);
+            this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type, index);
         }
         else {
             let formUuid = uuid();
-            this.startInitialForm(template, template.data, templateUuid, formUuid, type);
+            this.startInitialForm(template, template.data, templateUuid, formUuid, type, index);
         }
     }
 
     async startForm(template, type, index) {
         // Genereate an uuid for form
         let templateUuid = template.uuid;
-        if (template.gps == "required") {
-            this.requestLocationAuthorization(template, templateUuid, type, index);
-        } else {
-            this.chooseFormTypeToInit(template, templateUuid, type, index)
-        }
+        this.storage.get('infoTemplates').then((templates) => {
+            for (let temp of templates) {
+                if (temp.uuid == template.uuid) {
+                    template = temp;
+                    break;
+                }
+            }
+            if (template.gps == "required") {
+                this.requestLocationAuthorization(template, templateUuid, type, index);
+            } else {
+                this.chooseFormTypeToInit(template, templateUuid, type, index)
+            }
+        });
 
     }
 }
