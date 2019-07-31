@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "smartPhone",
+  "appName": "INSAVIT",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www"

@@ -16,86 +16,73 @@ page-form {
 		pointer-events: none;
 	}
 
-	ion-select {
-		max-width: 100% !important;
-		max-height: 100% !important;
-		//background: $color('secundary');
-		.select-icon-inner,
-		.select-text {
-			text-align: right;
-			color: #f4f4f4!important;
-		}
-	}
-
-	.back-button {
-		margin: 0;
-		padding: 0;
-	}
-
-	.aviso {
-		animation: animationPageEnter 1.2s;
-	}
-	@keyframes animationPageEnter {
-		0% {
-			max-height: 0;
-			opacity: 0.5;
-		}
-
-		100% {
-			max-height: 300px;
-			opacity: 1;
-		}
-	}
-
-	ion-grid {
-		grid-padding-width: 15px;
-	}
-
-	.col {
-		border: think solid gray;
-	}
-
-	.invalid_label {
-		color: #f53d3d !important;
-	}
-
-	.invalid_input {
-		border: 1px solid #f53d3d;
-	}
-
-	.invalid_datepicker {
-		color: #f53d3d !important;
-	}
-
-	.error_message {
-		display: block !important;
-		color: #f53d3d !important;
-		font-size: 16px;
-	}
-
-	ion-datetime,
-	ion-grid ion-label,
-	ion-input,
-	ion-item ion-label,
-	ion-list-header ion-label {
-		font-size: 16px !important;
-		color: black !important;
-	}
-
-	.pregunta {
-		font-weight: bold !important;
-	}
-
-	ion-textarea {
-		font-size: 16px !important;
-		color: black !important;
-	}
-
-	ion-select {
-		color: #999 !important;
-	}
-
-	ion-grid > ion-label {
-		padding-left: 35px !important;
-	}
+    ion-select {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        //background: $color('secundary');
+    }
+    .back-button {
+        margin:0px!important;
+        padding:0px!important;
+    }
+    .aviso {
+        animation:animationPageEnter 1.2s;
+    }
+    @keyframes animationPageEnter {
+        0%   {max-height:0px;opacity:0.5}
+        100% {max-height:300px;opacity:1}
+    }
+    ion-grid {
+        grid-padding-width: 15px;
+    }
+    .col {
+        border: think solid gray;
+    }
+    .invalid_label {
+        color: #f53d3d !important;
+    }
+    .invalid_input {
+        border: 1px solid #f53d3d;
+    }
+    .invalid_datepicker {
+        color: #f53d3d !important;
+    }
+    .error_message {
+        display: block !important;
+        color: #f53d3d !important;
+        font-size: 16px;
+    }
+    ion-item ion-label, ion-list-header ion-label, ion-grid ion-label, ion-input, ion-datetime {
+        font-size: 16px !important;
+        color: black !important;
+    }
+    .pregunta {
+        font-weight: bold !important;
+    }
+    ion-textarea {
+        font-size: 16px !important;
+        color: black !important;
+    }
+    ion-select {
+        color: #999 !important;
+    }
+    ion-grid > ion-label {
+        padding-left: 35px !important;
+    }
+    .div-error {
+        display:none;
+        padding-left:16px !important;
+        margin-top:0 !important;
+        margin-bottom: 5px !important;
+    }
+    .show_question {
+        display: block !important;
+    }
+    .hide_question {
+        display: none !important;
+    }
+    .placeholder-select > div{
+        color: $select-md-placeholder-color;
+        opacity: 1 !important;
+    }
 }
