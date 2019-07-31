@@ -24,6 +24,7 @@ export class FollowUpPage {
     coordinates;
     infoTemplates = [];
     pendingForms = [];
+    infoTemplateIndex;
     constructor(private diagnostic: Diagnostic,
         private events: Events,
         public navParams: NavParams,
@@ -38,52 +39,18 @@ export class FollowUpPage {
 
         this.initialForms = this.navParams.data.forms;
         this.template = this.navParams.data.template;
-        this.index = this.navParams.data.index;
-        this.coordinates= this.navParams.data.coordinates,
+        this.coordinates = this.navParams.data.coordinates;
         this.selectedTemplate = this.navParams.data.selectedTemplate;
         this.formsData = this.navParams.data.formsData;
-        this.pendingForms = this.navParams.data.pendingForms;
         this.geolocationAuth = this.navParams.data.geolocationAuth;
+        this.infoTemplateIndex = this.navParams.data.infoTemplateIndex;
+        this.infoTemplates = this.navParams.data.infoTemplates;
     }
 
-    increase_done_quantity() {
-        for (let type of this.template.quantity) {
-            if (type.type == "SEGUIMIENTO")
-                type.done_quantity += 1;
-        }
-        this.infoTemplates[this.index] = this.template;
-        this.storage.set('infoTemplates', this.infoTemplates);
-    }
 
-    decrease_done_quantity() {
-        for (let type of this.template.quantity) {
-            if (type.type == "SEGUIMIENTO")
-                type.done_quantity -= 1;
-        }
-        this.infoTemplates[this.index] = this.template
-        this.storage.set('infoTemplates', this.infoTemplates);
-    }
-
-    increase_remain_quantity() {
-        for (let type of this.template.quantity) {
-            if (type.type == "SEGUIMIENTO")
-                type.remain_quantity += 1;
-        }
-        this.infoTemplates[this.index] = this.template
-        this.storage.set('infoTemplates', this.infoTemplates);
-    }
-
-    decrease_remain_quantity() {
-        for (let type of this.template.quantity) {
-            if (type.type == "SEGUIMIENTO")
-                type.remain_quantity -= 1;
-        }
-        this.infoTemplates[this.index] = this.template
-        this.storage.set('infoTemplates', this.infoTemplates);
-    }
-
-    selectInterviewedClick(form) {
+    async selectInterviewedClick(form) {
         // Genereate an uuid for form
+        this.pendingForms = await this.storage.get('pendingForms');
         let templateUuid = this.template.uuid;
         let formUuid = uuid();
         let code_form = form.code
@@ -96,40 +63,47 @@ export class FollowUpPage {
             type: "SEGUIMIENTO",
             createdDate: new Date()
         };
-        if(this.template.gps == "required"){
-          currentForm["coordinates"] = this.coordinates;
+        if (this.template.gps == "required") {
+            currentForm["coordinates"] = this.coordinates;
         }
-        let forms = Object.assign([], this.initialForms);
+        // let forms = Object.assign([], this.initialForms);
+        let forms = this.formsData[templateUuid].slice(0);
         forms.push(currentForm);
-        this.formsData[templateUuid] = forms;
-        this.storage.set("formsData", this.formsData);
-
-        if (this.pendingForms != null && (this.pendingForms.length > 0)){
-          this.pendingForms.push({
-            template: templateUuid,
-            formData: currentForm,
-            index: this.formsData[templateUuid].length -1
-          });
-        }else{
-          this.pendingForms = [{
-            template: templateUuid,
-            formData: currentForm,
-            index: 0
-          }];
+        var pendingForms = []
+        if (this.pendingForms != null && (this.pendingForms.length > 0)) {
+            pendingForms = this.pendingForms.slice(0);
+            pendingForms.push({
+                template: templateUuid,
+                formData: currentForm,
+                index: this.formsData[templateUuid].length - 1
+            });
+        } else {
+            pendingForms = [{
+                template: templateUuid,
+                formData: currentForm,
+                index: 0
+            }];
         }
-        this.storage.set("pendingForms", this.pendingForms);
-
-        this.increase_done_quantity();
-        this.decrease_remain_quantity();
+        let templates = await this.storage.get('infoTemplates');
+        for (let temp of templates){
+          if (temp.uuid == templateUuid){
+            this.infoTemplates = this.infoTemplates;
+            this.selectedTemplate = temp.data.follow_up;
+            break;
+          }
+        }
         this.navCtrl.push(FormPage, {
             template: this.template,
             selectedTemplate: this.selectedTemplate,
             formData: this.selectedTemplate,
             currentForm: currentForm,
-            forms: this.initialForms,
+            forms: forms,
             formsData: this.formsData,
-            pendingForms: this.pendingForms,
-            geolocationAuth: this.geolocationAuth
+            pendingForms: pendingForms,
+            geolocationAuth: this.geolocationAuth,
+            infoTemplates: this.infoTemplates,
+            infoTemplateIndex: this.infoTemplateIndex,
+
         });
     }
 }
