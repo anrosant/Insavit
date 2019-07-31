@@ -57,6 +57,10 @@
                 </button>
             </ion-list>
 
+            <button ion-button (click)="verPorciones()" *ngIf="item.type=='button_porciones'">{{item.label}}</button>
+
+            <button ion-button (click)="verDeposiciones()" *ngIf="item.type=='button_deposiciones'">{{item.label}}</button>
+
             <ion-list radio-group *ngIf="item.type=='radio_input'" id={{item.id}} [class.hide_question]="!item.show" [class.show_question]="item.show" (blur)="item.show && blurFunction($event,item.blurFunction)" [(ngModel)]="item.value">
                 <ion-list-header>
                     <ion-label [class.invalid_label]="item.error" class="pregunta">{{item.label}}</ion-label>
