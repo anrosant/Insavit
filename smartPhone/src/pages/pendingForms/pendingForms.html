@@ -7,7 +7,7 @@
             Formularios
         </ion-title>
         <ion-buttons end>
-            <button *ngIf="!sendingForms" [disabled]="pendingForms.length==0" ion-button icon-end (click)="clickEnviarFormularios()">
+            <button *ngIf="!sendingForms" [disabled]="pendingForms.length==0" ion-button icon-end (click)="clickSendForms()">
                 Enviar
                 <ion-icon name="ios-send"></ion-icon>
             </button>
@@ -41,18 +41,23 @@
                                 <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Creacion:</strong> {{form.formData.createdDate | date:'yyyy/MM/dd HH:mm:ss'}} </ion-label>
                                 <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Guardado:</strong> {{form.formData.saveDate |  date:'yyyy/MM/dd HH:mm:ss'}}</ion-label>
                                 <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Tipo:</strong> {{form.formData.type}}</ion-label>
+                                <ion-label *ngIf="form.formData.gps == 'required' && form.formData.coordinates " no-margin margin-bottom text-wrap><strong class="strongLabel">Ubicación:</strong> Lat. {{ form.formData.coordinates.latitude }}, Long.
+                                    {{ form.formData.coordinates.longitude }}</ion-label>
+                                <ion-label *ngIf="form.formData.gps == 'required' && form.formData.coordinates==null " no-margin margin-bottom text-wrap><strong class="strongLabel">Ubicación:</strong> No se pudo determinar</ion-label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <ion-label class="empty_number" no-margin margin-bottom text-wrap [class.strongLabelError]="form.formData.vacios>0"><strong [class.strongLabel]="!form.formData.vacios>0">Vacios: </strong> {{form.formData.vacios}}</ion-label>
+                                <ion-label class="empty_number" no-margin margin-bottom text-wrap [class.strongLabelError]="form.formData.vacios>0"><strong [class.strongLabel]="!form.formData.vacios>0">Vacios: </strong> {{form.formData.vacios}}
+                                </ion-label>
                                 <button [disabled]="sendingForms" ion-button block icon-start clear small (click)="clickEditarFormulario(form, i)">
                                     <ion-icon name="create"></ion-icon>
                                     <div>Editar</div>
                                 </button>
                             </div>
                             <div class="col-6">
-                                <ion-label class="bugs_number" no-margin margin-bottom text-wrap [class.strongLabelError]="form.formData.errores>0"><strong [class.strongLabel]="!form.formData.errores>0">Errores:</strong> {{form.formData.errores}}</ion-label>
+                                <ion-label class="bugs_number" no-margin margin-bottom text-wrap [class.strongLabelError]="form.formData.errores>0"><strong [class.strongLabel]="!form.formData.errores>0">Errores:</strong> {{form.formData.errores}}
+                                </ion-label>
                                 <button [disabled]="sendingForms" ion-button block icon-start clear small (click)="clickDeletePendingForm(form, i)">
                                     <ion-icon name="trash"></ion-icon>
                                     <div>Eliminar</div>
