@@ -98,7 +98,6 @@ export class FormPage extends PopoverPage {
         }
     }
 
-<<<<<<< HEAD
     increase_done_quantity(template, formType, index) {
         if (formType == "SIMPLE") {
             template.done_quantity += 1;
