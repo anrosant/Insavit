@@ -396,3 +396,19 @@ function validateEmptyNumberCheckbox(item1){
 	}
 	return 0;
 }
+
+function calculateMETS(item1,item2){
+	var val=item1.label1;
+	if(item2.value){
+		var mets=item2.value;
+	}else{
+		var mets=0;
+	}	
+	if(item1.checked){
+		mets=parseFloat(mets).Fixed(1)+parseFloat(val).Fixed(1);
+	}else{
+		mets=parseFloat(mets).Fixed(1)-parseFloat(val).Fixed(1);
+	}
+	item2.value=mets;
+	return 0;
+}

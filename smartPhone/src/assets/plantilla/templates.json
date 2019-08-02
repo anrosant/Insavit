@@ -774,34 +774,167 @@
                                                 "initialShow":true,
                                                 "children":[
                                                     {
-                                                        "label":"TABLA GUÍA",
+                                                        "label":"TABLA METS",
                                                         "type":"info_table",
-                                                        "rows":[
+                                                        "children":[
                                                             {
-                                                                "column1":"METS",
-                                                                "column2":"ACTIVIDAD VIGOROSA"
+                                                                "label1":"METS",
+                                                                "label2":"ACTIVIDADES DE OCIO: VIGOROSAS",
+                                                                "children":[
+                                                                    {
+                                                                        "label1":"9",
+                                                                        "label2":"Desplazamientos rápidos en bicicleta",
+                                                                        "id":"mets_desplazamiento_bicicleta",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_desplazamiento_bicicleta\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"7.4",
+                                                                        "label2":"Subir montañas (con carga 5kg)",
+                                                                        "id":"mets_subir_montaña",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_subir_montaña\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"7",
+                                                                        "label2":"Deportes y juegos competitivos (ejemplo: juegos tradicionales, fútbol, voleibol, baloncesto, nadar)",
+                                                                        "id":"mets_deportes_juegos",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_deportes_juegos\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"8",
+                                                                        "label2":"Trabajo intenso como minería de carbón en general, agricultura, limpieza del corral, esfuerzo riguroso, desyerbar plantas o campo.",
+                                                                        "id":"mets_trabajo_intenso",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_trabajo_intenso\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"8",
+                                                                        "label2":"Desplazamiento de cargas pesadas (> 20 kg)",
+                                                                        "id":"mets_desplazamiento_cargas_pesadas",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_desplazamiento_cargas_pesadas\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    }
+                                                                ]
                                                             },
                                                             {
-                                                                "column1":"9",
-                                                                "column2":"DESPLAZAMIENTOS RÁPIDOS EN BICICLETA"
+                                                                "label1":"METS",
+                                                                "label2":"ACTIVIDADES DE OCIO: MODERADA",
+                                                                "children":[
+                                                                    {
+                                                                        "label1":"3",
+                                                                        "label2":"Pintar, decorar",
+                                                                        "id":"mets_subir_montaña",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_subir_montaña\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"3.5",
+                                                                        "label2":"Practicar ciclismo por placer",
+                                                                        "id":"mets_practicar_ciclismo",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_practicar_ciclismo\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"4",
+                                                                        "label2":"Participación en juegos y deportes con niños; paseos con animales",
+                                                                        "id":"mets_juegos_niños",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_juegos_niños\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"4",
+                                                                        "label2":"Trabajos de construcción generales (ejemplo: hacer tejados, pintar, etc.); reparaciones del hogar",
+                                                                        "id":"mets_trabajos_contruccion",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_trabajos_contruccion\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"5",
+                                                                        "label2":"Desplazamiento de cargas (≤ 20 kg)",
+                                                                        "id":"mets_desplazamiento_cargas_livianas",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_desplazamiento_cargas_livianas\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    }
+                                                                ]
                                                             },
                                                             {
-                                                                "column1":"7,4",
-                                                                "column2":"SUBIR MONTAÑAS (CON CARGA DE 5KG)"
-                                                            },
-                                                            {
-                                                                "column1":"7",
-                                                                "column2":"DEPORTES Y JUEGOS COMPETITIVOS (EJEMPLO: JUEGOS TRADICIONALES, FÚTBOL, VOLEIBOL, BALONCESTO, NADAR)"
-                                                            },
-                                                            {
-                                                                "column1":"8",
-                                                                "column2":"TRABAJO INTENSO COMO MINERÍA DE CARBÓN EN GENERAL, AGRICULTURA, LIMPIEZA DEL CORRAL, ESFUERZO RIGUROSO, DESYERBAR PLANTAS O CAMPO"
-                                                            },
-                                                            {
-                                                                "column1":"8",
-                                                                "column2":"DESPLAZAMIENTO DE CARGAS PESADAS (MAYOR A 20KG)"
+                                                                "label1":"METS",
+                                                                "label2":"ACTIVIDADES DIARIAS",
+                                                                "children":[
+                                                                    {
+                                                                        "label1":"1",
+                                                                        "label2":"Estar tumbado tranquilo",
+                                                                        "id":"mets_tumbado",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_tumbado\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"1",
+                                                                        "label2":"Conducir un auto",
+                                                                        "id":"mets_conducir_auto",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_conducir_auto\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"1.5",
+                                                                        "label2":"Actividad ligera sentado",
+                                                                        "id":"mets_actividad_ligera",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_actividad_ligera\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"2.5",
+                                                                        "label2":"Regar plantas",
+                                                                        "id":"mets_regar_plantas",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_regar_plantas\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"3",
+                                                                        "label2":"Pasear al perro",
+                                                                        "id":"mets_pasear_perro",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_pasear_perro\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"3.5",
+                                                                        "label2":"Pasar la aspiradora",
+                                                                        "id":"mets_pasar_aspiradora",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_pasar_aspiradora\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"2.5",
+                                                                        "label2":"Tareas domésticas (quitar el polvo, andar o pasear, hacer la cama)",
+                                                                        "id":"mets_tareas_domesticas",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_tareas_domesticas\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"4.4",
+                                                                        "label2":"Jardinería (sin levantar peso)",
+                                                                        "id":"mets_jardineria",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_jardineria\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    },
+                                                                    {
+                                                                        "label1":"3",
+                                                                        "label2":"Lavar la ropa",
+                                                                        "id":"mets_lavar_ropa",
+                                                                        "blurFunction":"{\"calculateMETS\":[\"mets_lavar_ropa\",\"mets\"]}",
+                                                                        "checked":false
+                                                                    }
+                                                                ]
                                                             }
                                                         ]
+                                                    },
+                                                    {
+                                                        "label":"METS",
+                                                        "type":"mets",
+                                                        "id":"mets",
+                                                        "value":""
                                                     },
                                                     {
                                                         "label":"DURANTE LOS ÚLTIMOS 7 DÍAS, ¿EN CUÁNTOS REALIZÓ ACTIVIDADES FÍSICAS VIGOROSAS?",
@@ -810,7 +943,7 @@
                                                         "error":"",
                                                         "show":true,
                                                         "children":[
-                                                             {
+                                                            {
                                                                 "label":"NINGUNA ACTIVIDAD FÍSICA INTENSA",
                                                                 "type":"checkbox",
                                                                 "id":"ninguna_actividad_intensa_1",
@@ -857,44 +990,6 @@
                                                                 "error":"",
                                                                 "value":"",
                                                                 "show":true
-                                                            }
-                                                        ]
-                                                    },
-                                                    {
-                                                        "label":"TABLA GUÍA",
-                                                        "type":"info_table",
-                                                        "rows":[
-                                                            {
-                                                                "column1":"METS",
-                                                                "column2":"ACTIVIDAD MODERADA"
-                                                            },
-                                                            {
-                                                                "column1":"3",
-                                                                "column2":"PINTAR, DECORAR"
-                                                            },
-                                                            {
-                                                                "column1":"4",
-                                                                "column2":"JARDINERÍA (SIN LEVANTAR PESO)"
-                                                            },
-                                                            {
-                                                                "column1":"2,5",
-                                                                "column2":"TAREAS DOMÉSTICAS (QUITAR EL POLVO, ANDAR O PASEAR, HACER LA CAMA"
-                                                            },
-                                                            {
-                                                                "column1":"3,5",
-                                                                "column2":"PRACTICAR CICLISMO POR PLACER"
-                                                            },
-                                                            {
-                                                                "column1":"4",
-                                                                "column2":"PARTICIPACIÓN EN JUEGOS Y DEPORTES CON NIÑOS, PASEOS CON ANIMALES"
-                                                            },
-                                                            {
-                                                                "column1":"4",
-                                                                "column2":"TRABAJOS DE CONSTRUCCIÓN GENERALES (EJEMPLOS: HACER TEJADOS, PINTAR, ETC), REPARACIONES DEL HOGAR"
-                                                            },
-                                                            {
-                                                                "column1":"5",
-                                                                "column2":"DESPLAZAMIENTO DE CARGAS (MENOR O IGUAL A 20KG)"
                                                             }
                                                         ]
                                                     },
@@ -1977,7 +2072,7 @@
                                         "label":"PESO AL NACER (g)",
                                         "type":"input_number",
                                         "id":"peso_infante",
-                                        "blurFunction":"{\"validateEmptyInput\":[\"peso_infante\"],\"validateNegativeInputNumber\":[\"peso_infante\"],\"calculateIMC\":[\"peso_infante\",\"talla_infante\",\"diagnostico_imc\"]}",
+                                        "blurFunction":"{\"validateEmptyInput\":[\"peso_infante\"],\"validateNegativeInputNumber\":[\"peso_infante\"]}",
                                         "error":"",
                                         "value":""
                                     },
@@ -1985,16 +2080,9 @@
                                         "label":"TALLA (cm)",
                                         "type":"input_number",
                                         "id":"talla_infante",
-                                        "blurFunction":"{\"validateEmptyInput\":[\"talla_infante\"],\"validateNegativeInputNumber\":[\"talla_infante\"],\"calculateIMC\":[\"peso_infante\",\"talla_infante\",\"diagnostico_imc\"]}",
+                                        "blurFunction":"{\"validateEmptyInput\":[\"talla_infante\"],\"validateNegativeInputNumber\":[\"talla_infante\"]}",
                                         "error":"",
                                         "value":""
-                                    },
-                                    {
-                                        "type":"diagnose",
-                                        "id":"diagnostico_imc",
-                                        "value":"",
-                                        "clasification":"",
-                                        "risk":""
                                     },
                                     {
                                         "label":"SEMANAS DE NACIMIENTO DEL INFANTE",
@@ -2084,7 +2172,7 @@
                                         "label":"TALLA (cm)",
                                         "type":"input_number",
                                         "id":"talla_antropometrica",
-                                        "blurFunction":"{\"validateEmptyInput\":[\"talla_antropometrica\"],\"validateNegativeInputNumber\":[\"talla_antropometrica\"]}",
+                                        "blurFunction":"{\"validateEmptyInput\":[\"talla_antropometrica\"],\"validateNegativeInputNumber\":[\"talla_antropometrica\"],\"calculateIMC\":[\"peso_antropometrica\",\"talla_antropometrica\",\"diagnostico_imc\"]}",
                                         "error":"",
                                         "value":""
                                     },
@@ -2092,7 +2180,7 @@
                                         "label":"PESO (kg)",
                                         "type":"input_number",
                                         "id":"peso_antropometrica",
-                                        "blurFunction":"{\"validateEmptyInput\":[\"peso_antropometrica\"],\"validateNegativeInputNumber\":[\"peso_antropometrica\"]}",
+                                        "blurFunction":"{\"validateEmptyInput\":[\"peso_antropometrica\"],\"validateNegativeInputNumber\":[\"peso_antropometrica\"],\"calculateIMC\":[\"peso_antropometrica\",\"talla_antropometrica\",\"diagnostico_imc\"]}",
                                         "error":"",
                                         "value":""
                                     },
@@ -2111,6 +2199,13 @@
                                         "blurFunction":"{\"validateEmptyInput\":[\"perimetro_braquial_antropometrica\"],\"validateNegativeInputNumber\":[\"perimetro_braquial_antropometrica\"],\"diagnosePerimeter\":[\"perimetro_braquial_antropometrica\",\"diagnostico_perimetro_braquial\"]}",
                                         "error":"",
                                         "value":""
+                                    },
+                                    {
+                                        "type":"diagnose",
+                                        "id":"diagnostico_imc",
+                                        "value":"",
+                                        "clasification":"",
+                                        "risk":""
                                     },
                                     {
                                         "type":"diagnose_2",
@@ -2793,7 +2888,7 @@
                                                 "children":[
                                                     {
                                                         "label":"TABLA GUÍA",
-                                                        "type":"info_table",
+                                                        "type":"info_table2",
                                                         "rows":[
                                                             {
                                                                 "column1":"METS",
