@@ -1337,34 +1337,39 @@
                                                                 "label":"LÁCTEOS",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"LECHE ENTERA",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"LECHE ENTERA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"LECHE SEMIDESCREMADA",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"LECHE SEMIDESCREMADA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"LECHE DESCREMADA",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"LECHE DESCREMADA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"YOGURT",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"YOGURT",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"QUESO",
-                                                                        "label2":"REBANADA",
+                                                                        "label":"QUESO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"REBANADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     }
                                                                 ]
                                                             },
@@ -1372,82 +1377,95 @@
                                                                 "label":"PROTEÍNAS",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"HUEVOS",
-                                                                        "label2":"ENTERO O CLARA",
+                                                                        "label":"HUEVOS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"3"
                                                                     },
                                                                     {
-                                                                        "label1":"POLLO",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"POLLO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"PATO",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"PATO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"CARNE DE RES",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"CARNE DE RES",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"CARNE DE CERDO",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"CARNE DE CERDO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"EMBUTIDOS",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"EMBUTIDOS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"PESCADO",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"PESCADO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"ATÚN",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"ATÚN",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"MARISCOS",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"MARISCOS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"GUANTA",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"GUANTA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"CUY",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"CUY",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"CHONTACUROS",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"CHONTACUROS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     },
                                                                     {
-                                                                        "label1":"TORTUGA",
-                                                                        "label2":"FILETE O PRESA",
+                                                                        "label":"TORTUGA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"4"
                                                                     }
                                                                 ]
                                                             },
@@ -1455,76 +1473,88 @@
                                                                 "label":"VERDURAS",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"ESPINACAS",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"ESPINACAS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"COL, COLIFLOR, BRÓCOLI",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"COL, COLIFLOR, BRÓCOLI",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"LECHUGA",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"LECHUGA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"HELECHO SILVESTRE (GARABATO YUYO)",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"HELECHO SILVESTRE (GARABATO YUYO)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"TOMATE",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"TOMATE",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"PIMIENTO",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"PIMIENTO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"CEBOLLA COLORADA, BLANCA, PERLA",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"CEBOLLA COLORADA, BLANCA, PERLA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"ZANAHORIA",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"ZANAHORIA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"CHAMPIÑONES",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"CHAMPIÑONES",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"FREJOL (PURUTU)",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"FREJOL (PURUTU)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"ZAPALLO",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"ZAPALLO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"FREJOLES",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"FREJOLES",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     }
                                                                 ]
                                                             },
@@ -1532,118 +1562,137 @@
                                                                 "label":"FRUTAS",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"NARANJA",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"NARANJA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"NARANAJILLA",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"NARANAJILLA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"LIMÓN",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"LIMÓN",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"GUINEO (BANANO SEDA)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"GUINEO (BANANO SEDA)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"PAPAYA",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"PAPAYA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"PERA",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"PERA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"MANZANA",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"MANZANA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"FRUTILLA",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"FRUTILLA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"SANDÍA",
-                                                                        "label2":"PORCIÓN/TAZA",
+                                                                        "label":"SANDÍA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"7"
                                                                     },
                                                                     {
-                                                                        "label1":"MELÓN",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"MELÓN",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"UVAS",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"UVAS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"PIÑA (CHIWILLA)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"PIÑA (CHIWILLA)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"MANDARINA",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"MANDARINA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"BADEA (GRANADILLO)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"BADEA (GRANADILLO)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"GUABA BEJUCO (GUAVA PACAY)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"GUABA BEJUCO (GUAVA PACAY)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"GUABA MACHETE (MACHETONA)",
-                                                                        "label2":"UNIDAD",
+                                                                        "label":"GUABA MACHETE (MACHETONA)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"UNIDAD",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"AGUACATE (PALTA)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"AGUACATE (PALTA)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"CAÑA DE AZÚCAR (IRU/WIRU)",
-                                                                        "label2":"UNIDAD",
+                                                                        "label":"CAÑA DE AZÚCAR (IRU/WIRU)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"UNIDAD",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"ANONA (ANANAS)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"ANONA (ANANAS)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     }
                                                                 ]
                                                             },
@@ -1651,82 +1700,95 @@
                                                                 "label":"PAN Y CEREALES",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"PAN BLANCO",
-                                                                        "label2":"REBANADA",
+                                                                        "label":"PAN BLANCO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"REBANADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"PAN INTEGRAL",
-                                                                        "label2":"REBANADA",
+                                                                        "label":"PAN INTEGRAL",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"REBANADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"ARROZ BLANCO",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"ARROZ BLANCO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"ARROZ INTEGRAL",
-                                                                        "label2":"TAZA/PLATO",
+                                                                        "label":"ARROZ INTEGRAL",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"5"
                                                                     },
                                                                     {
-                                                                        "label1":"PAPA",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"PAPA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"CAMOTE",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"CAMOTE",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"ABCHALUMU (YUCA)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"ABCHALUMU (YUCA)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"VERDE",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"VERDE",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"MALANGA (PAPA CHINA)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"MALANGA (PAPA CHINA)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"MADURO",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"MADURO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"FIDEOS",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"FIDEOS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"MAÍZ",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"MAÍZ",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     },
                                                                     {
-                                                                        "label1":"FRUTA DE PAN (PAPARU)",
-                                                                        "label2":"UNIDAD/TAZA",
+                                                                        "label":"FRUTA DE PAN (PAPARU)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"6"
                                                                     }
                                                                 ]
                                                             },
@@ -1734,34 +1796,39 @@
                                                                 "label":"ACEITES Y GRASAS",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"ACEITE GIRASOL, MAÍZ, SOJA",
-                                                                        "label2":"CUCHARADA",
+                                                                        "label":"ACEITE GIRASOL, MAÍZ, SOJA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"CUCHARADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"MANTEQUILLA",
-                                                                        "label2":"CUCHARADA",
+                                                                        "label":"MANTEQUILLA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"CUCHARADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"MARGARINA",
-                                                                        "label2":"CUCHARADA",
+                                                                        "label":"MARGARINA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"CUCHARADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"MANTECA DE CERDO",
-                                                                        "label2":"CUCHARADA",
+                                                                        "label":"MANTECA DE CERDO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"CUCHARADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"MAYONESA",
-                                                                        "label2":"CUCHARADA",
+                                                                        "label":"MAYONESA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"CUCHARADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     }
                                                                 ]
                                                             },
@@ -1769,52 +1836,60 @@
                                                                 "label":"DULCES",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"GALLETAS DE SAL",
-                                                                        "label2":"UNIDAD",
+                                                                        "label":"GALLETAS DE SAL",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"UNIDAD",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"GALLETAS DULCES",
-                                                                        "label2":"UNIDAD",
+                                                                        "label":"GALLETAS DULCES",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"UNIDAD",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"TORTA",
-                                                                        "label2":"REBANADA",
+                                                                        "label":"TORTA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"REBANADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"CHOCOLATE EN POLVO",
-                                                                        "label2":"CUCHARADA",
+                                                                        "label":"CHOCOLATE EN POLVO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"CUCHARADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"AZÚCAR",
-                                                                        "label2":"CUCHARADA",
+                                                                        "label":"AZÚCAR",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"CUCHARADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"PANELA",
-                                                                        "label2":"CUCHARADA",
+                                                                        "label":"PANELA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"CUCHARADA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"ENDULZANTES ARTIFICIALES",
-                                                                        "label2":"SOBRE",
+                                                                        "label":"ENDULZANTES ARTIFICIALES",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"SOBRE",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"HELADO",
-                                                                        "label2":"BOLA/PALETA",
+                                                                        "label":"HELADO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"8"
                                                                     }
                                                                 ]
                                                             },
@@ -1822,64 +1897,74 @@
                                                                 "label":"BEBIDAS",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"GASEOSAS",
-                                                                        "label2":"VASO/BOTELLA",
+                                                                        "label":"GASEOSAS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"9"
                                                                     },
                                                                     {
-                                                                        "label1":"JUGO DE FRUTAS (NATURAL)",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"JUGO DE FRUTAS (NATURAL)",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"JUGO EMBOTELLADO",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"JUGO EMBOTELLADO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"JUGO INSTANTÁNEO",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"JUGO INSTANTÁNEO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"CAFÉ",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"CAFÉ",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"TÉ",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"TÉ",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"CHICHA DE YUCA",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"CHICHA DE YUCA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"CHICHA DE CHONTA",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"CHICHA DE CHONTA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"GUAYUSA",
-                                                                        "label2":"VASO/TAZA",
+                                                                        "label":"GUAYUSA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"2"
                                                                     },
                                                                     {
-                                                                        "label1":"BEBIDAS ENERGIZANTES/ HIDRATANTES",
-                                                                        "label2":"VASO/BOTELLA",
+                                                                        "label":"BEBIDAS ENERGIZANTES/ HIDRATANTES",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"",
+                                                                        "text3":"",
+                                                                        "select":"9"
                                                                     }
                                                                 ]
                                                             },
@@ -1887,52 +1972,60 @@
                                                                 "label":"CONDIMENTOS/ADEREZOS",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"RANCHERO",
-                                                                        "label2":"1 CUCHARADITA",
+                                                                        "label":"RANCHERO",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 CUCHARADITA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"CUBO MAGGI",
-                                                                        "label2":"1 CUCHARADITA",
+                                                                        "label":"CUBO MAGGI",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 CUCHARADITA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"ALIÑOS",
-                                                                        "label2":"1 CUCHARADITA",
+                                                                        "label":"ALIÑOS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 CUCHARADITA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"LA SAZÓN",
-                                                                        "label2":"1 CUCHARADITA",
+                                                                        "label":"LA SAZÓN",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 CUCHARADITA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"SALSA DE SOYA",
-                                                                        "label2":"1 CUCHARADITA",
+                                                                        "label":"SALSA DE SOYA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 CUCHARADITA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"SALSA INGLESA",
-                                                                        "label2":"1 CUCHARADITA",
+                                                                        "label":"SALSA INGLESA",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 CUCHARADITA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"CURRY",
-                                                                        "label2":"1 CUCHARADITA",
+                                                                        "label":"CURRY",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 CUCHARADITA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"CONDIMENTOS NATURALES",
-                                                                        "label2":"1 CUCHARADITA",
+                                                                        "label":"CONDIMENTOS NATURALES",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 CUCHARADITA",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     }
                                                                 ]
                                                             },
@@ -1940,34 +2033,39 @@
                                                                 "label":"OTROS",
                                                                 "options":[
                                                                     {
-                                                                        "label1":"PAPAS FRITAS",
-                                                                        "label2":"1 PAQUETE",
+                                                                        "label":"PAPAS FRITAS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 PAQUETE",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"K-CHITOS",
-                                                                        "label2":"1 PAQUETE",
+                                                                        "label":"K-CHITOS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 PAQUETE",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"BOCADITOS DE MAÍZ",
-                                                                        "label2":"1 PAQUETE",
+                                                                        "label":"BOCADITOS DE MAÍZ",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 PAQUETE",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"ROSQUITAS",
-                                                                        "label2":"1 PAQUETE",
+                                                                        "label":"ROSQUITAS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 PAQUETE",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     },
                                                                     {
-                                                                        "label1":"OTROS",
-                                                                        "label2":"1 PAQUETE",
+                                                                        "label":"OTROS",
                                                                         "text1":"",
-                                                                        "text2":""
+                                                                        "text2":"1 PAQUETE",
+                                                                        "text3":"",
+                                                                        "select":""
                                                                     }
                                                                 ]
                                                             }
@@ -2020,6 +2118,110 @@
                                                                     },
                                                                     {
                                                                         "label":"3 O MÁS"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "placeholder":"PORCIÓN MEDIA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"VASO"
+                                                                    },
+                                                                    {
+                                                                        "label":"TAZA"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "placeholder":"PORCIÓN MEDIA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"ENTERO"
+                                                                    },
+                                                                    {
+                                                                        "label":"CLARA"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "placeholder":"PORCIÓN MEDIA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"FILETE"
+                                                                    },
+                                                                    {
+                                                                        "label":"PRESA"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "placeholder":"PORCIÓN MEDIA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"TAZA"
+                                                                    },
+                                                                    {
+                                                                        "label":"PLATO"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "placeholder":"PORCIÓN MEDIA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"UNIDAD"
+                                                                    },
+                                                                    {
+                                                                        "label":"TAZA"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "placeholder":"PORCIÓN MEDIA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"PORCIÓN"
+                                                                    },
+                                                                    {
+                                                                        "label":"TAZA"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "placeholder":"PORCIÓN MEDIA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"BOLA"
+                                                                    },
+                                                                    {
+                                                                        "label":"PALETA"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "placeholder":"PORCIÓN MEDIA",
+                                                                "okText":"ACEPTAR",
+                                                                "cancelText":"CANCELAR",
+                                                                "children":[
+                                                                    {
+                                                                        "label":"VASO"
+                                                                    },
+                                                                    {
+                                                                        "label":"BOTELLA"
                                                                     }
                                                                 ]
                                                             }
@@ -3473,7 +3675,7 @@
                                                         "options":[
                                                             {
                                                                 "text1":"ESPINACAS",
-                                                                "text2":"TAZA/PLATO"
+                                                                "text2":""
                                                             },
                                                             {
                                                                 "text1":"COL, COLIFLOR, BRÓCOLI",
