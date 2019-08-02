@@ -287,7 +287,7 @@
                     <ion-label style="padding-left: 14px !important;" class="pregunta">{{ali.label}}</ion-label>
                     <ion-row *ngFor="let opt of ali.options;" style="margin-left:0;margin-right:0" align-items-center>
                         <ion-col col-3 align-self-center>
-                            <ion-label>{{opt.label1}}</ion-label>
+                            <ion-label>{{opt.label}}</ion-label>
                         </ion-col>
                         <ion-col col-3 align-self-center>
                             <ion-item>
@@ -297,7 +297,12 @@
                             </ion-item>
                         </ion-col>
                         <ion-col col-3 align-self-center>
-                            <ion-label>{{opt.label2}}</ion-label>
+                            <ion-label *ngIf="opt.select==''" style="text-align: center !important;">{{opt.text2}}</ion-label>
+                            <ion-item *ngIf="opt.select!=''">
+                                <ion-select okText={{item.selects[opt.select].okText}} cancelText={{item.selects[opt.select].cancelText}} [(ngModel)]="opt.text2" placeholder={{item.selects[opt.select].placeholder}} (ionChange)="saveForm()">
+                                    <ion-option *ngFor="let op of item.selects[opt.select].children;" value={{op.label}}>{{op.label}}</ion-option>
+                                </ion-select>
+                            </ion-item>
                         </ion-col>
                         <ion-col col-3 align-self-center>
                             <ion-item>
