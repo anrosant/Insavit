@@ -258,49 +258,49 @@
                                                                 "label":"FALTA APETITO",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"NÁUSEAS",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"VÓMITOS",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"REFLUJO",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"ESTREÑIMIENTO",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"DIARREA",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"ARDOR ESTOMACAL",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"DOLOR ESTOMACAL",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"OTROS",
@@ -548,38 +548,38 @@
                                                                 "label":"ALCOHOL",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"AYAWASCA",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"ALUCINÓGENOS",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"CIGARRILLOS",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"DROGAS",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             },
                                                             {
                                                                 "label":"OTROS",
                                                                 "value":"",
                                                                 "text1":"",
                                                                 "text2":"",
-                                                                "refiere":false
+                                                                "checked":false
                                                             }
                                                         ],
                                                         "selects":[
@@ -1324,10 +1324,6 @@
                                                                 "label":"NO"
                                                             }
                                                         ]
-                                                    },
-                                                    {
-                                                        "label":"VER PORCIONES",
-                                                        "type":"button_porciones"
                                                     },
                                                     {
                                                         "label":"ALIMENTACIÓN",
@@ -2371,7 +2367,7 @@
                                         "value":""
                                     },
                                     {
-                                        "label":"TALLA (cm)",
+                                        "label":"TALLA (m)",
                                         "type":"input_number",
                                         "id":"talla_antropometrica",
                                         "blurFunction":"{\"validateEmptyInput\":[\"talla_antropometrica\"],\"validateNegativeInputNumber\":[\"talla_antropometrica\"],\"calculateIMC\":[\"peso_antropometrica\",\"talla_antropometrica\",\"diagnostico_imc\"]}",
@@ -2689,10 +2685,6 @@
                                                 "value":""
                                             }
                                         ]
-                                    },
-                                    {
-                                        "label":"VER DEPOSICIONES",
-                                        "type":"button_deposiciones"
                                     },
                                     {
                                         "label":"¿CÓMO SON LAS DEPOSICIONES DEL BEBÉ?",

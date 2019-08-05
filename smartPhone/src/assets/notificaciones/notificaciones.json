@@ -1,0 +1,16 @@
+{
+    "notificaciones": [
+        {
+            "name":"NUTRICIÓN TENA",
+            "type":"COMPUESTA",
+            "date":"2019-08-04",
+            "time":"21:56"
+        },
+        {
+            "name":"INHAMI",
+            "type":"SIMPLE",
+            "date":"2019-08-04",
+            "time":"21:57"
+        }
+    ]
+}
