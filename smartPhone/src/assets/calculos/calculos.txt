@@ -412,3 +412,39 @@ function calculateMETS(item1,item2){
 	item2.value=mets;
 	return 0;
 }
+
+function calculateIMC(item1,item2,item3){
+	if(item1.value!='' && item2.value!=''){
+		var peso=parseFloat(item1.value);
+		var talla=parseFloat(item2.value);
+		if(!isNaN(peso) && !isNaN(talla)){
+			if(peso>0 && talla>0){
+				var imc=(peso/(talla*talla));
+				item3.value=imc;
+				if(imc<18.5){
+					item3.clasification='BAJO PESO';
+					item3.risk='AUMENTADO';
+				}else if(imc>=18.5 && imc <=24.9){
+					item3.clasification='NORMAL';
+					item3.risk='PROMEDIO';
+				}else if(imc>=25 && imc <=29.9){
+					item3.clasification='SOBREPESO';
+					item3.risk='AUMENTADO';
+				}else if(imc>=30 && imc <=34.9){
+					item3.clasification='OBESIDAD TIPO I';
+					item3.risk='MODERADO';
+				}else if(imc>=35 && imc <=39.9){
+					item3.clasification='OBESIDAD TIPO II';
+					item3.risk='SEVERO';
+				}else if(imc>=40){
+					item3.clasification='OBESIDAD MÓRBIDA';
+					item3.risk='MUY SEVERO';
+				}
+				return 0;
+			}
+		}
+	}
+	item3.value='';
+	item3.clasification='';
+	item3.risk='';
+}

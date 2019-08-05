@@ -9,6 +9,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { Coordinates, Geolocation } from '@ionic-native/geolocation';
 import { FormPage } from '../form/form';
 import { FollowUpPage } from '../followUp/followUp';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 import uuid from 'uuid/v4';
 
 @Component({
@@ -35,7 +36,8 @@ export class HomePage {
         private storage: Storage,
         public alertCtrl: AlertController,
         public loadingController: LoadingController,
-        public navCtrl: NavController) {
+        public navCtrl: NavController,
+        private localNotifications: LocalNotifications) {
 
         this.menuCtrl.enable(true);
 
@@ -58,7 +60,32 @@ export class HomePage {
                 this.formsData = formsData;
             }
         });
+        this.setNotificaciones();
     }
+
+    setNotificaciones() {
+        this.storage.get('notificaciones').then((notificaciones) => {
+            var i = 0;
+            for(let noti of notificaciones.notificaciones) {
+                var nombre = noti.name;
+                var tipo = noti.type;
+                var fecha = noti.date.split('-');
+                var hora = noti.time.split(':');
+                this.localNotifications.schedule({
+                    id: i,
+                    icon: './assets/imgs/logo_notification.png',
+                    title: 'NUEVO FORMULARIO',
+                    text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
+                    trigger: {at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1])},
+                    led: 'FF0000'
+                });
+                i++;
+            }
+        }).catch(error => {
+            console.log(JSON.stringify(error));
+        });
+    }
+
     pad(num, size) {
         var s = "00000" + num;
         return s.substr(s.length - size);

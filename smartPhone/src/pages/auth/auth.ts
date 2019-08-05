@@ -29,13 +29,52 @@ export class AuthPage {
         public network: Network, public loadingCtrl: LoadingController,
         public alertCtrl: AlertController) {
         // Or to get a key/value pair
+        
         this.menuCtrl.enable(false);
         console.log('(auth) params constructor', JSON.stringify(this.navParams.data));
+        
         this.storage.get('linkedUser').then((val) => {
             if (val) {
                 this.linkedUser = val;
             }
         });
+
+        this.storage.get('templates').then((templates) => {
+            if (templates == null) {
+                this.httpClient.get('./assets/plantilla/templates.json').subscribe(res => {
+                    this.storage.set('templates', res);
+                }, err => {
+                    console.log('error no puede conectarse al servidor para descarga de plantilla');
+                });
+            } else {
+                console.log('si hay plantilla');
+            }
+        });
+
+        this.storage.get('calculos').then((calculos) => {
+            if (calculos == null) {
+                this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
+                    this.storage.set('calculos', res);
+                }, err => {
+                    console.log('error no puede conectarse al servidor para descarga de calculos', err);
+                });
+            } else {
+                console.log('si hay calculos');
+            }
+        });
+
+        this.storage.get('notificaciones').then((notificaciones) => {
+            if (notificaciones == null) {
+                this.httpClient.get('./assets/notificaciones/notificaciones.json').subscribe(res => {
+                    this.storage.set('notificaciones', res);
+                }, err => {
+                    console.log('error no puede conectarse al servidor para descarga de notificaciones', err);
+                });
+            } else {
+                console.log('si hay notificaciones');
+            }
+        });
+        
     }
 
     attemptAuth() {
@@ -74,8 +113,7 @@ export class AuthPage {
                     }
                 }) // Resolves to 'Sample Data'
                 .catch((error: any) => console.log(error));
-        }
-        else {
+        } else {
             this.http.post(this.url, { username: this.user.username, password: this.user.password }, {})
                 .then(res => {
                     const alert = this.alertCtrl.create({
@@ -132,6 +170,7 @@ export class AuthPage {
                 });
         }
     }
+
     async getInfoPlantilla() {
         await this.storage.get('templates').then((templates) => {
             for (let template of templates) {
@@ -155,7 +194,6 @@ export class AuthPage {
                             type: "INICIAL",
                             done_quantity: 0,
                             remain_quantity: template.quantity
-
                         },
                         {
                             type: "SEGUIMIENTO",
@@ -168,8 +206,8 @@ export class AuthPage {
             }
         });
         await this.storage.set('infoTemplates', this.infoTemplates);
-
     }
+
     desvincular() {
         const confirm = this.alertCtrl.create({
             title: 'Seguro que quieres ingresar con otra cuenta?',

@@ -21,6 +21,7 @@ import { FollowUpPage } from '../pages/followUp/followUp';
 @Component({
     templateUrl: 'app.html'
 })
+
 export class MyApp {
     rootPage: any;
     flagMenu: boolean = false;
@@ -40,101 +41,48 @@ export class MyApp {
     urlServerCalculos = "http://150.136.230.16/api/validations/";
 
     constructor(private diagnostic: Diagnostic,
-      private locationAccuracy: LocationAccuracy,
-      public http: HTTP,
-      public alertCtrl: AlertController,
-      private geolocation: Geolocation,
-      public loadingCtrl: LoadingController,
-      public appCtrl: App,
-      public httpClient: HttpClient,
-      private storage: Storage,
-      public menuCtrl: MenuController,
-      private events: Events,
-      platform: Platform,
-      statusBar: StatusBar,
-      splashScreen: SplashScreen) {
-        platform.ready().then(() => {
-            this.events.subscribe('pendingForms:editarFormulario', (fechaFormulario) => {
-                this.selectItemMenuGeneral(this.listaGeneral[0], 0, null);
-                this.appCtrl.getRootNav().setRoot(HomePage, { fechaFormulario: fechaFormulario });
+        private locationAccuracy: LocationAccuracy,
+        public http: HTTP,
+        public alertCtrl: AlertController,
+        private geolocation: Geolocation,
+        public loadingCtrl: LoadingController,
+        public appCtrl: App,
+        public httpClient: HttpClient,
+        private storage: Storage,
+        public menuCtrl: MenuController,
+        private events: Events,
+        platform: Platform,
+        statusBar: StatusBar,
+        splashScreen: SplashScreen) {
+            platform.ready().then(() => {
 
-            });
-            window.addEventListener('beforeunload', () => {
-                setTimeout(() => {
-                    console.log('setime oout cerrando');
-                }, 3000);
-            });
-
-            statusBar.styleDefault();
-            splashScreen.hide();
-            this.listenToLoginEvents();
-
-            this.storage.get('fechaInstalacion').then(data => {
-                if (data == null) {
-                    this.storage.set('fechaInstalacion', this.fechaIncioApp);
-                }
-            });
-            this.getPlantillaApp();
-
-
-            this.storage.get('linkedUser').then((val) => {
-                this.params.linkedUser = val;
-                if (val != null && val.sesion) {
+                this.events.subscribe('pendingForms:editarFormulario', (fechaFormulario) => {
                     this.selectItemMenuGeneral(this.listaGeneral[0], 0, null);
-                }
-                else {
-                    this.appCtrl.getRootNav().setRoot(AuthPage);
-                }
-
-            });
-
-            this.getTemplates();
-
-            this.storage.get('calculos').then((calculos) => {
-                if (calculos == null) {
-                    this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
-                        this.storage.set('calculos', res);
-                    }, err => {
-                        console.log('error no puede conectarse al servidor para descarga de calculos', err);
-                    });
-
-                } else {
-                    console.log('si hay calculos'); console.log(calculos);
-                }
-            });
-
-        });
-
-    }
-
-    getTemplates() {
-        /*setInterval(() => {
-            this.httpClient.get(this.urlServerPlantilla).subscribe(res => {
-                this.storage.set('templates', res);
-            }, err => {
-                console.log('error no puede conectarse al servidor para descarga de plantilla');
-            });
-            this.httpClient.get(this.urlServerCalculos).subscribe(res => {
-                this.storage.set('calculos', res);
-            }, err => {
-                console.log('error no puede conectarse al servidor para descarga de calculos');
-            });
-        }, 3000);*/
-
-        this.storage.get('templates').then((templates) => {
-            if (templates == null) {
-                this.httpClient.get('./assets/plantilla/templates.json').subscribe(res => {
-                    this.storage.set('templates', res);
-                }, err => {
-                    console.log('error no puede conectarse al servidor para descarga de plantilla');
+                    this.appCtrl.getRootNav().setRoot(HomePage, { fechaFormulario: fechaFormulario });
                 });
 
-            } else {
-                console.log('si hay plantilla'); console.log(templates);
-            }
-        });
-    }
+                statusBar.styleDefault();
+                splashScreen.hide();
+                this.listenToLoginEvents();
 
+                this.storage.get('fechaInstalacion').then(data => {
+                    if (data == null) {
+                        this.storage.set('fechaInstalacion', this.fechaIncioApp);
+                    }
+                });
+
+                this.storage.get('linkedUser').then((val) => {
+                    this.params.linkedUser = val;
+                    if (val != null && val.sesion) {
+                        this.selectItemMenuGeneral(this.listaGeneral[0], 0, null);
+                    } else {
+                        this.appCtrl.getRootNav().setRoot(AuthPage);
+                    }
+                });
+
+            });
+    }
+    
     promesaEnvioFormulario(linkedUser, formulario) {
         return new Promise((resolve, reject) => {
             var data = {
@@ -160,7 +108,6 @@ export class MyApp {
                 });
         });
     }
-
 
     async enviarFormulariosEvent(pendingForms) {
         this.events.publish('app:envioFormularios', true);
@@ -239,7 +186,6 @@ export class MyApp {
     }
 
     selectItemMenuGeneral(item, index, $event) {
-
         this.indexSelectedFormulario = null;
         this.indexSelectedGeneral = index;
         this.menuCtrl.close();
@@ -257,7 +203,6 @@ export class MyApp {
         }
 
         this.appCtrl.getRootNav().setRoot(page, this.rootParams);
-
     }
 
     listenToLoginEvents() {
@@ -292,8 +237,6 @@ export class MyApp {
         this.events.subscribe('pendingForms:enviarFormularios', (pendingForms) => {
             this.enviarFormulariosEvent(pendingForms);
         });
-
-
     }
 
     cerrarSesion() {
@@ -305,12 +248,5 @@ export class MyApp {
             });
         });
     }
-
-    getPlantillaApp() {
-        this.httpClient.get('./assets/plantilla/templates.json').subscribe(templates => {
-            this.plantillaApp = templates[0];
-        }, error => {
-            this.plantillaApp = null;
-        });
-    }
+   
 }
