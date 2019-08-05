@@ -1,16 +1,87 @@
-{% load render_bundle from webpack_loader %}
-<!doctype html>
-<html lang="en" dir="ltr">
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %}INSAVIT{% endblock %}
+{% block extraStyle %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+{% endblock %}
+{% block content %}
+<div>
+  <h3>Formularios realizados</h3>
+  {% if user_type == "administrador" %}
+  <div>
+    {% for templateInfo in forms %}
+    <div class="form-name">
+      <b>Formulario:</b> {{ templateInfo.template.name }}<br>
+    </div>
+    {% for type, formInfo in templateInfo.formsInfo.items %}
+    <div>
+      <div class="type-name">
+        <b>Tipo:</b> {{ type }}<br>
+      </div>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Código Entrevistado</th>
+              <th>Coordenadas</th>
+              <th>Fecha de creación</th>
+              <th>Fecha de envío</th>
+              <th>Incluye GPS</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for form in formInfo %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ form.code }}</td>
+              <td>{% if form.coordinates %}{{ form.coordinates }}{% else %} No determinada {% endif %}</td>
+              <td>{{ form.created_date }}</td>
+              <td>{{ form.send_date }}</td>
+              <td>{{ form.include_gps }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endfor %}
+    </div>
+    <hr>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Tipo</th>
+          <th>Código Entrevistado</th>
+          <th>Coordenadas</th>
+          <th>Fecha de creación</th>
+          <th>Fecha de envío</th>
+          <th>Incluye GPS</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for form in forms %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ form.type.name }}</td>
+          <td>{{ form.code }}</td>
+          <td>{% if form.coordinates %}{{ form.coordinates }}{% else %} No determinada {% endif %}</td>
+          <td>{{ form.created_date }}</td>
+          <td>{{ form.send_date }}</td>
+          <td>{{ form.include_gps }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
 
-<head>
-  <meta charset="utf-8">
-  <title>Ejemplo</title>
-
-</head>
-
-<body>
-  <div id="form-container">Welcome</div>
-  {% render_bundle 'main' %}
-</body>
-
-</html>
+{% block extraScripts %}
+{% endblock %}

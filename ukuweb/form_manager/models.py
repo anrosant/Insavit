@@ -41,7 +41,8 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=350)
     last_name = models.CharField(max_length=350)
     user_type = models.ForeignKey(UserType)
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    manager = models.ForeignKey("self", null=True, related_name="created_by")
 
     def __unicode__(self):
         return self.name

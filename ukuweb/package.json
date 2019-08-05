@@ -18,9 +18,9 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "install": "^0.12.2",
-    "webpack": "^4.35.0",
+    "webpack": "^4.38.0",
     "webpack-bundle-tracker": "^0.4.2-beta",
-    "webpack-cli": "^3.3.5"
+    "webpack-cli": "^3.3.6"
   },
   "dependencies": {
     "create-react-class": "^15.6.3",

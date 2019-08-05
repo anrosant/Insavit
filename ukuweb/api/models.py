@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from form_manager.models import UserProfile, TemplateType
+from form_manager.models import UserProfile, TemplateType, Template
 import dateutil.parser
 import datetime
 import uuid
@@ -62,6 +62,7 @@ class FormData(models.Model):
     include_gps = models.BooleanField(default=False)
     objects = FormDataManager()
     user = models.ForeignKey(UserProfile, null=True)
+    template = models.ForeignKey(Template, null=True)
     code = models.CharField(max_length=5, null=True)
 
     def to_dict(self):
@@ -71,7 +72,7 @@ class FormData(models.Model):
             "type": self.type.name if self.type else "",
             "coordinates": self.coordinates if self.coordinates else "",
             "data": self.data,
-            "createdDate": self.created_date,
+            "created_date": self.created_date,
             "sendDate": self.send_date,
             "include_gps": self.include_gps,
             "code": self.code if self.code else "",
