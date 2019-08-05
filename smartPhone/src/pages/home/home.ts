@@ -64,25 +64,25 @@ export class HomePage {
     }
 
     setNotificaciones() {
-        this.storage.get('notificaciones').then((notificaciones) => {
+        this.storage.get('templates').then((templates) => {
             var i = 0;
-            for(let noti of notificaciones.notificaciones) {
-                var nombre = noti.name;
-                var tipo = noti.type;
-                var fecha = noti.date.split('-');
-                var hora = noti.time.split(':');
-                this.localNotifications.schedule({
-                    id: i,
-                    icon: './assets/imgs/logo_notification.png',
-                    title: 'NUEVO FORMULARIO',
-                    text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                    trigger: {at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1])},
-                    led: 'FF0000'
-                });
-                i++;
+            for(let template of templates) {
+                for(let noti of template.notifications) {
+                    var nombre = template.name;
+                    var tipo = template.type;
+                    var fecha = noti.date.split('-');
+                    var hora = noti.time.split(':');
+                    this.localNotifications.schedule({
+                        id: i,
+                        icon: './assets/imgs/logo_notification.png',
+                        title: 'NUEVO FORMULARIO',
+                        text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
+                        trigger: {at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1])},
+                        led: 'FF0000'
+                    });
+                    i++;
+                }
             }
-        }).catch(error => {
-            console.log(JSON.stringify(error));
         });
     }
 
