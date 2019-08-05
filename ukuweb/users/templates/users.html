@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block titulo %}INSAVIT{% endblock %}
+{% block extraStyle %}
+<link rel="stylesheet" href="{% static 'css/users.css' %}">
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+{% endblock %}
+{% block content %}
+<div class="content">
+  <h3>Usuarios</h3>
+  <div class="add-user">
+    <a class="button default" href="{% url 'create-user-view' %}">Agregar usuario</a>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Nombre de usuario</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for interviewer in interviewers %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ interviewer.name }}</td>
+          <td>{{ interviewer.last_name }}</td>
+          <td>{{ interviewer.user.username }}</td>
+          <td><a href="{% url 'view-user' interviewer.uid %}">Ver</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endblock %}
