@@ -22,7 +22,6 @@ from django.core import urlresolvers
 @login_required(login_url="login")
 def create_view(request):
     context = {}
-    print("create view")
     account = request.session.get("account")
     user_id = account.get("uid")
     user_type = account.get("type")

@@ -6,6 +6,7 @@ from form_manager.models import UserProfile, TemplateType, Template
 import dateutil.parser
 import datetime
 import uuid
+import ast
 
 
 class FormDataManager(models.Manager):
@@ -33,6 +34,9 @@ class FormDataManager(models.Manager):
             if form.get("type")
             else None
         )
+        coordinates = form.get("coordinates", None)
+        if coordinates:
+            ast.literal_eval(coordinates)
         form_data = self.model(
             uid=form.get("uuid"),
             type=type,
@@ -65,15 +69,25 @@ class FormData(models.Model):
     template = models.ForeignKey(Template, null=True)
     code = models.CharField(max_length=5, null=True)
 
+    def coordinates_name(self):
+        coordinates = self.coordinates
+        if coordinates:
+            coordinates = ast.literal_eval(coordinates)
+            return "{0}, {1}".format(
+                coordinates.get("latitude"), coordinates.get("longitude")
+            )
+        else:
+            return "No se pudo determinar"
+
     def to_dict(self):
         return {
             "uid": self.uid,
             "name": self.name if self.name else "",
             "type": self.type.name if self.type else "",
-            "coordinates": self.coordinates if self.coordinates else "",
+            "coordinates": self.coordinates_name(),
             "data": self.data,
             "created_date": self.created_date,
-            "sendDate": self.send_date,
+            "send_date": self.send_date,
             "include_gps": self.include_gps,
             "code": self.code if self.code else "",
             "user": self.user.uid if self.user else None,

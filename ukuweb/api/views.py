@@ -4,10 +4,12 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework_jwt.settings import api_settings
 from rest_framework.permissions import AllowAny
-from api.models import FormData
+
+from .models import FormData
 from form_manager.models import UserProfile, TemplateType
+from ukuweb import settings
+import utils as api
 
 
 @api_view(["POST"])
@@ -27,6 +29,7 @@ def validate_user(request):
             if userProfile:
                 context["uid"] = userProfile[0].uid
                 context["username"] = user.username
+                context["api_key"] = settings.API_KEY
                 context["msg"] = "Ingreso exitoso"
                 status = 200
             else:
@@ -73,6 +76,8 @@ def save_form_data(request):
             try:
                 form = FormData.objects.create(request.data)
                 form.save()
+                api.convert_to_csv_and_send_to_ckan(form)
+                # context["templates"] = get_templates(settings.API_KEY)
                 context["msg"] = "Guardado correctamente"
                 context["data"] = form.to_dict()
                 status = 200

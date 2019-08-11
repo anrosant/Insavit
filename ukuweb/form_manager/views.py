@@ -9,21 +9,87 @@ from django.http import (
 )
 from django.template import loader
 from rest_framework.response import Response
-from .models import Template, UserTemplate, UserProfile, UserType
+from .models import Template, UserTemplate, UserProfile, UserType, TemplateType
 from api.models import FormData
 from django.contrib.auth.models import User
-import xlsxwriter
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.core import urlresolvers
 import ast
+from api import utils as api
 
-# Create your views here.
+
+@login_required(login_url="login")
+@require_http_methods(["GET"])
+def create_template_view(request):
+    context = {}
+    account = request.session.get("account")
+    user_id = account.get("uid")
+    user_type = account.get("type")
+    userProfile = UserProfile.objects.get(uid=user_id)
+    if user_type == UserType.USER_ADMIN:
+        template = loader.get_template("form/create.html")
+        context["template_types"] = TemplateType.objects.all()
+    return HttpResponse(template.render(context, request))
+
+
+@login_required(login_url="login")
+def create(request):
+    context = {}
+    account = request.session.get("account")
+    user_id = account.get("uid")
+    user_type = account.get("type")
+    userProfile = UserProfile.objects.get(uid=user_id)
+    if user_type == UserType.USER_ADMIN:
+        data = request.POST
+        set_name = data["setname"]
+        set_id = get_set_id(set_name)
+        if set_id:
+            template_type = TemplateType.objects.get(code=data["type"])
+            file = request.FILES.get("file")
+            structure = file.read()
+            template = Template(
+                name=data["formname"],
+                set_name=data["setname"],
+                set_id=set_id,
+                type=template_type,
+                structure=structure,
+                quantity=data["quantity"],
+            )
+            template.save()
+            user_template = UserTemplate(user=userProfile, template=template)
+            user_template.save()
+            messages.success(request, "Plantilla Creada correctamente")
+            return redirect(urlresolvers.reverse("templates"))
+        else:
+            messages.error(request, "El conjunto de datos no existe")
+            return redirect(urlresolvers.reverse("create-template-view"))
+    return HttpResponse(template.render(context, request))
+
+
+@login_required(login_url="login")
+@require_http_methods(["GET"])
+def templates_list(request):
+    context = {}
+    account = request.session.get("account")
+    user_id = account.get("uid")
+    user_type = account.get("type")
+    userProfile = UserProfile.objects.get(uid=user_id)
+    if user_type == UserType.USER_ADMIN:
+        template = loader.get_template("form/list.html")
+        user_templates = UserTemplate.objects.filter(user=userProfile)
+        templates = []
+        if user_templates:
+            for user_template in user_templates:
+                templates.append(user_template.template)
+        context["templates"] = templates
+    return HttpResponse(template.render(context, request))
+
+
 @login_required(login_url="login")
 @require_http_methods(["GET"])
 def view(request, template_uid):
-    # Agregar template al formData
     template_obj = Template.objects.filter(uid=template_uid)
     if template_obj.exists():
         template_obj = template_obj.get()
@@ -33,46 +99,12 @@ def view(request, template_uid):
             for formData in formsData:
                 data = formData.data
                 objs.append(ast.literal_eval(data))
-            head, body = convert_data_into_head_body(objs)
-            # convert_to_xls(head, body, "Datos")
+            head, body = api.convert_data_into_head_body(objs)
             template = loader.get_template("form-data.html")
             context = {"template": template_obj.name, "head": head, "body": body}
             return HttpResponse(template.render(context, request))
     else:
         return HttpResponseNotFound("Formulario no existe")
-
-
-def get_values_in_xls():
-    formsData = FormData.objects.all()
-    objs = []
-    for formData in formsData:
-        data = formData.data
-        objs.append(ast.literal_eval(data))
-        head, body = convert_data_into_head_body(objs)
-        convert_to_xls(head, body, "Datos")
-
-
-# @login_required(login_url="login")
-# @require_http_methods(["GET"])
-# def view_form(request, template_uid):
-#     # Agregar template al formData
-#     template_obj = Template.objects.filter(uid=template_uid)
-#     if template_obj.exists():
-#         template_obj = template_obj.get()
-#         formsData = FormData.objects.filter(template__id=template_obj.id)
-#         objs = []
-#         if formsData.exists():
-#             for formData in formsData:
-#                 data = formData.data
-#                 objs.append(ast.literal_eval(data))
-#             head, body = convert_data_into_head_body(objs)
-#             # convert_to_xls(head, body, "Datos")
-#             template = loader.get_template("form-data.html")
-#             context = {"template": template_obj.name, "head": head, "body": body}
-#             print(context["template"])
-#             return HttpResponse(template.render(context, request))
-#     else:
-#         return HttpResponseNotFound("Formulario no existe")
 
 
 def logout_user(request):
@@ -83,7 +115,9 @@ def logout_user(request):
 def separate_form_by_type(forms):
     forms_dict = {}
     for form in forms:
-        forms_dict[form.type.name] = forms_dict.get(form.type.name, []) + [form]
+        forms_dict[form.type.name] = forms_dict.get(form.type.name, []) + [
+            form.to_dict()
+        ]
     return forms_dict
 
 
@@ -109,8 +143,8 @@ def home(request):
                     formsDataList += FormData.objects.filter(
                         user__uid=user_assigned.user.uid
                     )
-            formData["formsInfo"] = separate_form_by_type(formsDataList)
-            formsData.append(formData)
+                formData["formsInfo"] = separate_form_by_type(formsDataList)
+                formsData.append(formData)
     else:
         formsData = FormData.objects.filter(user=userProfile)
     template = loader.get_template("index.html")
@@ -155,225 +189,6 @@ def login_user(request):
         return HttpResponse(template.render(context, request))
 
 
-def get_labels_values(obj):
-    objects = []
-    for i in obj:
-        is_key = type(obj) is dict and type(i) is not dict and type(i) is not list
-        is_dict = type(i) is dict
-        if is_key:
-            next_value_is_dict = type(obj[i]) is dict or type(obj[i]) is list
-            if next_value_is_dict:
-                objects = objects + get_labels_values(obj[i])
-        elif is_dict:
-            has_key_and_value = (
-                (i.get("label", None) is not None and i.get("value", None) is not None)
-                or (
-                    i.get("label", None) is not None
-                    and i.get("checked", None) is not None
-                )
-                or (
-                    i.get("label", None) is not None
-                    and i.get("text1", None) is not None
-                )
-                or (
-                    i.get("label", None) is not None
-                    and i.get("text2", None) is not None
-                )
-                or (
-                    i.get("label2", None) is not None
-                    and i.get("checked", None) is not None
-                )
-            )
-            if has_key_and_value:
-                key = "label" if i.get("label", None) else "label2"
-                objects.append({i[key]: "sub_label"})
-            else:
-                has_key_and_type = i.get("label", None) is not None and i.get(
-                    "type", None
-                )
-                if has_key_and_type:
-                    if (
-                        i["type"] == "checkbox_input"
-                        or i["type"] == "table_2"
-                        or i["type"] == "table"
-                    ):
-                        objects.append({i["label"]: len(i["children"])})
-                    elif i["type"] == "table_recordatorio":
-                        objects.append(
-                            {
-                                "RECORDATORIO": [
-                                    {"header": i["placeholder_1"]},
-                                    {"header": i["placeholder_2"]},
-                                    {"header": i["placeholder_3"]},
-                                    {"header": i["placeholder_4"]},
-                                    {"header": i["placeholder_5"]},
-                                ]
-                            }
-                        )
-                objects = objects + get_labels_values(i)
-    return objects
-
-
-def get_table_header(obj):
-    objects = []
-    for i in obj:
-        is_key = type(obj) is dict and type(i) is not dict and type(i) is not list
-        is_dict = type(i) is dict
-        if is_key:
-            next_value_is_dict = type(obj[i]) is dict or type(obj[i]) is list
-            if next_value_is_dict:
-                objects = objects + get_table_header(obj[i])
-        elif is_dict:
-            has_type = i.get("type", None)
-            if has_type and i["type"] == "table_recordatorio":
-                objects.append(
-                    {
-                        "RECORDATORIO": [
-                            {"header": i["placeholder_1"]},
-                            {"header": i["placeholder_2"]},
-                            {"header": i["placeholder_3"]},
-                            {"header": i["placeholder_4"]},
-                            {"header": i["placeholder_5"]},
-                        ]
-                    }
-                )
-            objects = objects + get_table_header(i)
-    return objects
-
-
-def get_table_values(obj):
-    data_table = []
-    for i in obj:
-        is_key = type(obj) is dict and type(i) is not dict and type(i) is not list
-        is_dict = type(i) is dict
-        if is_key:
-            next_value_is_dict = type(obj[i]) is dict or type(obj[i]) is list
-            if next_value_is_dict:
-                data_table = data_table + get_table_values(obj[i])
-        elif is_dict:
-            has_text1_text2_text3_text4_value = (
-                i.get("label", None) is not None
-                and i.get("text1", None) is not None
-                and i.get("text2", None) is not None
-                and i.get("text3", None) is not None
-                and i.get("text4", None) is not None
-                and i.get("value", None) is not None
-            )
-            if has_text1_text2_text3_text4_value:
-                data_table.append(
-                    [i["text1"], i["text2"], i["text3"], i["text4"], i["value"]]
-                )
-            else:
-                data_table = data_table + get_table_values(i)
-    return data_table
-
-
-def get_table_recordatorio(obj):
-    header = get_table_header(obj)
-    values = get_table_values(obj)
-
-
-def get_values(obj):
-    values = []
-    for i in obj:
-        is_key = type(obj) is dict and type(i) is not dict and type(i) is not list
-        is_dict = type(i) is dict
-        if is_key:
-            next_value_is_dict = type(obj[i]) is dict or type(obj[i]) is list
-            if next_value_is_dict:
-                values = values + get_values(obj[i])
-        elif is_dict:
-            has_key_and_value = (
-                i.get("label", None) is not None and i.get("value", None) is not None
-            )
-            has_key_and_checked = (
-                i.get("label", None) is not None and i.get("checked", None) is not None
-            )
-            has_label2_and_checked = (
-                i.get("label2", None) is not None and i.get("checked", None) is not None
-            )
-            has_key_refer_and_text1 = (
-                i.get("label", None) is not None
-                and i.get("text1", None) is not None
-                and i.get("refiere", None) is not None
-            )
-            has_key_and_text2 = (
-                i.get("label", None) is not None and i.get("text2", None) is not None
-            )
-            has_text1_text2_text3_text4_value = (
-                i.get("label", None) is not None
-                and i.get("text1", None) is not None
-                and i.get("text2", None) is not None
-                and i.get("text3", None) is not None
-                and i.get("text4", None) is not None
-                and i.get("value", None) is not None
-            )
-            if has_text1_text2_text3_text4_value:
-                values.append(
-                    [i["text1"], i["text2"], i["text3"], i["text4"], i["value"]]
-                )
-            elif has_key_and_value:
-                values.append(i["value"])
-            elif has_key_and_checked or has_label2_and_checked:
-                values.append(i["checked"])
-            elif has_key_refer_and_text1:
-                if i["refiere"]:
-                    values.append(i["text1"])
-                else:
-                    values.append("No refiere")
-            elif has_key_and_text2:
-                values.append(i["text2"])
-            else:
-                values = values + get_values(i)
-    return values
-
-
-def convert_data_into_head_body(objs):
-    body = []
-    head = get_labels_values(objs[0])
-    for obj in objs:
-        body.append(get_values(obj))
-    return (head, body)
-
-
-def convert_to_xls(head_list, body_list, title):
-    workbook = xlsxwriter.Workbook(title + ".xlsx")
-    bold = workbook.add_format({"bold": True})
-    worksheet = workbook.add_worksheet()
-
-    col = 0
-    for head_dict in head_list:
-        label = head_dict.keys()[0]
-        label_type = head_dict[label]
-        label = label.encode("utf-8").decode("string_escape").decode("utf-8")
-        if label_type == "sub_label":
-            worksheet.write(1, col, label, bold)
-            worksheet.set_column(1, col, len(label) + 10)
-            col += 1
-        else:
-            worksheet.write(0, col, label, bold)
-    row = 2
-    col = 0
-
-    for value_list in body_list:
-        for value in value_list:
-            if type(value) == bool:
-                value = "Verdadero" if value else "Falso"
-                worksheet.write(row, col, value)
-                col += 1
-            else:
-                worksheet.write(
-                    row,
-                    col,
-                    value.encode("utf-8").decode("string_escape").decode("utf-8"),
-                )
-                col += 1
-        col = 0
-        row += 1
-
-    workbook.close()
-
-
 def templates(request, uid):
     context = {}
     if request.method == "GET":
@@ -396,3 +211,22 @@ def templates(request, uid):
         context["error"] = "Méthod POST not allowed"
         status = 405
     return JsonResponse(context, status=status)
+
+
+def export_form(request, uid):
+    form = FormData.objects.filter(uid=uid)
+    if form.exists():
+        form = form.get()
+        filename = "{0}-{1}.xlsx".format(
+            form.name.encode("utf-8").decode("string_escape"), form.created_date
+        )
+        output = api.convert_form_to_excel(form, filename)
+        response = HttpResponse(
+            output,
+            content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        )
+        response["Content-Disposition"] = "attachment; filename=%s" % filename
+        return response
+    else:
+        messages.error(request, "El archivo no existe")
+        return redirect(urlresolvers.reverse("home"))

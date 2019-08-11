@@ -6,7 +6,7 @@
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
 {% endblock %}
 {% block content %}
-<div>
+<div id="done_forms">
   <h3>Formularios realizados</h3>
   {% if user_type == "administrador" %}
   <div>
@@ -29,6 +29,7 @@
               <th>Fecha de creación</th>
               <th>Fecha de envío</th>
               <th>Incluye GPS</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -40,6 +41,7 @@
               <td>{{ form.created_date }}</td>
               <td>{{ form.send_date }}</td>
               <td>{{ form.include_gps }}</td>
+              <td><a href="{% url 'export-form' form.uid %}"><span class="glyphicon glyphicon-export"></span>  Exportar</a></td>
             </tr>
             {% endfor %}
           </tbody>
