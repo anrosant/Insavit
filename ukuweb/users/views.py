@@ -40,7 +40,6 @@ def view(request, uid):
     user_type = account.get("type")
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
-        context = {"username": userProfile.name, "user_type": user_type}
         interviewer = UserProfile.objects.filter(uid=uid)
         if interviewer.exists():
             interviewer = interviewer.get()
@@ -51,6 +50,8 @@ def view(request, uid):
                 "name": interviewer.name,
                 "last_name": interviewer.last_name,
                 "type": interviewer.user_type.name,
+                "username": userProfile.name,
+                "user_type": user_type,
             }
         return HttpResponse(template.render(context, request))
     else:
