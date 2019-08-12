@@ -5,3 +5,4 @@ django-webpack-loader
 python-dateutil
 XlsxWriter
 django-import-export
+requests
