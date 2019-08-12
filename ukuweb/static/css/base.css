@@ -87,6 +87,14 @@ ul.topnav li.right {
 .button.default:hover {
   color: #ffffff;
 }
+.fade.in{
+  opacity: 1;
+}
+.alert-error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
 
 button.btn.btn-default.right {
   float: right;
@@ -102,12 +110,7 @@ button.btn.btn-success:hover {
   border-color: #417690;
 }
 
-.add-user {
-  float: right;
-  margin-bottom: 15px;
-}
-
-.messages{
+.messages {
   padding-left: 0px;
 }
 

@@ -21,25 +21,26 @@ from django.core import urlresolvers
 
 @login_required(login_url="login")
 def create_view(request):
-    context = {}
-    print("create view")
     account = request.session.get("account")
     user_id = account.get("uid")
     user_type = account.get("type")
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
+        context = {"username": userProfile.name, "user_type": user_type}
         template = loader.get_template("create.html")
-    return HttpResponse(template.render(context, request))
+        return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
 
 
 @login_required(login_url="login")
 def view(request, uid):
-    context = {}
     account = request.session.get("account")
     user_id = account.get("uid")
     user_type = account.get("type")
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
+        context = {"username": userProfile.name, "user_type": user_type}
         interviewer = UserProfile.objects.filter(uid=uid)
         if interviewer.exists():
             interviewer = interviewer.get()
@@ -51,7 +52,9 @@ def view(request, uid):
                 "last_name": interviewer.last_name,
                 "type": interviewer.user_type.name,
             }
-    return HttpResponse(template.render(context, request))
+        return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
 
 
 @login_required(login_url="login")
@@ -77,7 +80,8 @@ def edit(request, uid):
                 print(e)
                 messages.error(request, "El usuario ya existe")
                 return redirect(urlresolvers.reverse("create-user-view"))
-    return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
 
 
 @login_required(login_url="login")
@@ -112,7 +116,8 @@ def create(request):
             print(e)
             messages.error(request, "El usuario ya existe")
             return redirect(urlresolvers.reverse("create-user-view"))
-    return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
 
 
 @login_required(login_url="login")
@@ -130,7 +135,8 @@ def delete(request, uid):
             user.delete()
         messages.success(request, "Usuario elimnado correctamente")
         return redirect(urlresolvers.reverse("users"))
-    return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
 
 
 @login_required(login_url="login")
@@ -142,5 +148,11 @@ def user_admin(request):
     if user_type == UserType.USER_ADMIN:
         template = loader.get_template("users.html")
         interviewers = userProfile.created_by.all()
-        context = {"interviewers": interviewers}
-    return HttpResponse(template.render(context, request))
+        context = {
+            "username": userProfile.name,
+            "user_type": user_type,
+            "interviewers": interviewers,
+        }
+        return HttpResponse(template.render(context, request))
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)

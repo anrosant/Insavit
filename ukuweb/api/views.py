@@ -4,10 +4,12 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework_jwt.settings import api_settings
 from rest_framework.permissions import AllowAny
-from api.models import FormData
+
+from .models import FormData
 from form_manager.models import UserProfile, TemplateType
+from ukuweb import settings
+import utils as api
 
 
 @api_view(["POST"])
@@ -27,6 +29,8 @@ def validate_user(request):
             if userProfile:
                 context["uid"] = userProfile[0].uid
                 context["username"] = user.username
+                context["api_key"] = settings.API_KEY
+                context["templates"] = getTemplatesByUser(userProfile)
                 context["msg"] = "Ingreso exitoso"
                 status = 200
             else:
@@ -49,6 +53,10 @@ def validate_user(request):
 def save_form_data(request):
     """
     form = {
+        "template": {
+            "uid": "f245dec6-1997-1242-2de3-c12f8d58d1ec",
+            "setId": "0cfc0e05-8e4c-435a-893b-5d12ede68f0f"
+        }
         "formData": {
             "code": "00001"
             "createdDate": Sat Jul 20 2019 12:51:34 GMT-0500 (hora de Ecuador)
@@ -71,8 +79,15 @@ def save_form_data(request):
         userProfile = UserProfile.objects.filter(uid=uid)
         if userProfile.exists() and userProfile[0]:
             try:
+                set_id = request.data.get["template"].get("setId", None)
                 form = FormData.objects.create(request.data)
                 form.save()
+                filename = "{0}-{1}".format(
+                    form.name.encode("utf-8").decode("string_escape"), form.created_date
+                )
+                if set_id:
+                    data = ast.literal_eval(form.data)
+                    api.convert_to_csv_and_send_to_ckan(data, filename, set_id)
                 context["msg"] = "Guardado correctamente"
                 context["data"] = form.to_dict()
                 status = 200
@@ -132,15 +147,25 @@ def getInfoTemplateData(template):
     return data
 
 
-def getTemplatesData(userProfile):
-    userTemplates = UserTemplate.objects.filter(user__id=userProfile.id)
+def getTemplatesByUser(userProfile):
+    userTemplates = UserTemplate.objects.filter(user=userProfile)
     templates = []
-    infoTemplates = []
     for userTemplate in userTemplates:
         template = userTemplate.template
-        if template and template.quantity > 0:
+        if template:
             templates.append(template.to_dict())
-            infoTemplate = getInfoTemplateData(template)
-            if infoTemplate:
-                infoTemplates.append(infoTemplate)
-    return {"templates": templates, "infoTemplates": infoTemplates}
+    return templates
+
+
+# def getTemplatesData(userProfile):
+#     userTemplates = UserTemplate.objects.filter(user__id=userProfile.id)
+#     templates = []
+#     infoTemplates = []
+#     for userTemplate in userTemplates:
+#         template = userTemplate.template
+#         if template and template.quantity > 0:
+#             templates.append(template.to_dict())
+#             infoTemplate = getInfoTemplateData(template)
+#             if infoTemplate:
+#                 infoTemplates.append(infoTemplate)
+#     return {"templates": templates, "infoTemplates": infoTemplates}

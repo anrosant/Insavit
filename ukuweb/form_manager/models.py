@@ -54,6 +54,8 @@ class Template(models.Model):
     name = models.CharField(max_length=500)
     structure = models.TextField()
     quantity = models.IntegerField(default=0)
+    set_name = models.CharField(null=True, max_length=36)
+    set_id = models.CharField(null=True, max_length=36)
 
     def to_dict(self):
         return {
@@ -62,6 +64,8 @@ class Template(models.Model):
             "name": self.name,
             "data": self.structure,
             "quantity": self.quantity,
+            "set_name": self.set_name,
+            "set_id": self.set_id,
         }
 
 

@@ -26,7 +26,8 @@ SECRET_KEY = "7*$*0iwwqq@1op11k_nz%avz6ptg7z#f9@-af-oa83_6jbqv54"
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+API_KEY = "3b3ec0c4-3aca-4838-a238-24514efeef7d"
+HOST = "150.136.213.20"
 
 # Application definition
 
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     "users",
     "api",
     "form_manager",
-    "webpack_loader",
+    "import_export",
 ]
 
 WEBPACK_LOADER = {
@@ -140,6 +141,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
+FORMS_ROOT = str(os.path.join(STATIC_ROOT, "forms"))
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     str(os.path.join(BASE_DIR, "static")),
