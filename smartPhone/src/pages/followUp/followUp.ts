@@ -60,7 +60,7 @@ export class FollowUpPage {
             name: this.template.name,
             gps: this.template.gps,
             data: {},
-            type: "SEGUIMIENTO",
+            type: "follow_up",
             createdDate: new Date()
         };
         if (this.template.gps == "required") {
