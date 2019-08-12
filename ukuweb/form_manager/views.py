@@ -18,25 +18,65 @@ from django.contrib import messages
 from django.core import urlresolvers
 import ast
 from api import utils as api
+from ukuweb.settings import FORMS_ROOT
 
 
 @login_required(login_url="login")
 @require_http_methods(["GET"])
 def create_template_view(request):
-    context = {}
     account = request.session.get("account")
     user_id = account.get("uid")
     user_type = account.get("type")
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
         template = loader.get_template("form/create.html")
-        context["template_types"] = TemplateType.objects.all()
+        context = {"username": userProfile.name, "user_type": user_type}
+        context["template_types"] = []
+        context["template_types"].append(
+            TemplateType.objects.get(code=TemplateType.SIMPLE)
+        )
+        context["template_types"].append(
+            TemplateType.objects.get(code=TemplateType.COMPOUND)
+        )
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
     return HttpResponse(template.render(context, request))
 
 
 @login_required(login_url="login")
+@require_http_methods(["GET"])
+def view(request, uid):
+    account = request.session.get("account")
+    user_id = account.get("uid")
+    user_type = account.get("type")
+    userProfile = UserProfile.objects.get(uid=user_id)
+    if user_type == UserType.USER_ADMIN:
+        template = Template.objects.filter(uid=uid)
+        if template.exists():
+            template = template.get()
+            context = {"username": userProfile.name, "user_type": user_type}
+            context["uid"] = uid
+            context["template_types"] = []
+            context["template_types"].append(
+                TemplateType.objects.get(code=TemplateType.SIMPLE)
+            )
+            context["template_types"].append(
+                TemplateType.objects.get(code=TemplateType.COMPOUND)
+            )
+            context["type_selected"] = template.type.code
+            context["form_name"] = template.name
+            context["quantity"] = template.quantity
+
+            template_view = loader.get_template("form/view.html")
+            return HttpResponse(template_view.render(context, request))
+        else:
+            return HttpResponseNotFound("Formulario no existe")
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
+
+
+@login_required(login_url="login")
 def create(request):
-    context = {}
     account = request.session.get("account")
     user_id = account.get("uid")
     user_type = account.get("type")
@@ -44,7 +84,7 @@ def create(request):
     if user_type == UserType.USER_ADMIN:
         data = request.POST
         set_name = data["setname"]
-        set_id = get_set_id(set_name)
+        set_id = api.get_set_id(set_name)
         if set_id:
             template_type = TemplateType.objects.get(code=data["type"])
             file = request.FILES.get("file")
@@ -57,26 +97,96 @@ def create(request):
                 structure=structure,
                 quantity=data["quantity"],
             )
+            filename = "{0}.json".format("-".join(template.name.split(" ")))
             template.save()
             user_template = UserTemplate(user=userProfile, template=template)
             user_template.save()
-            messages.success(request, "Plantilla Creada correctamente")
+
+            # update in ckan
+            with open("{0}/{1}".format(FORMS_ROOT, filename), "w") as f:
+                f.write(structure)
+            f = open("{0}/{1}".format(FORMS_ROOT, filename), "r")
+            response = api.send_file_to_ckan(f, filename, template.set_id)
+            f.close()
+            if response.get("error"):
+                messages.error(request, "Hubo un error al enviar el formulario")
+            else:
+                template.uid = response.get("result")["id"]
+                template.save()
+            messages.success(request, "Plantilla creada correctamente")
             return redirect(urlresolvers.reverse("templates"))
         else:
             messages.error(request, "El conjunto de datos no existe")
             return redirect(urlresolvers.reverse("create-template-view"))
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
+
+
+@login_required(login_url="login")
+def edit(request, uid):
+    account = request.session.get("account")
+    user_id = account.get("uid")
+    user_type = account.get("type")
+    userProfile = UserProfile.objects.get(uid=user_id)
+    if user_type == UserType.USER_ADMIN:
+        data = request.POST
+        template = Template.objects.filter(uid=uid)
+        if template.exists():
+            template_type = TemplateType.objects.get(code=data["type"])
+            file = request.FILES.get("file")
+            structure = file.read()
+            template.update(
+                name=data["form_name"],
+                type=template_type,
+                structure=structure,
+                quantity=data["quantity"],
+            )
+            template = template.get()
+            resource_id = template.uid
+            filename = "{0}.json".format("-".join(template.name.split(" ")))
+            # send to ckan
+            with open("{0}/{1}".format(FORMS_ROOT, filename), "w") as f:
+                f.write(structure)
+            f = open("{0}/{1}".format(FORMS_ROOT, filename), "r")
+            response = api.update_file_in_ckan(f, resource_id)
+            print(response)
+            f.close()
+            if not response.get("error"):
+                messages.error(request, "Hubo un error al enviar el formulario")
+            messages.success(request, "Plantilla Editada correctamente")
+            return redirect(urlresolvers.reverse("templates"))
+        else:
+            return HttpResponse("La plantilla no existe", status=404)
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
+
+
+@login_required(login_url="login")
+def delete(request, uid):
+    context = {}
+    account = request.session.get("account")
+    user_type = account.get("type")
+    if user_type == UserType.USER_ADMIN:
+        data = request.POST
+        template = Template.objects.filter(uid=uid)
+        if template.exists():
+            template.delete()
+        messages.success(request, "Plantilla eliminada correctamente")
+        return redirect(urlresolvers.reverse("templates"))
+    else:
+        return HttpResponse("Usuario no autorizado", status=401)
     return HttpResponse(template.render(context, request))
 
 
 @login_required(login_url="login")
 @require_http_methods(["GET"])
 def templates_list(request):
-    context = {}
     account = request.session.get("account")
     user_id = account.get("uid")
     user_type = account.get("type")
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
+        context = {"username": userProfile.name, "user_type": user_type}
         template = loader.get_template("form/list.html")
         user_templates = UserTemplate.objects.filter(user=userProfile)
         templates = []
@@ -84,27 +194,9 @@ def templates_list(request):
             for user_template in user_templates:
                 templates.append(user_template.template)
         context["templates"] = templates
-    return HttpResponse(template.render(context, request))
-
-
-@login_required(login_url="login")
-@require_http_methods(["GET"])
-def view(request, template_uid):
-    template_obj = Template.objects.filter(uid=template_uid)
-    if template_obj.exists():
-        template_obj = template_obj.get()
-        formsData = FormData.objects.filter(template__id=template_obj.id)
-        objs = []
-        if formsData.exists():
-            for formData in formsData:
-                data = formData.data
-                objs.append(ast.literal_eval(data))
-            head, body = api.convert_data_into_head_body(objs)
-            template = loader.get_template("form-data.html")
-            context = {"template": template_obj.name, "head": head, "body": body}
-            return HttpResponse(template.render(context, request))
+        return HttpResponse(template.render(context, request))
     else:
-        return HttpResponseNotFound("Formulario no existe")
+        return HttpResponse("Usuario no autorizado", status=401)
 
 
 def logout_user(request):
@@ -125,31 +217,29 @@ def separate_form_by_type(forms):
 @require_http_methods(["GET"])
 def home(request):
     account = request.session.get("account")
-    user_id = account.get("uid")
-    user_type = account.get("type")
-    userProfile = UserProfile.objects.get(uid=user_id)
-    formsData = []
-    if user_type == UserType.USER_ADMIN:
-        userTemplates = UserTemplate.objects.filter(user=userProfile)
-        for userTemplate in userTemplates:
-            template = userTemplate.template
-            formData = {"template": template, "formsInfo": {}}
-            users_assigned = UserTemplate.objects.filter(
-                template__id=template.id
-            ).exclude(user__uid=user_id)
-            formsDataList = []
-            if users_assigned.exists():
-                for user_assigned in users_assigned:
-                    formsDataList += FormData.objects.filter(
-                        user__uid=user_assigned.user.uid
-                    )
-                formData["formsInfo"] = separate_form_by_type(formsDataList)
-                formsData.append(formData)
+    if account:
+        user_id = account.get("uid")
+        user_type = account.get("type")
+        userProfile = UserProfile.objects.get(uid=user_id)
+        formsData = {}
+        if user_type == UserType.USER_ADMIN:
+            interviewers = userProfile.created_by.all()
+            forms = FormData.objects.filter(user__in=interviewers)
+            if forms.exists():
+                formsData = separate_form_by_type(forms)
+        else:
+            forms = FormData.objects.filter(user=userProfile)
+            if forms.exists():
+                formsData = separate_form_by_type(forms)
+        template = loader.get_template("index.html")
+        context = {
+            "username": userProfile.name,
+            "forms": formsData,
+            "user_type": user_type,
+        }
+        return HttpResponse(template.render(context, request))
     else:
-        formsData = FormData.objects.filter(user=userProfile)
-    template = loader.get_template("index.html")
-    context = {"username": userProfile.name, "forms": formsData, "user_type": user_type}
-    return HttpResponse(template.render(context, request))
+        return redirect(urlresolvers.reverse("login"))
 
 
 @require_http_methods(["GET", "POST"])
@@ -187,30 +277,6 @@ def login_user(request):
         context = {}
         template = loader.get_template("login.html")
         return HttpResponse(template.render(context, request))
-
-
-def templates(request, uid):
-    context = {}
-    if request.method == "GET":
-        try:
-            if uid:
-                user_template = UserTemplate.objects.filter(uid=uid)
-                if user_template.exists():
-                    context["data"] = user_template[0].template.to_dict()
-                    status = 200
-                else:
-                    context["data"] = {"error": "Unauthorized user"}
-                    status = 401
-            else:
-                context["data"] = {"error": "Bad request"}
-                status = 400
-        except Exception as e:
-            print(e)
-            return JsonResponse({"error": e.message}, status=400)
-    else:
-        context["error"] = "Méthod POST not allowed"
-        status = 405
-    return JsonResponse(context, status=status)
 
 
 def export_form(request, uid):

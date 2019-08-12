@@ -8,13 +8,8 @@
 {% block content %}
 <div id="done_forms">
   <h3>Formularios realizados</h3>
-  {% if user_type == "administrador" %}
   <div>
-    {% for templateInfo in forms %}
-    <div class="form-name">
-      <b>Formulario:</b> {{ templateInfo.template.name }}<br>
-    </div>
-    {% for type, formInfo in templateInfo.formsInfo.items %}
+    {% for type, formInfo in forms.items %}
     <div>
       <div class="type-name">
         <b>Tipo:</b> {{ type }}<br>
@@ -24,6 +19,7 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>Nombre del formulario</th>
               <th>Código Entrevistado</th>
               <th>Coordenadas</th>
               <th>Fecha de creación</th>
@@ -36,6 +32,7 @@
             {% for form in formInfo %}
             <tr>
               <td>{{ forloop.counter }}</td>
+              <td>{{ form.name }}</td>
               <td>{{ form.code }}</td>
               <td>{% if form.coordinates %}{{ form.coordinates }}{% else %} No determinada {% endif %}</td>
               <td>{{ form.created_date }}</td>
@@ -50,39 +47,7 @@
       {% endfor %}
     </div>
     <hr>
-    {% endfor %}
   </div>
-  {% else %}
-  <div class="table-responsive">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Tipo</th>
-          <th>Código Entrevistado</th>
-          <th>Coordenadas</th>
-          <th>Fecha de creación</th>
-          <th>Fecha de envío</th>
-          <th>Incluye GPS</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for form in forms %}
-        <tr>
-          <td>{{ forloop.counter }}</td>
-          <td>{{ form.type.name }}</td>
-          <td>{{ form.code }}</td>
-          <td>{% if form.coordinates %}{{ form.coordinates }}{% else %} No determinada {% endif %}</td>
-          <td>{{ form.created_date }}</td>
-          <td>{{ form.send_date }}</td>
-          <td>{{ form.include_gps }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</div>
-{% endif %}
 {% endblock %}
 
 {% block extraScripts %}

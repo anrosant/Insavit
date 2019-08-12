@@ -49,7 +49,7 @@ class UserProfile(models.Model):
 
 
 class Template(models.Model):
-    uid = models.CharField(default=uuid.uuid4, editable=False, max_length=36)
+    uid = models.CharField(default=uuid.uuid4, max_length=36)
     type = models.ForeignKey(TemplateType)
     name = models.CharField(max_length=500)
     structure = models.TextField()
@@ -64,6 +64,8 @@ class Template(models.Model):
             "name": self.name,
             "data": self.structure,
             "quantity": self.quantity,
+            "set_name": self.set_name,
+            "set_id": self.set_id,
         }
 
 

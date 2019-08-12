@@ -16,16 +16,22 @@ def send_file_to_ckan(file, name, set_id):
     return r.json()
 
 
-def convert_to_csv_and_send_to_ckan(form):
-    data = ast.literal_eval(form.data)
+def update_file_in_ckan(file, resource_id):
+    url = "http://{0}/api/3/action/resource_update".format(settings.HOST)
+    body = {"id": resource_id}
+    headers = {"Authorization": settings.API_KEY}
+    r = requests.post(url, headers=headers, files=[("upload", file)], data=body)
+    return r.json()
+
+
+def convert_to_csv_and_send_to_ckan(data, filename, set_id):
     labels = get_labels_from_form(data)
     cols = get_values_from_form(data)
-    filename = "{0}-{1}".format(
-        form.name.encode("utf-8").decode("string_escape"), form.created_date
-    )
-    convert_to_csv(labels, cols, filename)
-    file = open(filename, "r")
-    return send_file_to_ckan(file, filename, form.template.set_id)
+    file = convert_to_csv(labels, cols, filename)
+    file = open(filename, "rb")
+    resp = send_file_to_ckan(file, filename, set_id)
+    file.close()
+    return resp
 
 
 def get_templates_from_ckan(api_key, set_id="0cfc0e05-8e4c-435a-893b-5d12ede68f0f"):
@@ -369,7 +375,7 @@ def convert_to_xls(head_list, body_list, title, include_tables, table_info):
 
 
 def convert_to_csv(fieldnames, cols, title):
-    with open(title + ".csv", mode="w") as file:
+    with open(title + ".csv", mode="wb") as file:
         writer = csv.writer(
             file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
         )

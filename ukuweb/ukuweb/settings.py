@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "users",
     "api",
     "form_manager",
-    "webpack_loader",
+    "import_export",
 ]
 
 WEBPACK_LOADER = {
@@ -141,6 +141,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
+FORMS_ROOT = str(os.path.join(STATIC_ROOT, "forms"))
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     str(os.path.join(BASE_DIR, "static")),

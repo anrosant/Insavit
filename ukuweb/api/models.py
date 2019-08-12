@@ -12,6 +12,10 @@ import ast
 class FormDataManager(models.Manager):
     def create(self, formData):
         """
+        "template": {
+            "uid": "f245dec6-1997-1242-2de3-c12f8d58d1ec",
+            "setId": "0cfc0e05-8e4c-435a-893b-5d12ede68f0f"
+        }
         "formData": {
             "code": "00001"
             "createdDate": Sat Jul 20 2019 12:51:34 GMT-0500 (hora de Ecuador)
@@ -48,6 +52,9 @@ class FormDataManager(models.Manager):
             include_gps=True if form.get("gps") == "true" else False,
             code=form.get("code", None),
         )
+        template = Template.objects.filter(uid=templateUuid)
+        if template.exists():
+            form_data.template = template
         user = formData.get("user", None)
         if user:
             user = UserProfile.objects.get(uid=user.get("uid"))
@@ -65,8 +72,8 @@ class FormData(models.Model):
     send_date = models.DateField(null=True, blank=True)
     include_gps = models.BooleanField(default=False)
     objects = FormDataManager()
-    user = models.ForeignKey(UserProfile, null=True)
-    template = models.ForeignKey(Template, null=True)
+    user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
+    template = models.ForeignKey(Template, on_delete=models.SET_NULL, null=True)
     code = models.CharField(max_length=5, null=True)
 
     def coordinates_name(self):

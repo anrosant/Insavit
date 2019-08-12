@@ -24,7 +24,7 @@
     </div>
     <a href="{% url 'users' %}" class="button cancel">Cancelar</a>
     <button type="submit" class="btn btn-success">Editar</button>
-    <a href="{% url 'delete-user' uid %}" class="button danger right">Eliminar</a>
+    <a href="{% url 'delete-user' uid %}" onclick="return confirm('¿Seguro que deseas eliminar el usuario?');"  class="button danger right">Eliminar</a>
   </form>
 </div>
 {% endblock %}

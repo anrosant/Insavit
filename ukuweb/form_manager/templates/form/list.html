@@ -13,31 +13,33 @@
     <a class="button default" href="{% url 'create-template-view' %}">Agregar plantilla</a>
   </div>
   <div>
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nombre</th>
-              <th>Cantidad</th>
-              <th>Tipo</th>
-              <th>Nombre del conjunto de datos</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for template in templates %}
-            <tr>
-              <td>{{ forloop.counter }}</td>
-              <td>{{ template.name }}</td>
-              <td>{{ template.quantity }}</td>
-              <td>{{ template.type.name }}</td>
-              <td>{{ template.set_name }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Tipo</th>
+            <th>Nombre del conjunto de datos</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for template in templates %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ template.name }}</td>
+            <td>{{ template.quantity }}</td>
+            <td>{{ template.type.name }}</td>
+            <td>{{ template.set_name }}</td>
+            <td><a href="{% url 'view-template' template.uid %}">Ver</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
-    <hr>
   </div>
+  <hr>
+</div>
 {% endblock %}

@@ -82,10 +82,11 @@ export class MyApp {
 
             });
     }
-    
-    promesaEnvioFormulario(linkedUser, formulario) {
+
+    promesaEnvioFormulario(linkedUser, formulario, templateUuid) {
         return new Promise((resolve, reject) => {
             var data = {
+                "templateUuid": templateUuid,
                 "formData": formulario,
                 "user": linkedUser
             }
@@ -126,7 +127,7 @@ export class MyApp {
                 let templateUuid = pendingForm.template;
                 let index = pendingForm.index;
                 let formData = pendingForm.formData;
-                let result = await this.promesaEnvioFormulario(linkedUser, formData);
+                let result = await this.promesaEnvioFormulario(linkedUser, formData, templateUuid);
                 if (result['error']) {
                     this.sendingForms = false;
                     if (loading) {
@@ -248,5 +249,5 @@ export class MyApp {
             });
         });
     }
-   
+
 }
