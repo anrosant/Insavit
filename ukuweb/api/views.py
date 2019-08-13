@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
 from .models import FormData
-from form_manager.models import UserProfile, TemplateType
+from form_manager.models import UserProfile, TemplateType, UserTemplate
 from ukuweb import settings
 import utils as api
 
@@ -30,7 +30,7 @@ def validate_user(request):
                 context["uid"] = userProfile[0].uid
                 context["username"] = user.username
                 context["api_key"] = settings.API_KEY
-                context["templates"] = getTemplatesByUser(userProfile)
+                context["templates"] = getTemplatesByUser(userProfile[0])
                 context["msg"] = "Ingreso exitoso"
                 status = 200
             else:
@@ -54,7 +54,7 @@ def save_form_data(request):
     """
     form = {
         "template": {
-            "uid": "f245dec6-1997-1242-2de3-c12f8d58d1ec",
+            "uuid": "f245dec6-1997-1242-2de3-c12f8d58d1ec",
             "setId": "0cfc0e05-8e4c-435a-893b-5d12ede68f0f"
         }
         "formData": {
@@ -148,24 +148,11 @@ def getInfoTemplateData(template):
 
 
 def getTemplatesByUser(userProfile):
-    userTemplates = UserTemplate.objects.filter(user=userProfile)
+    userAdmin = userProfile.manager
+    userTemplates = UserTemplate.objects.filter(user=userAdmin)
     templates = []
     for userTemplate in userTemplates:
         template = userTemplate.template
         if template:
             templates.append(template.to_dict())
     return templates
-
-
-# def getTemplatesData(userProfile):
-#     userTemplates = UserTemplate.objects.filter(user__id=userProfile.id)
-#     templates = []
-#     infoTemplates = []
-#     for userTemplate in userTemplates:
-#         template = userTemplate.template
-#         if template and template.quantity > 0:
-#             templates.append(template.to_dict())
-#             infoTemplate = getInfoTemplateData(template)
-#             if infoTemplate:
-#                 infoTemplates.append(infoTemplate)
-#     return {"templates": templates, "infoTemplates": infoTemplates}

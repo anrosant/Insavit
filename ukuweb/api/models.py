@@ -13,7 +13,7 @@ class FormDataManager(models.Manager):
     def create(self, formData):
         """
         "template": {
-            "uid": "f245dec6-1997-1242-2de3-c12f8d58d1ec",
+            "uuid": "f245dec6-1997-1242-2de3-c12f8d58d1ec",
             "setId": "0cfc0e05-8e4c-435a-893b-5d12ede68f0f"
         }
         "formData": {
@@ -52,6 +52,7 @@ class FormDataManager(models.Manager):
             include_gps=True if form.get("gps") == "true" else False,
             code=form.get("code", None),
         )
+        templateUuid = formData["formData"].get("uuid")
         template = Template.objects.filter(uid=templateUuid)
         if template.exists():
             form_data.template = template

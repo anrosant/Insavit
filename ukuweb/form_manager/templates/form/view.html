@@ -33,6 +33,14 @@
       <label for="quantity" required>Cantidad</label>
       <input type="number" class="form-control" id="quantity" name="quantity" value="{{ quantity }}">
     </div>
+    <div class="form-group">
+      <label for="gps">Requiere GPS</label>
+      {% if require_gps %}
+      <input type="checkbox" id="gps" name="gps" value="true" checked>
+      {% else %}
+      <input type="checkbox" id="gps" name="gps" value="true">
+      {% endif %}
+    </div>
     <a href="{% url 'templates' %}" class="button cancel">Cancelar</a>
     <button type="submit" class="btn btn-success">Editar</button>
     <a href="{% url 'delete-template' uid %}" onclick="return confirm('¿Seguro que deseas eliminar la plantilla?');"  class="button danger right">Eliminar</a>
