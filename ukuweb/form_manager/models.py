@@ -60,16 +60,21 @@ class Template(models.Model):
     set_id = models.CharField(null=True, max_length=36)
 
     def to_dict(self):
-        return {
+        template_dict = {
             "uid": self.uid,
             "type": self.type.name,
             "name": self.name,
-            "data": json.loads(self.structure),
             "quantity": self.quantity,
             "set_name": self.set_name,
             "set_id": self.set_id,
             "gps": "required" if self.gps else "not-required",
         }
+        structure = json.loads(self.structure)
+        if structure.get("notifications", None):
+            template_dict["notifications"] = structure["notifications"]
+        if structure.get("data", None):
+            template_dict["data"] = structure["data"]
+        return template_dict
 
 
 class UserTemplate(models.Model):

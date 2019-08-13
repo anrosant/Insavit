@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import sys
+
+reload(sys)
+sys.setdefaultencoding("utf8")
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import (
@@ -100,6 +104,7 @@ def create(request):
                 gps=require_gps,
                 quantity=data["quantity"],
             )
+
             filename = "{0}.json".format("-".join(template.name.split(" ")))
             template.save()
             user_template = UserTemplate(user=userProfile, template=template)
