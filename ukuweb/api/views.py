@@ -12,6 +12,22 @@ from ukuweb import settings
 import utils as api
 
 
+@api_view(["GET"])
+@permission_classes((AllowAny,))
+def get_templates(request, uid):
+    context = {}
+    if request.method == "GET":
+        userProfile = UserProfile.objects.filter(uid=uid)
+        if userProfile.exists():
+            context["templates"] = get_templates_by_user(userProfile[0])
+            status = 200
+        else:
+            context["msg"] = "No tiene permisos"
+            context["data"] = {"error": "Unauthorized user"}
+            status = 401
+    return JsonResponse(context, status=status)
+
+
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def validate_user(request):
@@ -30,7 +46,7 @@ def validate_user(request):
                 context["uid"] = userProfile[0].uid
                 context["username"] = user.username
                 context["api_key"] = settings.API_KEY
-                context["templates"] = getTemplatesByUser(userProfile[0])
+                context["templates"] = get_templates_by_user(userProfile[0])
                 context["msg"] = "Ingreso exitoso"
                 status = 200
             else:
@@ -147,7 +163,7 @@ def getInfoTemplateData(template):
     return data
 
 
-def getTemplatesByUser(userProfile):
+def get_templates_by_user(userProfile):
     userAdmin = userProfile.manager
     userTemplates = UserTemplate.objects.filter(user=userAdmin)
     templates = []
