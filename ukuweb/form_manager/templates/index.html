@@ -24,7 +24,7 @@
               <th>Coordenadas</th>
               <th>Fecha de creación</th>
               <th>Fecha de envío</th>
-              <th>Incluye GPS</th>
+              <th>GPS</th>
               <th></th>
             </tr>
           </thead>
@@ -37,7 +37,11 @@
               <td>{% if form.coordinates %}{{ form.coordinates }}{% else %} No determinada {% endif %}</td>
               <td>{{ form.created_date }}</td>
               <td>{{ form.send_date }}</td>
-              <td>{{ form.include_gps }}</td>
+              <td>{% if form.include_gps %}
+                <i class="fa fa-check" style="color: green; padding-left: 9px;"></i>
+                {% else %}
+                <i style="color: red; padding-left: 10px;" class="fa">&#xf00d;</i>
+                {% endif %}
               <td><a href="{% url 'export-form' form.uid %}"><span class="glyphicon glyphicon-export"></span>  Exportar</a></td>
             </tr>
             {% endfor %}

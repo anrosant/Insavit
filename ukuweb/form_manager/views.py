@@ -66,6 +66,7 @@ def view(request, uid):
             context["type_selected"] = template.type.code
             context["form_name"] = template.name
             context["quantity"] = template.quantity
+            context["require_gps"] = template.gps
 
             template_view = loader.get_template("form/view.html")
             return HttpResponse(template_view.render(context, request))
@@ -89,12 +90,14 @@ def create(request):
             template_type = TemplateType.objects.get(code=data["type"])
             file = request.FILES.get("file")
             structure = file.read()
+            require_gps = True if data.get("gps", None) else False
             template = Template(
                 name=data["formname"],
                 set_name=data["setname"],
                 set_id=set_id,
                 type=template_type,
                 structure=structure,
+                gps=require_gps,
                 quantity=data["quantity"],
             )
             filename = "{0}.json".format("-".join(template.name.split(" ")))
@@ -135,11 +138,13 @@ def edit(request, uid):
             template_type = TemplateType.objects.get(code=data["type"])
             file = request.FILES.get("file")
             structure = file.read()
+            require_gps = True if data.get("gps", None) else False
             template.update(
                 name=data["form_name"],
                 type=template_type,
                 structure=structure,
                 quantity=data["quantity"],
+                gps=require_gps,
             )
             template = template.get()
             resource_id = template.uid
@@ -151,7 +156,7 @@ def edit(request, uid):
             response = api.update_file_in_ckan(f, resource_id)
             print(response)
             f.close()
-            if not response.get("error"):
+            if response.get("error"):
                 messages.error(request, "Hubo un error al enviar el formulario")
             messages.success(request, "Plantilla Editada correctamente")
             return redirect(urlresolvers.reverse("templates"))

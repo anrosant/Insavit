@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+import json
 
 # Create your models here.
 class UserType(models.Model):
@@ -54,18 +55,20 @@ class Template(models.Model):
     name = models.CharField(max_length=500)
     structure = models.TextField()
     quantity = models.IntegerField(default=0)
+    gps = models.BooleanField(default=False)
     set_name = models.CharField(null=True, max_length=36)
     set_id = models.CharField(null=True, max_length=36)
 
     def to_dict(self):
         return {
             "uid": self.uid,
-            "type": self.type,
+            "type": self.type.name,
             "name": self.name,
-            "data": self.structure,
+            "data": json.loads(self.structure),
             "quantity": self.quantity,
             "set_name": self.set_name,
             "set_id": self.set_id,
+            "gps": "required" if self.gps else "not-required",
         }
 
 
