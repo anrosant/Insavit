@@ -39,41 +39,31 @@ export class AuthPage {
             }
         });
 
-        this.storage.get('templates').then((templates) => {
-            if (templates == null) {
+        /*this.storage.get('templates').then((templates) => {
+            if (templates == null) {*/
                 this.httpClient.get('./assets/plantilla/templates.json').subscribe(res => {
                     this.storage.set('templates', res);
                 }, err => {
                     console.log('error no puede conectarse al servidor para descarga de plantilla');
+                    console.log(err);
                 });
-            } else {
+            /*} else {
                 console.log('si hay plantilla');
             }
-        });
+        });*/
 
-        this.storage.get('calculos').then((calculos) => {
-            if (calculos == null) {
+        /*this.storage.get('calculos').then((calculos) => {
+            if (calculos == null) {*/
                 this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
                     this.storage.set('calculos', res);
                 }, err => {
-                    console.log('error no puede conectarse al servidor para descarga de calculos', err);
+                    console.log('error no puede conectarse al servidor para descarga de calculos');
+                    console.log(err);
                 });
-            } else {
+            /*} else {
                 console.log('si hay calculos');
             }
-        });
-
-        this.storage.get('notificaciones').then((notificaciones) => {
-            if (notificaciones == null) {
-                this.httpClient.get('./assets/notificaciones/notificaciones.json').subscribe(res => {
-                    this.storage.set('notificaciones', res);
-                }, err => {
-                    console.log('error no puede conectarse al servidor para descarga de notificaciones', err);
-                });
-            } else {
-                console.log('si hay notificaciones');
-            }
-        });
+        });*/
         
     }
 
@@ -88,12 +78,6 @@ export class AuthPage {
                 .then((data: string) => {
                     if (this.user.password == data) {
                         loader.dismiss();
-                        const alertador = this.alertCtrl.create({
-                            title: 'Credenciales Correctas!',
-                            subTitle: 'Has ingresado correctamente',
-                            buttons: ['OK']
-                        });
-                        alertador.present();
                         this.linkedUser.sesion = true;
                         this.getInfoPlantilla().then((result) => {
                             this.storage.set('linkedUser', this.linkedUser).then(data => {
@@ -105,7 +89,7 @@ export class AuthPage {
                         loader.dismiss();
                         const alert = this.alertCtrl.create({
                             title: 'Credenciales incorrectas!',
-                            subTitle: 'Intentelo de nuevo',
+                            subTitle: 'Inténtelo de nuevo',
                             buttons: ['OK']
                         });
                         alert.present();
@@ -185,21 +169,17 @@ export class AuthPage {
                         data: template.data
                     });
                 } else {
+                    var quanti = [];
+                    for(let key in template.data) {
+                        var q = {type: key, done_quantity: 0, remain_quantity: template.quantity};
+                        quanti.push(q);
+                    }
                     this.infoTemplates.push({
                         uuid: template.uid,
                         name: template.name,
                         gps: template.gps,
                         type: template.type,
-                        quantity: [{
-                            type: "INICIAL",
-                            done_quantity: 0,
-                            remain_quantity: template.quantity
-                        },
-                        {
-                            type: "SEGUIMIENTO",
-                            done_quantity: 0,
-                            remain_quantity: template.quantity
-                        }],
+                        quantity: quanti,
                         data: template.data
                     });
                 }

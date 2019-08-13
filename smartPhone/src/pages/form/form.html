@@ -57,9 +57,9 @@
                 </button>
             </ion-list>
 
-            <button ion-button (click)="verPorciones()">VER PORCIONES</button>
+            <!--button ion-button (click)="verPorciones()">VER PORCIONES</button-->
 
-            <button ion-button (click)="verDeposiciones()">VER DEPOSICIONES</button>
+            <!--button ion-button (click)="verDeposiciones()">VER DEPOSICIONES</button-->
 
             <ion-list radio-group *ngIf="item.type=='radio_input'" id={{item.id}} [class.hide_question]="!item.show" [class.show_question]="item.show" (blur)="item.show && blurFunction($event,item.blurFunction)" [(ngModel)]="item.value">
                 <ion-list-header>
@@ -135,6 +135,10 @@
             <div text-left *ngIf="item.type=='input_text'" class="div-error" [class.error_message]="item.error">
                 {{item.error}}
             </div>
+
+            <div text-left *ngIf="item.type=='resultado'" class="div-error pregunta" style="font-size:18px;margin-top:5px;" [class.error_message]="item.value">
+                RESULTADO: {{item.value}}
+            </div>            
 
             <ion-list *ngIf="item.type=='checkbox_solo'" id={{item.id}}>
                 <ion-item>

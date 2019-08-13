@@ -72,7 +72,7 @@ export class FormPage extends PopoverPage {
                 this.funciones[calc.name] = eval('var a;a=' + calc.structure);
             }
         }).catch(error => {
-            console.log(JSON.stringify(error));
+            console.log(JSON.stringify(error, Object.getOwnPropertyNames(error)));
         });
     }
 
@@ -101,8 +101,7 @@ export class FormPage extends PopoverPage {
     increase_done_quantity(template, formType, index) {
         if (formType == "SIMPLE") {
             template.done_quantity += 1;
-        }
-        else {
+        } else {
             for (let type of template.quantity) {
                 if (type.type == formType)
                     type.done_quantity += 1;
@@ -115,8 +114,7 @@ export class FormPage extends PopoverPage {
     decrease_remain_quantity(template, formType, index) {
         if (formType == "SIMPLE") {
             template.remain_quantity -= 1;
-        }
-        else {
+        } else {
             for (let type of template.quantity) {
                 if (type.type == formType)
                     type.remain_quantity -= 1;
@@ -126,7 +124,7 @@ export class FormPage extends PopoverPage {
         this.storage.set('infoTemplates', this.infoTemplates);
     }
 
-    verPorciones(evento){
+    /*verPorciones(evento){
         let popover = this.popoverCtrl.create(PopoverPage);
         popover.present({
             ev: evento
@@ -138,7 +136,7 @@ export class FormPage extends PopoverPage {
         popover.present({
             ev: evento
         });
-    }
+    }*/
 
     save(index) {
         this.currentForm.saveDate = new Date();
@@ -237,9 +235,6 @@ export class FormPage extends PopoverPage {
                 buttons: ["ok"]
             });
             alert.present();
-            console.log(err.message);
-            console.log(this.funciones);
-            console.log(this.funciones[functionName]);
         }
     }
 

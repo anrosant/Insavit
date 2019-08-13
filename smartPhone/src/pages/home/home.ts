@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { NavController, MenuController, Events, AlertController, Platform, LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AuthPage } from '../auth/auth';
@@ -16,6 +16,7 @@ import uuid from 'uuid/v4';
     selector: 'page-home',
     templateUrl: 'home.html'
 })
+
 export class HomePage {
     sentForms;
     templates;
@@ -26,6 +27,11 @@ export class HomePage {
     coordinates = null;
     loading;
     selectedSection;
+    select_tipo = [];
+
+    /*@ViewChild('encuestas_realizadas') encuestas_realizadas;
+    @ViewChild('encuestas_por_realizar') encuestas_por_realizar;
+    @ViewChild('select_encuesta') select_encuesta;*/
 
     constructor(private diagnostic: Diagnostic,
         private events: Events,
@@ -60,29 +66,56 @@ export class HomePage {
                 this.formsData = formsData;
             }
         });
-        this.setNotificaciones();
+
+        //this.setNotificaciones();
     }
 
-    setNotificaciones() {
-        this.storage.get('notificaciones').then((notificaciones) => {
-            var i = 0;
-            for(let noti of notificaciones.notificaciones) {
-                var nombre = noti.name;
-                var tipo = noti.type;
-                var fecha = noti.date.split('-');
-                var hora = noti.time.split(':');
-                this.localNotifications.schedule({
-                    id: i,
-                    icon: './assets/imgs/logo_notification.png',
-                    title: 'NUEVO FORMULARIO',
-                    text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                    trigger: {at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1])},
-                    led: 'FF0000'
-                });
-                i++;
+    /*selectType(template_uid, select_tipo,index) {
+        this.storage.get('infoTemplates').then((info_templates) => {
+            for(let info of info_templates) {
+                if(template_uid == info.uuid) {
+                    for(let q of info.quantity) {
+                        if(select_tipo == q.type) {
+                            this.encuestas_realizadas.nativeElement.innerText = q.done_quantity;
+                            this.encuestas_por_realizar.nativeElement.innerText = q.remain_quantity;
+                            return;
+                        }
+                    }
+                }
             }
-        }).catch(error => {
-            console.log(JSON.stringify(error));
+        });
+    }
+
+    ionViewDidEnter() {
+        console.log("ENTRO");
+        console.log(this.select_encuesta);
+        if(this.select_encuesta) {
+            console.log("ACTUALIZAR CANTIDADES");
+            //HACER QUE SE EJECUTE EL IONCHANGE DEL SELECT O CLICK??
+        }
+        console.log("NO ENTRO");
+    }*/
+
+    setNotificaciones() {
+        this.storage.get('templates').then((templates) => {
+            var i = 0;
+            for(let template of templates) {
+                for(let noti of template.notifications) {
+                    var nombre = template.name;
+                    var tipo = template.type;
+                    var fecha = noti.date.split('-');
+                    var hora = noti.time.split(':');
+                    this.localNotifications.schedule({
+                        id: i,
+                        icon: './assets/imgs/logo_notification.png',
+                        title: 'NUEVO FORMULARIO',
+                        text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
+                        trigger: {at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1])},
+                        led: 'FF0000'
+                    });
+                    i++;
+                }
+            }
         });
     }
 
@@ -98,7 +131,7 @@ export class HomePage {
             forms = this.formsData[templateUuid];
             let initialForms = [];
             for (let form of forms) {
-                if (form.type == "INICIAL")
+                if (form.type == "initial")
                     initialForms.push(form);
             }
             this.storage.get('pendingForms').then((pendingForms) => {
@@ -130,9 +163,7 @@ export class HomePage {
             this.formsData = formsData;
             let currentForm = {};
             let forms;
-            if (this.formsData != null &&
-                (Object.keys(this.formsData).length > 0) &&
-                this.formsData.hasOwnProperty(templateUuid)) {
+            if (this.formsData != null && (Object.keys(this.formsData).length > 0) && this.formsData.hasOwnProperty(templateUuid)) {
                 forms = this.formsData[templateUuid].slice(0);
             }
             if (forms != null && (forms.length > 0)) {
@@ -174,10 +205,14 @@ export class HomePage {
                 this.pendingForms = pendingForms;
                 if (this.pendingForms != null && (this.pendingForms.length > 0)) {
                     pendingForms = this.pendingForms.slice(0);
+                    let idx = 0;
+                    if (this.formsData != null && this.formsData[templateUuid] != null ){
+                        idx= this.formsData[templateUuid].length;
+                    }
                     pendingForms.push({
                         template: templateUuid,
                         formData: currentForm,
-                        index: this.formsData[templateUuid].length
+                        index: idx
                     });
                 } else {
                     pendingForms = [{
@@ -277,10 +312,10 @@ export class HomePage {
     }
 
     chooseFormTypeToInit(template, templateUuid, type, index) {
-        if (type == "SEGUIMIENTO") {
+        if (type == "follow_up") {
             this.startFollowUpForm(template, template.data.follow_up, templateUuid, index);
         }
-        else if (type == "INICIAL") {
+        else if (type == "initial") {
             let formUuid = uuid();
             this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type, index);
         }
@@ -306,6 +341,6 @@ export class HomePage {
                 this.chooseFormTypeToInit(template, templateUuid, type, index)
             }
         });
-
     }
+
 }
