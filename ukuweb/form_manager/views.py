@@ -34,7 +34,7 @@ def create_template_view(request):
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
         template = loader.get_template("form/create.html")
-        context = {"username": userProfile.name, "user_type": user_type}
+        context = {"account": {"username": userProfile.name, "user_type": user_type}}
         context["template_types"] = []
         context["template_types"].append(
             TemplateType.objects.get(code=TemplateType.SIMPLE)
@@ -58,7 +58,9 @@ def view(request, uid):
         template = Template.objects.filter(uid=uid)
         if template.exists():
             template = template.get()
-            context = {"username": userProfile.name, "user_type": user_type}
+            context = {
+                "account": {"username": userProfile.name, "user_type": user_type}
+            }
             context["uid"] = uid
             context["template_types"] = []
             context["template_types"].append(
@@ -196,7 +198,7 @@ def templates_list(request):
     user_type = account.get("type")
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
-        context = {"username": userProfile.name, "user_type": user_type}
+        context = {"account": {"username": userProfile.name, "user_type": user_type}}
         template = loader.get_template("form/list.html")
         user_templates = UserTemplate.objects.filter(user=userProfile)
         templates = []
@@ -243,9 +245,8 @@ def home(request):
                 formsData = separate_form_by_type(forms)
         template = loader.get_template("index.html")
         context = {
-            "username": userProfile.name,
+            "account": {"username": userProfile.name, "user_type": user_type},
             "forms": formsData,
-            "user_type": user_type,
         }
         return HttpResponse(template.render(context, request))
     else:

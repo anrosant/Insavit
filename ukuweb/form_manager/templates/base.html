@@ -16,7 +16,7 @@
 
   <ul class="topnav">
     <li><a href="{% url 'home' %}">Formularios Realizados</a></li>
-    {% if user_type == "administrador" %}
+    {% if account.user_type == "administrador" %}
     <li><a href="{% url 'users' %}">Usuarios</a></li>
     <li><a href="{% url 'templates' %}">Plantillas</a></li>
     {% endif %}
