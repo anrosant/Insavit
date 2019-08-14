@@ -172,6 +172,7 @@ export class AuthPage {
                         type: template.type,
                         done_quantity: 0,
                         gps: template.gps,
+                        set_id: template.set_id,
                         remain_quantity: template.quantity,
                         data: template.data
                     });
@@ -186,6 +187,7 @@ export class AuthPage {
                         name: template.name,
                         gps: template.gps,
                         type: template.type,
+                        set_id: template.set_id,
                         quantity: quanti,
                         data: template.data
                     });

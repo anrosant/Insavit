@@ -86,7 +86,7 @@ export class MyApp {
     promesaEnvioFormulario(linkedUser, formulario, templateUuid, setId) {
         return new Promise((resolve, reject) => {
             var data = {
-                "template": {"uuid": templateUuid, "set_id": setId}, //Agregado
+                "template": {"uuid": templateUuid, "setId": setId},
                 "formData": formulario,
                 "user": linkedUser
             }
