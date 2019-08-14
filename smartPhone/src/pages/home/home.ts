@@ -3,6 +3,7 @@ import { NavController, MenuController, Events, AlertController, Platform, Loadi
 import { Storage } from '@ionic/storage';
 import { AuthPage } from '../auth/auth';
 import { DatePipe } from '@angular/common';
+import { HTTP } from '@ionic-native/http';
 import { HttpClient } from '@angular/common/http';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
 import { Diagnostic } from '@ionic-native/diagnostic';
@@ -27,11 +28,8 @@ export class HomePage {
     coordinates = null;
     loading;
     selectedSection;
-    select_tipo = [];
-
-    /*@ViewChild('encuestas_realizadas') encuestas_realizadas;
-    @ViewChild('encuestas_por_realizar') encuestas_por_realizar;
-    @ViewChild('select_encuesta') select_encuesta;*/
+    select_tipo;
+    linkedUser;
 
     constructor(private diagnostic: Diagnostic,
         private events: Events,
@@ -43,6 +41,7 @@ export class HomePage {
         public alertCtrl: AlertController,
         public loadingController: LoadingController,
         public navCtrl: NavController,
+        public http: HTTP,
         private localNotifications: LocalNotifications) {
 
         this.menuCtrl.enable(true);
@@ -54,13 +53,46 @@ export class HomePage {
         this.storage.get('templates').then((templates) => {
             this.templates = templates;
         });
+
+        this.storage.get('linkedUser').then((linkedUser) => {
+            this.linkedUser = linkedUser;
+        });
+
         this.storage.get('pendingForms').then((pendingForms) => {
             this.pendingForms = pendingForms;
         });
+
         this.storage.get('infoTemplates').then((templates) => {
             this.infoTemplates = templates;
             this.selectedSection = templates[0];
         });
+
+        /*if(this.templates==undefined) {
+            var url = "http://150.136.230.16/api/user/"+this.linkedUser.uid+"/templates/";
+            this.http.get(url, {}, {}).then(res => {
+                this.templates = res;
+                console.log("cogio templates del home");
+            }).catch(error => {
+                console.log("error", error);
+
+                //loader.dismiss();
+                if (error.status == 403) {
+                    const alert = this.alertCtrl.create({
+                        subTitle: 'Hubo un problema de conexión. Intentelo más tarde',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                }
+                else {
+                    const alert = this.alertCtrl.create({
+                        subTitle: 'Hubo un error',
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                }
+            });
+        }*/
+
         this.storage.get("formsData").then((formsData) => {
             if (formsData != null && (Object.keys(formsData).length > 0)) {
                 this.formsData = formsData;
@@ -95,6 +127,22 @@ export class HomePage {
         }
         console.log("NO ENTRO");
     }*/
+
+    getQuantities(template, select, quantity) {
+        if(quantity == "done") {
+            if(select == "initial") {
+                return template.quantity.find(cantidad => cantidad.type === 'initial').done_quantity;
+            } else if(select == "follow_up") {
+                return template.quantity.find(cantidad => cantidad.type === 'follow_up').done_quantity;
+            }
+        } else if(quantity == "remain"){
+            if(select == "initial") {
+                return template.quantity.find(cantidad => cantidad.type === 'initial').remain_quantity;
+            } else if(select == "follow_up") {
+                return template.quantity.find(cantidad => cantidad.type === 'follow_up').remain_quantity;
+            }
+        }
+    }
 
     setNotificaciones() {
         this.storage.get('templates').then((templates) => {
@@ -328,6 +376,8 @@ export class HomePage {
     async startForm(template, type, index) {
         // Genereate an uuid for form
         let templateUuid = template.uuid;
+        console.log("tipo:", type);
+        console.log("select_tipo:", this.select_tipo);
         this.storage.get('infoTemplates').then((templates) => {
             for (let temp of templates) {
                 if (temp.uuid == template.uuid) {

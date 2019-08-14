@@ -31,7 +31,6 @@ export class AuthPage {
         // Or to get a key/value pair
         
         this.menuCtrl.enable(false);
-        console.log('(auth) params constructor', JSON.stringify(this.navParams.data));
         
         this.storage.get('linkedUser').then((val) => {
             if (val) {
@@ -39,32 +38,12 @@ export class AuthPage {
             }
         });
 
-        /*this.storage.get('templates').then((templates) => {
-            if (templates == null) {*/
-                this.httpClient.get('./assets/plantilla/templates.json').subscribe(res => {
-                    this.storage.set('templates', res);
-                }, err => {
-                    console.log('error no puede conectarse al servidor para descarga de plantilla');
-                    console.log(err);
-                });
-            /*} else {
-                console.log('si hay plantilla');
-            }
-        });*/
-
-        /*this.storage.get('calculos').then((calculos) => {
-            if (calculos == null) {*/
-                this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
-                    this.storage.set('calculos', res);
-                }, err => {
-                    console.log('error no puede conectarse al servidor para descarga de calculos');
-                    console.log(err);
-                });
-            /*} else {
-                console.log('si hay calculos');
-            }
-        });*/
-        
+        this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
+            this.storage.set('calculos', res);
+        }, err => {
+            console.log('error no puede conectarse al servidor para descarga de calculos');
+            console.log(err);
+        });        
     }
 
     attemptAuth() {
@@ -93,13 +72,14 @@ export class AuthPage {
                             buttons: ['OK']
                         });
                         alert.present();
-
                     }
                 }) // Resolves to 'Sample Data'
                 .catch((error: any) => console.log(error));
         } else {
             this.http.post(this.url, { username: this.user.username, password: this.user.password }, {})
                 .then(res => {
+                    this.storage.set("templates", JSON.parse(res.data).templates);
+
                     const alert = this.alertCtrl.create({
                         subTitle: JSON.parse(res.data).msg,
                         buttons: ['OK']
@@ -136,6 +116,9 @@ export class AuthPage {
                     }
                 })
                 .catch(error => {
+
+                    console.log("error", error);
+
                     loader.dismiss();
                     if (error.status == 403) {
                         const alert = this.alertCtrl.create({
