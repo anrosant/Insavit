@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 
 from .models import FormData
-from form_manager.models import UserProfile, TemplateType, UserTemplate
+from form_manager.models import UserProfile, TemplateType, UserTemplate, UserType
 from ukuweb import settings
 import utils as api
 
