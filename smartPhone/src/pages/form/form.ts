@@ -304,7 +304,7 @@ export class FormPage extends PopoverPage {
 
     clickNextPage(item2, indexCategoria, indexSubCategoria) {
         let param = this.navParams.data;
-        param.selectedTemplate = item2
+        param.selectedTemplate = item2;
         this.navCtrl.push(FormPage, param);
     }
 

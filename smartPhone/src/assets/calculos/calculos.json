@@ -82,7 +82,7 @@
         },
         {
             "name":"resultado",
-            "structure":"function resultado(item1,item2,item3){if(item1.value!='' && item1.error=='' && item2.value!=''&& item2.error==''){item3.value=parseFloat(item1.value).toFixed(2)-parseFloat(item2.value).toFixed(2);return 0;}}"
+            "structure":"function resultado(item1,item2,item3){if(item1.value!='' && item1.error=='' && item2.value!=''&& item2.error==''){item3.value=(parseFloat(item1.value)-parseFloat(item2.value)).toFixed(2);return 0;}}"
         }
     ]
 }
