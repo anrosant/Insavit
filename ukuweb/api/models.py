@@ -21,7 +21,7 @@ class FormDataManager(models.Manager):
             "createdDate": Sat Jul 20 2019 12:51:34 GMT-0500 (hora de Ecuador)
             "data": {}
             "name": "Nutrición - Puyo"
-            "type": "SIMPLE"
+            "type": "initial"
             "uuid": "e471fda6-1590-4341-9cf4-a29e9d59b0ae",
             "gps": false,
             "coordinates": null
@@ -32,15 +32,17 @@ class FormDataManager(models.Manager):
             }
         """
         form = formData["formData"]
+        temp_type = form.get("type").upper()
+        if temp_type == "INITIAL":
+            temp_type = "INICIAL"
+        elif temp_type == "FOLLOW_UP":
+            temp_type = "SEGUIMIENTO"
+
         created_date = dateutil.parser.parse(form.get("createdDate"))
-        type = (
-            TemplateType.objects.get(name=form.get("type"))
-            if form.get("type")
-            else None
-        )
+        type = TemplateType.objects.get(name=temp_type) if form.get("type") else None
         coordinates = form.get("coordinates", None)
-        if coordinates:
-            ast.literal_eval(coordinates)
+        # if coordinates:
+        #     ast.literal_eval(coordinates)
         form_data = self.model(
             uid=form.get("uuid"),
             type=type,
@@ -49,7 +51,7 @@ class FormDataManager(models.Manager):
             data=form.get("data"),
             created_date=created_date,
             send_date=datetime.datetime.now(),
-            include_gps=True if form.get("gps") == "true" else False,
+            include_gps=True if form.get("gps") == "required" else False,
             code=form.get("code", None),
         )
         templateUuid = formData["formData"].get("uuid")
@@ -80,7 +82,8 @@ class FormData(models.Model):
     def coordinates_name(self):
         coordinates = self.coordinates
         if coordinates:
-            coordinates = ast.literal_eval(coordinates)
+            if not type(coordinates) is dict:
+                coordinates = ast.literal_eval(coordinates)
             return "{0}, {1}".format(
                 coordinates.get("latitude"), coordinates.get("longitude")
             )

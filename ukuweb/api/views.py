@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import sys
+
+reload(sys)
+sys.setdefaultencoding("utf8")
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate
@@ -10,6 +14,7 @@ from .models import FormData
 from form_manager.models import UserProfile, TemplateType, UserTemplate, UserType
 from ukuweb import settings
 import utils as api
+import ast
 
 
 @api_view(["GET"])
@@ -94,22 +99,20 @@ def save_form_data(request):
         uid = request.data["user"].get("uid")
         userProfile = UserProfile.objects.filter(uid=uid)
         if userProfile.exists() and userProfile[0]:
-            try:
-                set_id = request.data.get["template"].get("setId", None)
-                form = FormData.objects.create(request.data)
-                form.save()
-                filename = "{0}-{1}".format(
-                    form.name.encode("utf-8").decode("string_escape"), form.created_date
-                )
-                if set_id:
-                    data = ast.literal_eval(form.data)
-                    api.convert_to_csv_and_send_to_ckan(data, filename, set_id)
-                context["msg"] = "Guardado correctamente"
-                context["data"] = form.to_dict()
-                status = 200
-            except Exception as e:
-                context["data"] = {"error": "Bad request"}
-                status = 400
+            # try:
+            set_id = request.data["template"].get("setId", None)
+            form = FormData.objects.create(request.data)
+            form.save()
+            filename = "{0}-{1}".format(form.name, form.created_date)
+            if set_id:
+                data = form.data
+                api.convert_to_csv_and_send_to_ckan(data, filename, set_id)
+            context["msg"] = "Guardado correctamente"
+            context["data"] = form.to_dict()
+            status = 200
+            # except Exception as e:
+            #     context["data"] = {"error": "Bad request"}
+            #     status = 400
         else:
             context["data"] = {"error": "Unauthorized user"}
             status = 401
