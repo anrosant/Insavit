@@ -42,7 +42,7 @@ def validate_user(request):
         if user is not None and not user.is_superuser:
             user = User.objects.get(username=username)
             userProfile = UserProfile.objects.filter(user_id=user.id)
-            if userProfile and not userProfile.user_type.code == UserType.ADMIN:
+            if userProfile and not userProfile[0].user_type.code == UserType.ADMIN:
                 context["uid"] = userProfile[0].uid
                 context["username"] = user.username
                 context["api_key"] = settings.API_KEY
