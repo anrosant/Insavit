@@ -26,7 +26,7 @@ def create_view(request):
     user_type = account.get("type")
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
-        context = {"username": userProfile.name, "user_type": user_type}
+        context = {"account": {"username": userProfile.name, "user_type": user_type}}
         template = loader.get_template("create.html")
         return HttpResponse(template.render(context, request))
     else:
@@ -50,8 +50,7 @@ def view(request, uid):
                 "name": interviewer.name,
                 "last_name": interviewer.last_name,
                 "type": interviewer.user_type.name,
-                "username": userProfile.name,
-                "user_type": user_type,
+                "account": {"username": userProfile.name, "user_type": user_type},
             }
         return HttpResponse(template.render(context, request))
     else:
@@ -150,8 +149,7 @@ def user_admin(request):
         template = loader.get_template("users.html")
         interviewers = userProfile.created_by.all()
         context = {
-            "username": userProfile.name,
-            "user_type": user_type,
+            "account": {"username": userProfile.name, "user_type": user_type},
             "interviewers": interviewers,
         }
         return HttpResponse(template.render(context, request))
