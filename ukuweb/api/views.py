@@ -99,7 +99,6 @@ def save_form_data(request):
         uid = request.data["user"].get("uid")
         userProfile = UserProfile.objects.filter(uid=uid)
         if userProfile.exists() and userProfile[0]:
-            # try:
             set_id = request.data["template"].get("setId", None)
             form = FormData.objects.create(request.data)
             form.save()
@@ -110,9 +109,6 @@ def save_form_data(request):
             context["msg"] = "Guardado correctamente"
             context["data"] = form.to_dict()
             status = 200
-            # except Exception as e:
-            #     context["data"] = {"error": "Bad request"}
-            #     status = 400
         else:
             context["data"] = {"error": "Unauthorized user"}
             status = 401
