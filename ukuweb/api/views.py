@@ -42,7 +42,7 @@ def validate_user(request):
         if user is not None and not user.is_superuser:
             user = User.objects.get(username=username)
             userProfile = UserProfile.objects.filter(user_id=user.id)
-            if userProfile:
+            if userProfile and not userProfile.user_type.code == UserType.ADMIN:
                 context["uid"] = userProfile[0].uid
                 context["username"] = user.username
                 context["api_key"] = settings.API_KEY
@@ -50,8 +50,8 @@ def validate_user(request):
                 context["msg"] = "Ingreso exitoso"
                 status = 200
             else:
-                context["msg"] = "Usuario o contraseña incorrectos"
-                context["data"] = {"error": "Bad request"}
+                context["msg"] = "No tiene permisos"
+                context["data"] = {"error": "Unauthorized user"}
                 status = 400
         else:
             context["msg"] = "Usuario o contraseña incorrectos"
