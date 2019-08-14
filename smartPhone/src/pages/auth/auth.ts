@@ -29,10 +29,10 @@ export class AuthPage {
         public network: Network, public loadingCtrl: LoadingController,
         public alertCtrl: AlertController) {
         // Or to get a key/value pair
-        
+
         this.menuCtrl.enable(false);
         console.log('(auth) params constructor', JSON.stringify(this.navParams.data));
-        
+
         this.storage.get('linkedUser').then((val) => {
             if (val) {
                 this.linkedUser = val;
@@ -64,7 +64,7 @@ export class AuthPage {
                 console.log('si hay calculos');
             }
         });*/
-        
+
     }
 
     attemptAuth() {
@@ -112,6 +112,7 @@ export class AuthPage {
                                     id: "usuarioClave",
                                     instanceID: instanceID
                                 });
+                                this.storage.set('templates', JSON.parse(res.data).templates)
                                 this.storage.set('linkedUser', {
                                     username: this.user.username,
                                     sesion: true,
@@ -143,6 +144,12 @@ export class AuthPage {
                             buttons: ['OK']
                         });
                         alert.present();
+                    }else if(error.status == 500){
+                      const alert = this.alertCtrl.create({
+                          subTitle: 'Lo sentimos, hubo un problema en el servidor. Intentelo más tarde',
+                          buttons: ['OK']
+                      });
+                      alert.present();
                     }
                     else {
                         const alert = this.alertCtrl.create({

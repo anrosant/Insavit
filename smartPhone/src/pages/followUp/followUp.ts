@@ -74,12 +74,14 @@ export class FollowUpPage {
             pendingForms = this.pendingForms.slice(0);
             pendingForms.push({
                 template: templateUuid,
+                setId: this.template.set_id, //Agregado
                 formData: currentForm,
                 index: this.formsData[templateUuid].length - 1
             });
         } else {
             pendingForms = [{
                 template: templateUuid,
+                setId: this.template.set_id, //Agregado
                 formData: currentForm,
                 index: 0
             }];
