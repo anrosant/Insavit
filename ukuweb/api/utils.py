@@ -6,6 +6,7 @@ import csv
 from .models import FormData
 import xlsxwriter
 import io
+from ukuweb.settings import FORMS_ROOT
 
 
 def send_file_to_ckan(file, name, set_id):
@@ -28,7 +29,7 @@ def convert_to_csv_and_send_to_ckan(data, filename, set_id):
     labels = get_labels_from_form(data)
     cols = get_values_from_form(data)
     file = convert_to_csv(labels, cols, filename)
-    file = open(filename, "rb")
+    file = open("{0}/{1}.csv".format(FORMS_ROOT, filename), "rb")
     resp = send_file_to_ckan(file, filename, set_id)
     file.close()
     return resp
@@ -375,7 +376,7 @@ def convert_to_xls(head_list, body_list, title, include_tables, table_info):
 
 
 def convert_to_csv(fieldnames, cols, title):
-    with open(title + ".csv", mode="wb") as file:
+    with open("{0}/{1}.csv".format(FORMS_ROOT, title), mode="wb") as file:
         writer = csv.writer(
             file, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
         )

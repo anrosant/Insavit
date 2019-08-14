@@ -29,9 +29,9 @@ export class AuthPage {
         public network: Network, public loadingCtrl: LoadingController,
         public alertCtrl: AlertController) {
         // Or to get a key/value pair
-        
+
         this.menuCtrl.enable(false);
-        
+
         this.storage.get('linkedUser').then((val) => {
             if (val) {
                 this.linkedUser = val;
@@ -43,7 +43,7 @@ export class AuthPage {
         }, err => {
             console.log('error no puede conectarse al servidor para descarga de calculos');
             console.log(err);
-        });        
+        });
     }
 
     attemptAuth() {
@@ -92,6 +92,7 @@ export class AuthPage {
                                     id: "usuarioClave",
                                     instanceID: instanceID
                                 });
+                                this.storage.set('templates', JSON.parse(res.data).templates)
                                 this.storage.set('linkedUser', {
                                     username: this.user.username,
                                     sesion: true,
@@ -126,6 +127,12 @@ export class AuthPage {
                             buttons: ['OK']
                         });
                         alert.present();
+                    }else if(error.status == 500){
+                      const alert = this.alertCtrl.create({
+                          subTitle: 'Lo sentimos, hubo un problema en el servidor. Intentelo más tarde',
+                          buttons: ['OK']
+                      });
+                      alert.present();
                     }
                     else {
                         const alert = this.alertCtrl.create({
@@ -148,6 +155,7 @@ export class AuthPage {
                         type: template.type,
                         done_quantity: 0,
                         gps: template.gps,
+                        set_id: template.set_id,
                         remain_quantity: template.quantity,
                         data: template.data
                     });
@@ -162,6 +170,7 @@ export class AuthPage {
                         name: template.name,
                         gps: template.gps,
                         type: template.type,
+                        set_id: template.set_id,
                         quantity: quanti,
                         data: template.data
                     });

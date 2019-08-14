@@ -259,12 +259,14 @@ export class HomePage {
                     }
                     pendingForms.push({
                         template: templateUuid,
+                        setId: template.set_id,
                         formData: currentForm,
                         index: idx
                     });
                 } else {
                     pendingForms = [{
                         template: templateUuid,
+                        setId: template.set_id,
                         formData: currentForm,
                         index: 0
                     }];

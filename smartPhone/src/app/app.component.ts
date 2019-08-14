@@ -83,10 +83,10 @@ export class MyApp {
             });
     }
 
-    promesaEnvioFormulario(linkedUser, formulario, templateUuid) {
+    promesaEnvioFormulario(linkedUser, formulario, templateUuid, setId) {
         return new Promise((resolve, reject) => {
             var data = {
-                "templateUuid": templateUuid,
+                "template": {"uuid": templateUuid, "setId": setId},
                 "formData": formulario,
                 "user": linkedUser
             }
@@ -125,9 +125,10 @@ export class MyApp {
             let newPendingForms = pendingForms.slice();
             for (let pendingForm of newPendingForms) {
                 let templateUuid = pendingForm.template;
+                let setId = pendingForm.setId;
                 let index = pendingForm.index;
                 let formData = pendingForm.formData;
-                let result = await this.promesaEnvioFormulario(linkedUser, formData, templateUuid);
+                let result = await this.promesaEnvioFormulario(linkedUser, formData, templateUuid, setId);
                 if (result['error']) {
                     this.sendingForms = false;
                     if (loading) {
