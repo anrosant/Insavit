@@ -67,11 +67,15 @@ export class HomePage {
             this.selectedSection = templates[0];
         });
 
-        /*if(this.templates==undefined) {
-            var url = "http://150.136.230.16/api/user/"+this.linkedUser.uid+"/templates/";
+        this.storage.get('linkedUser').then((linkedUser) => {
+            var url = "http://150.136.230.16/api/user/"+linkedUser.uid+"/templates/";
             this.http.get(url, {}, {}).then(res => {
-                this.templates = res;
+                this.storage.set("templates", JSON.parse(res.data).templates);
                 console.log("cogio templates del home");
+                this.storage.get('templates').then((templates) => {
+                    console.log(templates);
+                });
+
             }).catch(error => {
                 console.log("error", error);
 
@@ -82,8 +86,7 @@ export class HomePage {
                         buttons: ['OK']
                     });
                     alert.present();
-                }
-                else {
+                } else {
                     const alert = this.alertCtrl.create({
                         subTitle: 'Hubo un error',
                         buttons: ['OK']
@@ -91,7 +94,7 @@ export class HomePage {
                     alert.present();
                 }
             });
-        }*/
+        });
 
         this.storage.get("formsData").then((formsData) => {
             if (formsData != null && (Object.keys(formsData).length > 0)) {
@@ -99,7 +102,7 @@ export class HomePage {
             }
         });
 
-        //this.setNotificaciones();
+        this.setNotificaciones();
     }
 
     /*selectType(template_uid, select_tipo,index) {
@@ -151,17 +154,64 @@ export class HomePage {
                 for(let noti of template.notifications) {
                     var nombre = template.name;
                     var tipo = template.type;
-                    var fecha = noti.date.split('-');
-                    var hora = noti.time.split(':');
-                    this.localNotifications.schedule({
-                        id: i,
-                        icon: './assets/imgs/logo_notification.png',
-                        title: 'NUEVO FORMULARIO',
-                        text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                        trigger: {at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1])},
-                        led: 'FF0000'
-                    });
-                    i++;
+
+                    if(noti.type == 'SIMPLE') {
+                        for(let no of noti.children) {
+                            var fecha = no.date.split('-');
+                            var hora = no.time.split(':');
+                            this.localNotifications.schedule({
+                                id: i,
+                                icon: './assets/imgs/logo_notification.png',
+                                title: 'NUEVO FORMULARIO',
+                                text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
+                                trigger: {at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1])},
+                                led: 'FF0000'
+                            });
+                            i++;
+                        }
+                    } else if(noti.type == 'PERIÓDICA') {
+                        var interval_type = noti.interval_type;
+                        var interval_value = noti.interval_value;
+                        var fecha_noti;
+
+                        for(let no of noti.children) {
+                            var fecha = no.date.split('-');
+                            var hora = no.time.split(':');
+                            if(no.type == 'start') {
+                                var fecha_inicio = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
+                            } else {
+                                var fecha_fin = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
+                            }
+                        }
+                        
+                        fecha_noti = new Date(fecha_inicio.getFullYear(),fecha_inicio.getMonth(),fecha_inicio.getDate(),fecha_inicio.getHours(),fecha_inicio.getMinutes());
+
+                        do {
+                            this.localNotifications.schedule({
+                                id: i,
+                                icon: './assets/imgs/logo_notification.png',
+                                title: 'NUEVO FORMULARIO',
+                                text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
+                                trigger: {at: new Date(fecha_noti.getFullYear(), fecha_noti.getMonth(), fecha_noti.getDate(), fecha_noti.getHours(), fecha_noti.getMinutes())},
+                                led: 'FF0000'
+                            });
+
+                            if(interval_type == 'minute') {
+                                fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 60 * 1000));
+                            } else if(interval_type == 'hour') {
+                                fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 60 * 60 * 1000));
+                            } else if(interval_type == 'day') {
+                                fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 24 * 60 * 60 * 1000));
+                            } else if(interval_type == 'week') {
+                                fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 7 * 24 * 60 * 60 * 1000));
+                            } else if(interval_type == 'month') {
+                                fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 30 * 24 * 60 * 60 * 1000));
+                            }
+
+                            i++;
+                            
+                        } while(fecha_noti.getTime() <= fecha_fin.getTime());
+                    }
                 }
             }
         });

@@ -4,27 +4,6 @@
     </ion-navbar>
 </ion-header>
 <ion-content>
-    <div *ngIf="geolocationAuth=='DENIED_ALWAYS'">
-        <div margin-bottom text-center>
-            <img class="noLocationIcon" src="./assets/imgs/location2.png">
-        </div>
-        <p>Has negado de manera permanente el permiso para que la aplicacion pueda usar tu ubicacion. Para el correcto funcionamiento otorga este permiso desde la configuracion de Android siguiendo estos pasos:</p>
-        <ul>
-            <li>Accede a la configuracion de la aplicacion pulsando el boton "Ir a Configuracion"</li>
-            <li>Pulsa la opcion relacionada a los accesos o permisos</li>
-            <li>Habilita opcion que conceda el permiso a la ubicacion</li>
-            <li>Regresa a la aplicacion</li>
-        </ul>
-        <button ion-button block (click)="switchToSettings()">Ir a Configuracion</button>
-    </div>
-    <div *ngIf="geolocationAuth=='DENIED'">
-        <div margin-bottom text-center>
-            <img class="noLocationIcon" src="./assets/imgs/location2.png">
-        </div>
-        <p id="denied_message">Has negado el permiso para que la aplicacion pueda usar tu ubicacion. Para el correcto funcionamiento otorga este permiso</p>
-        <button ion-button block (click)="requestLocationAuthorization()">Conceder Permiso</button>
-        <ion-item></ion-item>
-    </div>
     <div text-center *ngIf="geolocationAuth=='GRANTED'">
         <div *ngFor="let item of selectedTemplate.children;let indexCategoria = index">
             <div *ngIf="item.type=='collapseList'">

@@ -63,8 +63,7 @@ export class AuthPage {
                                 this.appCtrl.getRootNav().setRoot(HomePage);
                             });
                         });
-                    }
-                    else {
+                    } else {
                         loader.dismiss();
                         const alert = this.alertCtrl.create({
                             title: 'Credenciales incorrectas!',
