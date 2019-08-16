@@ -24,10 +24,12 @@ class TemplateType(models.Model):
     FOLLOWUP_TEMPLATE = "SEGUIMIENTO"
     SIMPLE_TEMPLATE = "SIMPLE"
     COMPOUND_TEMPLATE = "COMPUESTA"
+    MULTIFORM_TEMPLATE = "MULTIFORM"
     INITIAL = "01"
     FOLLOWUP = "02"
     SIMPLE = "03"
     COMPOUND = "04"
+    MULTIFORM = "05"
     name = models.CharField(max_length=20)
     code = models.CharField(max_length=2)
 

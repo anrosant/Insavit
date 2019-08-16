@@ -42,6 +42,9 @@ def create_template_view(request):
         context["template_types"].append(
             TemplateType.objects.get(code=TemplateType.COMPOUND)
         )
+        context["template_types"].append(
+            TemplateType.objects.get(code=TemplateType.MULTIFORM)
+        )
     else:
         return HttpResponse("Usuario no autorizado", status=401)
     return HttpResponse(template.render(context, request))
@@ -68,6 +71,9 @@ def view(request, uid):
             )
             context["template_types"].append(
                 TemplateType.objects.get(code=TemplateType.COMPOUND)
+            )
+            context["template_types"].append(
+                TemplateType.objects.get(code=TemplateType.MULTIFORM)
             )
             context["type_selected"] = template.type.code
             context["form_name"] = template.name
