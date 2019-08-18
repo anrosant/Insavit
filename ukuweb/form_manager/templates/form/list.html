@@ -2,9 +2,17 @@
 {% load static %}
 {% block titulo %}INSAVIT{% endblock %}
 {% block extraStyle %}
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
 <link rel="stylesheet" href="{% static 'css/templates.css' %}">
-<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Bootstrap core CSS -->
+<link href="{% static 'css/table/bootstrap.min.css' %}" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="{% static 'css/table/mdb.min.css' %}" rel="stylesheet">
+<!-- Your custom styles (optional) -->
+<link href="{% static 'css/table/style.css' %}" rel="stylesheet">
+<!-- MDBootstrap Datatables  -->
+<link href="{% static 'css/table/addons/datatables.min.css' %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <div id="done_forms">
@@ -14,7 +22,7 @@
   </div>
   <div>
     <div class="table-responsive">
-      <table class="table">
+      <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
         <thead>
           <tr>
             <th>#</th>
@@ -35,7 +43,7 @@
             <td>{% if template.gps %}
               <i class="fa fa-check" style="color: green; padding-left: 9px;"></i>
               {% else %}
-              <i style="color: red; padding-left: 10px;" class="fa">&#xf00d;</i> 
+              <i style="color: red; padding-left: 10px;" class="fa">&#xf00d;</i>
               {% endif %}
             </td>
             <td>{{ template.type.name }}</td>
@@ -49,4 +57,17 @@
   </div>
   <hr>
 </div>
+{% endblock %}
+{% block extraScripts %}
+<script type="text/javascript" src="{% static 'js/table/jquery-3.4.1.min.js' %}"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="{% static 'js/table/popper.min.js' %}"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="{% static 'js/table/bootstrap.min.js' %}"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="{% static 'js/table/mdb.min.js' %}"></script>
+<!-- MDBootstrap Datatables  -->
+<script type="text/javascript" src="{% static 'js/table/addons/datatables.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/index.js' %}"></script>
+
 {% endblock %}

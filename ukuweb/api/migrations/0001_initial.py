@@ -11,26 +11,29 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('form_manager', '0001_initial'),
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='FormData',
+            name="FormData",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('uid', models.CharField(default=uuid.uuid4, editable=False, max_length=36)),
-                ('name', models.CharField(blank=True, max_length=500)),
-                ('coordinates', models.CharField(max_length=100, null=True)),
-                ('data', models.TextField()),
-                ('created_date', models.DateField(blank=True, null=True)),
-                ('send_date', models.DateField(blank=True, null=True)),
-                ('include_gps', models.BooleanField(default=False)),
-                ('code', models.CharField(max_length=5, null=True)),
-                ('template', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='form_manager.Template')),
-                ('type', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='form_manager.TemplateType')),
-                ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='form_manager.UserProfile')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("type", models.CharField(blank=True, max_length=500)),
+                ("coordinates", models.CharField(max_length=100, null=True)),
+                ("data", models.TextField()),
+                ("access_date", models.DateField(blank=True, null=True)),
+                ("created_date", models.DateField(blank=True, null=True)),
+                ("send_date", models.DateField(blank=True, null=True)),
+                ("include_gps", models.BooleanField(default=False)),
+                ("reason", models.CharField(blank=True, null=True, max_length=500)),
             ],
-        ),
+        )
     ]

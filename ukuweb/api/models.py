@@ -24,7 +24,8 @@ class FormDataManager(models.Manager):
             "type": "initial"
             "uuid": "e471fda6-1590-4341-9cf4-a29e9d59b0ae",
             "gps": false,
-            "coordinates": null
+            "coordinates": null,
+            "reason": ""
         },
         "user": {
             "username": "user example",
@@ -38,11 +39,14 @@ class FormDataManager(models.Manager):
         elif temp_type == "FOLLOW_UP":
             temp_type = "SEGUIMIENTO"
 
+        type = TemplateType.objects.filter(name=temp_type) if form.get("type") else None
+        if type and type.exists():
+            type = type.get()
+        else:
+            type = TemplateType.objects.get(name="SIMPLE")
+
         created_date = dateutil.parser.parse(form.get("createdDate"))
-        type = TemplateType.objects.get(name=temp_type) if form.get("type") else None
         coordinates = form.get("coordinates", None)
-        # if coordinates:
-        #     ast.literal_eval(coordinates)
         form_data = self.model(
             uid=form.get("uuid"),
             type=type,
@@ -54,6 +58,7 @@ class FormDataManager(models.Manager):
             include_gps=True if form.get("gps") == "required" else False,
             code=form.get("code", None),
         )
+        form_data.reason = form.get("reason", None)
         templateUuid = formData["formData"].get("uuid")
         template = Template.objects.filter(uid=templateUuid)
         if template.exists():
@@ -71,13 +76,14 @@ class FormData(models.Model):
     type = models.ForeignKey(TemplateType, null=True)
     coordinates = models.CharField(max_length=100, null=True)
     data = models.TextField()
-    created_date = models.DateField(null=True, blank=True)
-    send_date = models.DateField(null=True, blank=True)
+    created_date = models.DateTimeField(null=True, blank=True)
+    send_date = models.DateTimeField(null=True, blank=True)
     include_gps = models.BooleanField(default=False)
     objects = FormDataManager()
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
     template = models.ForeignKey(Template, on_delete=models.SET_NULL, null=True)
     code = models.CharField(max_length=5, null=True)
+    reason = models.CharField(max_length=500, null=True, blank=True)
 
     def coordinates_name(self):
         coordinates = self.coordinates
@@ -102,4 +108,5 @@ class FormData(models.Model):
             "include_gps": self.include_gps,
             "code": self.code if self.code else "",
             "user": self.user.uid if self.user else None,
+            "reason": self.reason if self.user else None,
         }
