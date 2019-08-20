@@ -228,7 +228,7 @@ export class HomePage {
         }
     }
 
-    startInitialForm(template, selectedTemplate, templateUuid, formUuid, type, index) {
+    startInitialForm(template, selectedTemplate, templateUuid, formUuid, type, index, code) {
         // Generate a code for Interviewed
         this.storage.get('formsData').then((formsData) => {
             this.formsData = formsData;
@@ -240,10 +240,9 @@ export class HomePage {
             if (forms != null && (forms.length > 0)) {
                 let form = forms[forms.length - 1];
                 let code_number = parseInt(form.code) + 1;
-                let new_code = this.pad(code_number, 5);
                 currentForm = {
                     uuid: formUuid,
-                    code: new_code,
+                    code: code,
                     type: type,
                     name: template.name,
                     gps: template.gps,
@@ -256,10 +255,89 @@ export class HomePage {
                 forms.push(currentForm);
             }
             else {
-                let new_code = this.pad(1, 5);
                 currentForm = {
                     uuid: formUuid,
-                    code: new_code,
+                    code: code,
+                    type: type,
+                    name: template.name,
+                    gps: template.gps,
+                    data: {},
+                    createdDate: new Date()
+                };
+                if (template.gps == "required") {
+                    currentForm["coordinates"] = this.coordinates;
+                }
+                forms = [currentForm];
+            }
+            var pendingForms = []
+            this.storage.get('pendingForms').then((pendingForms) => {
+                this.pendingForms = pendingForms;
+                if (this.pendingForms != null && (this.pendingForms.length > 0)) {
+                    pendingForms = this.pendingForms.slice(0);
+                    let idx = 0;
+                    if (this.formsData != null && this.formsData[templateUuid] != null ){
+                        idx= this.formsData[templateUuid].length;
+                    }
+                    pendingForms.push({
+                        template: templateUuid,
+                        setId: template.set_id,
+                        formData: currentForm,
+                        index: idx
+                    });
+                } else {
+                    pendingForms = [{
+                        template: templateUuid,
+                        setId: template.set_id,
+                        formData: currentForm,
+                        index: 0
+                    }];
+                }
+                this.navCtrl.push(FormPage, {
+                    template: template,
+                    selectedTemplate: selectedTemplate,
+                    formData: selectedTemplate,
+                    currentForm: currentForm,
+                    forms: forms,
+                    formsData: this.formsData,
+                    pendingForms: pendingForms,
+                    geolocationAuth: this.geolocationAuth,
+                    infoTemplates: this.infoTemplates,
+                    infoTemplateIndex: index
+                });
+            });
+        });
+    }
+
+    startSimpleForm(template, selectedTemplate, templateUuid, formUuid, type, index) {
+        // Generate a code for Interviewed
+        this.storage.get('formsData').then((formsData) => {
+            this.formsData = formsData;
+            let currentForm = {};
+            let forms;
+            if (this.formsData != null && (Object.keys(this.formsData).length > 0) && this.formsData.hasOwnProperty(templateUuid)) {
+                forms = this.formsData[templateUuid].slice(0);
+            }
+            if (forms != null && (forms.length > 0)) {
+                let form = forms[forms.length - 1];
+                let code_number = parseInt(form.code) + 1;
+                currentForm = {
+                    uuid: formUuid,
+                    code: "",
+                    type: type,
+                    name: template.name,
+                    gps: template.gps,
+                    data: {},
+                    createdDate: new Date()
+                };
+                if (template.gps == "required") {
+                    currentForm["coordinates"] = this.coordinates;
+                }
+                forms.push(currentForm);
+            }
+            else {
+                currentForm = {
+                    uuid: formUuid,
+                    code: "",
                     type: type,
                     name: template.name,
                     gps: template.gps,
@@ -389,12 +467,42 @@ export class HomePage {
             this.startFollowUpForm(template, template.data.follow_up, templateUuid, index);
         }
         else if (type == "initial") {
-            let formUuid = uuid();
-            this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type, index);
+          let alert = this.alertCtrl.create({
+              title: 'Ingrese una identificación',
+              cssClass: 'alert-title',
+              inputs: [
+                {
+                  name: 'identification',
+                  placeholder: 'Código, cédula, ..',
+                  type: 'text',
+                }
+              ],
+              buttons: [
+                {
+                  text: 'Continuar',
+                  handler: data => {
+                    if (data && data.identification.length>5 && data.identification.length<=15) {
+                      let formUuid = uuid();
+                      this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type, index, data.identification);
+                    } else {
+                      const alert = this.alertCtrl.create({
+                          title: 'Identificación incorrecta!',
+                          cssClass: 'alert-title',
+                          subTitle: 'Debe contener entre 5 a 15 caracteres',
+                          buttons: ['OK']
+                      });
+                      alert.present();
+                      return false;
+                    }
+                  }
+                }
+              ]
+            });
+            alert.present();
         }
         else {
             let formUuid = uuid();
-            this.startInitialForm(template, template.data, templateUuid, formUuid, type, index);
+            this.startSimpleForm(template, template.data, templateUuid, formUuid, type, index);
         }
     }
 
