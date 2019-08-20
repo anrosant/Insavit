@@ -1,5 +1,5 @@
 import { Component, ViewChild, Injector } from '@angular/core';
-import { NavController, MenuController,ViewController, NavParams, Events, AlertController, Platform, LoadingController, Navbar, PopoverController } from 'ionic-angular';
+import { NavController, MenuController, ViewController, NavParams, Events, AlertController, Platform, LoadingController, Navbar, PopoverController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Coordinates, Geolocation } from '@ionic-native/geolocation';
 import { LocationAccuracy } from '@ionic-native/location-accuracy';
@@ -40,11 +40,11 @@ export class FormPage extends PopoverPage {
         private geolocation: Geolocation,
         private locationAccuracy: LocationAccuracy,
         public loadingController: LoadingController,
-        public navCtrl: NavController, 
-        public platform:Platform,
+        public navCtrl: NavController,
+        public platform: Platform,
         public popoverCtrl: PopoverController,
         public viewCtrl: ViewController) {
-            super(viewCtrl);
+        super(viewCtrl);
 
         this.menuCtrl.enable(true);
         this.template = this.navParams.data.template;
@@ -138,22 +138,22 @@ export class FormPage extends PopoverPage {
         });
     }*/
 
-    save(index) {
+    save(index, pending_form_index) {
         this.currentForm.saveDate = new Date();
         this.currentForm.data = this.formData;
         this.forms[index] = this.currentForm;
         this.formsData[this.templateUuid] = this.forms;
         this.storage.set("formsData", this.formsData);
-        this.pendingForms[this.pendingForms.length - 1].formData = this.currentForm;
+        this.pendingForms[pending_form_index].formData = this.currentForm;
         this.storage.set("pendingForms", this.pendingForms);
     }
 
     async saveForm() {
-        let index = this.forms.length;
         let formsDataIsNull = this.formsData == null;
         let formDataExists = (this.formsData != null &&
             this.formsData.hasOwnProperty(this.templateUuid));
         let currentFormExists = false;
+        let pending_form_index = this.pendingForms.length - 1;
         if (formsDataIsNull || !formDataExists) {
             this.decrease_remain_quantity(this.template,
                 this.currentForm.type,
@@ -161,14 +161,29 @@ export class FormPage extends PopoverPage {
             this.increase_done_quantity(this.template,
                 this.currentForm.type,
                 this.infoTemplateIndex);
+            this.save(this.forms.length - 1, pending_form_index);
         }
         else {
+            let index = 0;
             for (let form of this.formsData[this.templateUuid]) {
                 if (form.uuid == this.currentForm.uuid) {
                     currentFormExists = true;
+                    break;
+                } else {
+                    index += 1;
                 }
             }
+            pending_form_index = 0;
+            for (let pendingForm of this.pendingForms){
+              if(pendingForm.formData.uuid == this.currentForm.uuid){
+                break;
+              }else{
+                pending_form_index +=1;
+              }
+            }
+
             if (!currentFormExists) {
+                //CREATE
                 this.storage.set("pendingForms", this.pendingForms);
                 this.decrease_remain_quantity(this.template,
                     this.currentForm.type,
@@ -176,9 +191,14 @@ export class FormPage extends PopoverPage {
                 this.increase_done_quantity(this.template,
                     this.currentForm.type,
                     this.infoTemplateIndex);
+                this.save(this.forms.length - 1, pending_form_index);
+            } else {
+                //EDIT
+                this.save(index, pending_form_index);
             }
         }
-        this.save(this.forms.length - 1);
+
+
 
     }
 
@@ -302,7 +322,7 @@ export class FormPage extends PopoverPage {
         }
     }
 
-    clickNextPage(item2, indexCategoria, indexSubCategoria) {
+    clickNextPage(item2) {
         let param = this.navParams.data;
         param.selectedTemplate = item2;
         this.navCtrl.push(FormPage, param);
