@@ -107,6 +107,6 @@ class FormData(models.Model):
             "send_date": self.send_date,
             "include_gps": self.include_gps,
             "code": self.code if self.code else "",
-            "user": self.user.uid if self.user else None,
+            "user": self.user.user.username if self.user else None,
             "reason": self.reason if self.user else None,
         }
