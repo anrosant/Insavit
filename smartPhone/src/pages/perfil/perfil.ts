@@ -10,46 +10,39 @@ import { Storage } from '@ionic/storage';
 })
 
 export class PerfilPage {
-    position;
-    datosUsuario : null;
     sentForms;
-    fechaInstalacion;
-    usuario = {
-        usuario:'cbenitez',
-        session:true,
-        data:
-            {
-                "codigo_estacion":"M0123",
-                "id_estacion":63765,
-                "latitud":"-1.133889",
-                "longitud":"-79.075556",
-                "altura":"1471.00",
-                "provincia":"COTOPAXI",
-                "canton":"PANGUA",
-                "parroquia":"EL CORAZON",
-                "usuario":"juan",
-                "rol":"Formularios principales"
-             }
-    };
+    pendingForms;
+    instalationDate;
+    user;
 
     constructor(private geolocation: Geolocation, private storage: Storage, public navCtrl: NavController,
                 public navParams:NavParams, public alertCtrl: AlertController) {
         this.storage.get('linkedUser').then((val) => {
             if(val) {
-                this.usuario = val
+                this.user = val
             } else {
                 console.log('(auth) final then get storage vinculado');
             }
         });
 
         this.storage.get('sentForms').then((val) => {
-            this.sentForms = val;
-            console.log(val);
+          if(val!=null){
+            this.sentForms = val.length;
+          }else{
+            this.sentForms = 0;
+          }
+        });
+
+        this.storage.get('pendingForms').then((val) => {
+          if(val != null){
+            this.pendingForms = val.length;
+          }else{
+            this.pendingForms = 0;
+          }
         });
 
         this.storage.get('fechaInstalacion').then(data => {
-            console.log('(app) fecha get storage', JSON.stringify(data));
-            this.fechaInstalacion = data;
+            this.instalationDate = data;
         });
     }
 

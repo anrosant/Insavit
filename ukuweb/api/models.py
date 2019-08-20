@@ -82,7 +82,7 @@ class FormData(models.Model):
     objects = FormDataManager()
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
     template = models.ForeignKey(Template, on_delete=models.SET_NULL, null=True)
-    code = models.CharField(max_length=5, null=True)
+    code = models.CharField(max_length=15, null=True, blank=True)
     reason = models.CharField(max_length=500, null=True, blank=True)
 
     def coordinates_name(self):

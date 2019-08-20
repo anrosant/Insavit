@@ -26,7 +26,7 @@
                     <img src="assets/imgs/formulario4.png">
                 </ion-avatar>
                 <h3>{{sentForm.name}}</h3>
-                <p style="color: #488aff"> Código: {{sentForm.code}}</p>
+                <p style="color: #536d38"> Código: {{sentForm.code}}</p>
                 <ion-icon item-end ios="ios-more" md="md-more"></ion-icon>
             </ion-item>
             <div class="collapse" id="collapseSentForm{{j}}">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button ion-button block icon-start clear small (click)="clickDeleteSentForm(j)">
+                            <button class='delete-button' ion-button block icon-start clear small (click)="clickDeleteSentForm(j)">
                                 <ion-icon name="trash"></ion-icon>
                                 <div>Eliminar</div>
                             </button>
