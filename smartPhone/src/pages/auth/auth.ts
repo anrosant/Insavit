@@ -77,8 +77,6 @@ export class AuthPage {
         } else {
             this.http.post(this.url, { username: this.user.username, password: this.user.password }, {})
                 .then(res => {
-                    this.storage.set("templates", JSON.parse(res.data).templates);
-
                     const alert = this.alertCtrl.create({
                         subTitle: JSON.parse(res.data).msg,
                         buttons: ['OK']
@@ -141,6 +139,44 @@ export class AuthPage {
                         alert.present();
                     }
                 });
+            
+            /*this.storage.get('templates').then((templates) => {
+                if(templates.name == "Nutrición") {
+                    var url_calculos = "http://150.136.213.20/dataset/0cfc0e05-8e4c-435a-893b-5d12ede68f0f/resource/98c97425-d342-4aa7-9f8f-fe7f5df7dec4/download/calculos_nutricion.json";
+                } else if(templates.name == "INHAMI") {
+                    var url_calculos = "http://150.136.213.20/dataset/5cf2b424-a092-4d55-b955-0d9f2942ed4f/resource/d1aadedb-295f-460b-b462-d069dc87b8d6/download/calculos_inhami.json";
+                }
+
+                this.http.get(url_calculos, {}, {})
+                    .then(res => {
+                        this.storage.set('calculos', res);
+                    })
+                    .catch(error => {
+                        console.log("error", error);
+
+                        loader.dismiss();
+                        if (error.status == 403) {
+                            const alert = this.alertCtrl.create({
+                                subTitle: 'Hubo un problema de conexión. Intentelo más tarde',
+                                buttons: ['OK']
+                            });
+                            alert.present();
+                        }else if(error.status == 500){
+                          const alert = this.alertCtrl.create({
+                              subTitle: 'Lo sentimos, hubo un problema en el servidor. Intentelo más tarde',
+                              buttons: ['OK']
+                          });
+                          alert.present();
+                        }
+                        else {
+                            const alert = this.alertCtrl.create({
+                                subTitle: 'Usuario o contraseña incorrectos',
+                                buttons: ['OK']
+                            });
+                            alert.present();
+                        }
+                    });
+            });*/
         }
     }
 
