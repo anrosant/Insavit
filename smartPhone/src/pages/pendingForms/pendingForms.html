@@ -50,7 +50,7 @@
                             <div class="col-6">
                                 <ion-label class="empty_number" no-margin margin-bottom text-wrap [class.strongLabelError]="form.formData.vacios>0"><strong [class.strongLabel]="!form.formData.vacios>0">Vacios: </strong> {{form.formData.vacios}}
                                 </ion-label>
-                                <button [disabled]="sendingForms" ion-button block icon-start clear small (click)="clickEditarFormulario(form, i)">
+                                <button [disabled]="sendingForms" ion-button block icon-start clear small (click)="clickEditForm(i)">
                                     <ion-icon name="create"></ion-icon>
                                     <div>Editar</div>
                                 </button>

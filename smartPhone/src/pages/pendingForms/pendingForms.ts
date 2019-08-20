@@ -3,6 +3,7 @@ import { NavController, NavParams, Events, AlertController } from 'ionic-angular
 import { Storage } from '@ionic/storage';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { FormPage } from '../form/form';
 
 @Component({
     selector: 'page-pendingForms',
@@ -29,7 +30,7 @@ export class PendingFormsPage {
             this.infoTemplates = infoTemplates;
         });
         this.storage.get("formsData").then((formsData) => {
-          this.formsData = formsData;
+            this.formsData = formsData;
         });
 
 
@@ -169,5 +170,48 @@ export class PendingFormsPage {
             }
         }
         return objects;
+    }
+
+    async clickEditForm(i) {
+        let pendingForms = await this.storage.get("pendingForms");
+        let pendingForm = pendingForms[i];
+        let currentF = pendingForm.formData;
+        let templateUuid = pendingForm.template;
+        let template;
+        let selectedTemplate;
+        let infoTemplateIndex;
+        let formsData = await this.storage.get("formsData");
+        let forms = formsData[templateUuid];
+        let currentForm;
+        for (let form of forms){
+          //VERIFICAR POR QUÉ ESTÁ ENVIADO ELL UUID DEL PRIMER ELEMENTO
+          console.log(form.uuid, currentF.uuid);
+          if(form.uuid == currentF.uuid){
+            currentForm = form;
+            break;
+          }
+        }
+        let infoTemplates = await this.storage.get("infoTemplates");
+        for (let i = 0; i < infoTemplates.length; i++) {
+            let temp = infoTemplates[i];
+            if (temp.uuid == templateUuid) {
+                template = temp;
+                infoTemplateIndex = i;
+                break;
+            }
+        }
+        console.log("SENDING ", currentForm.uuid);
+        this.navCtrl.push(FormPage, {
+            template: template,
+            selectedTemplate: currentForm.data,
+            formData: currentForm.data,
+            currentForm: currentForm,
+            forms: forms,
+            formsData: formsData,
+            pendingForms: pendingForms,
+            geolocationAuth: "GRANTED",
+            infoTemplates: infoTemplates,
+            infoTemplateIndex: infoTemplateIndex
+        });
     }
 }
