@@ -216,18 +216,7 @@ export class HomePage {
                                 } else if(interval_type == 'month') {
                                     fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 30 * 24 * 60 * 60 * 1000));
                                 }
-                                
-                                fecha_noti = new Date(fecha_inicio.getFullYear(),fecha_inicio.getMonth(),fecha_inicio.getDate(),fecha_inicio.getHours(),fecha_inicio.getMinutes());
 
-                                do {
-                                    this.localNotifications.schedule({
-                                        id: i,
-                                        icon: './assets/imgs/logo_notification.png',
-                                        title: 'NUEVO FORMULARIO',
-                                        text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                                        trigger: {at: new Date(fecha_noti.getFullYear(), fecha_noti.getMonth(), fecha_noti.getDate(), fecha_noti.getHours(), fecha_noti.getMinutes())},
-                                        led: 'FF0000'
-                                    });
                                 i++;
 
                             } while(fecha_noti.getTime() <= fecha_fin.getTime());
