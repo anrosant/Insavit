@@ -5,12 +5,18 @@ page-auth {
     }
     .btn-login{
       box-shadow: none !important;
+      border-radius: 20px;
+
     }
     .btn-unlink{
       color: #536d38 !important;
       background-color: #ffffff !important;
       box-shadow: none !important;
       border: 1px solid #536d38 !important;
+      border-radius: 20px;
+    }
+    .linked-user{
+      border-radius: 20px;
     }
     $text-input-md-show-focus-highlight:false;
 }

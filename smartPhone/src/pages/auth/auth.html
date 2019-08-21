@@ -7,29 +7,31 @@
 </ion-header>
 <ion-content padding>
     <div padding text-center>
+        <br>
+        <br>
         <img src="./assets/imgs/logo_auth.png">
         <br>
         <br>
-        <ion-item margin-top color="light" *ngIf="!linkedUser">
-            <ion-label color="navbar" fixed>
-                <ion-icon name="person"></ion-icon>
+        <ion-item margin-top color="light" *ngIf="!linkedUser" class="linked-user">
+            <ion-label color="dark" fixed>
+                <ion-icon color="dark" name="person"></ion-icon>
             </ion-label>
             <ion-input type="text" placeholder="Usuario" [(ngModel)]="user.username" name="username"></ion-input>
         </ion-item>
-        <button ion-item color="light" margin-top *ngIf="linkedUser">
-            <ion-icon color="navbar" name="person" item-start></ion-icon>
-            <ion-label color="navbar" margin-left item-start>{{linkedUser.username}}</ion-label>
-            <ion-note item-end color="menuItemSelected"></ion-note>
+        <button ion-item color="light" class="linked-user" margin-top *ngIf="linkedUser">
+            <ion-icon color="dark" name="person" item-start></ion-icon>
+            <ion-label color="dark" margin-left item-start>{{linkedUser.username}}</ion-label>
         </button>
-        <ion-item margin-top color="light">
-            <ion-label color="navbar" fixed>
-                <ion-icon color="navbar" name="key" md="md-key"></ion-icon>
+        <ion-item margin-top color="light" class="linked-user">
+            <ion-label color="dark" fixed>
+                <ion-icon color="dark" name="key" md="md-key"></ion-icon>
             </ion-label>
             <ion-input type="password" placeholder="Clave" [(ngModel)]="user.password" name="password"></ion-input>
         </ion-item>
         <br>
+        <br>
+        <button class="btn-login" color="button" *ngIf="!linkedUser" [disabled]="!user.username || !user.password" ion-button block (click)="attemptAuth()">Ingresar</button>
+        <button class="btn-login" ion-button icon-start size="small" *ngIf="linkedUser" [disabled]="!user.password" block (click)="attemptAuth()">Ingresar</button>
+        <button class="btn-unlink" ion-button icon-end size="small" *ngIf="linkedUser" block (click)="desvincular()">Iniciar con otra cuenta</button>
     </div>
-    <button class="btn-login" color="button" *ngIf="!linkedUser" [disabled]="!user.username || !user.password" ion-button block (click)="attemptAuth()">Ingresar</button>
-    <button class="btn-login" ion-button icon-start size="small" *ngIf="linkedUser" [disabled]="!user.password" block (click)="attemptAuth()">Ingresar</button>
-    <button class="btn-unlink" ion-button icon-end size="small" *ngIf="linkedUser" block (click)="desvincular()">Iniciar con otra cuenta</button>
 </ion-content>
