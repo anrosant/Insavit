@@ -124,7 +124,7 @@ export class FormPage extends PopoverPage {
         this.storage.set('infoTemplates', this.infoTemplates);
     }
 
-    /*verPorciones(evento){
+    verPorciones(evento){
         let popover = this.popoverCtrl.create(PopoverPage);
         popover.present({
             ev: evento
@@ -136,7 +136,7 @@ export class FormPage extends PopoverPage {
         popover.present({
             ev: evento
         });
-    }*/
+    }
 
     save(index, pending_form_index) {
         this.currentForm.saveDate = new Date();
