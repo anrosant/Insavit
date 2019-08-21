@@ -22,6 +22,7 @@ export class FollowUpPage {
     geolocationAuth;
     formsData;
     coordinates;
+    reason;
     infoTemplates = [];
     pendingForms = [];
     infoTemplateIndex;
@@ -45,6 +46,7 @@ export class FollowUpPage {
         this.geolocationAuth = this.navParams.data.geolocationAuth;
         this.infoTemplateIndex = this.navParams.data.infoTemplateIndex;
         this.infoTemplates = this.navParams.data.infoTemplates;
+        this.reason = this.navParams.data.reason;
     }
 
 
@@ -57,6 +59,8 @@ export class FollowUpPage {
         let currentForm = {
             uuid: formUuid,
             code: code_form,
+            reason: this.reason,
+            version: 0,
             name: this.template.name,
             gps: this.template.gps,
             data: {},

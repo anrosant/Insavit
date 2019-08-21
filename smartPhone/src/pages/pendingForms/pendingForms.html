@@ -30,7 +30,10 @@
                         <img src="assets/imgs/formulario4.png">
                     </ion-avatar>
                     <h3>{{form.formData.name}}</h3>
-                    <p style="color: #536d38"> Código: {{form.formData.code}}</p>
+                    <p style="color: #536d38"> Identificación: {{form.formData.code}}</p>
+                    <p style="color: #536d38" *ngIf="form.formData.type == 'initial'" no-margin margin-bottom text-wrap>Tipo: INICIAL</p>
+                    <p style="color: #536d38" *ngIf="form.formData.type == 'follow_up'" no-margin margin-bottom text-wrap>Tipo: SEGUIMIENTO</p>
+                    <p style="color: #536d38" *ngIf="form.formData.type != 'initial' && form.formData.type != 'follow_up'"  no-margin margin-bottom text-wrap>Tipo: {{form.formData.type}}</p>
                     <ion-icon *ngIf="form.formData.errores>0 || form.formData.vacios>0" item-end color="navbar3" small name="warning" margin-right></ion-icon>
                     <ion-icon item-end ios="ios-more" md="md-more"></ion-icon>
                 </ion-item>
@@ -40,9 +43,7 @@
                             <div class="col-12">
                                 <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Creacion:</strong> {{form.formData.createdDate | date:'yyyy/MM/dd HH:mm:ss'}} </ion-label>
                                 <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Guardado:</strong> {{form.formData.saveDate |  date:'yyyy/MM/dd HH:mm:ss'}}</ion-label>
-                                <ion-label *ngIf="form.formData.type == 'initial'" no-margin margin-bottom text-wrap><strong class="strongLabel">Tipo:</strong>INICIAL</ion-label>
-                                <ion-label *ngIf="form.formData.type == 'follow_up'" no-margin margin-bottom text-wrap><strong class="strongLabel">Tipo:</strong>SEGUIMIENTO</ion-label>
-                                <ion-label *ngIf="form.formData.type != 'initial' && form.formData.type != 'follow_up'"  no-margin margin-bottom text-wrap><strong class="strongLabel">Tipo:</strong>{{form.formData.type}}</ion-label>
+                                <ion-label no-margin margin-bottom text-wrap><strong class="strongLabel">Versión:</strong> {{ form.formData.version }}</ion-label>
                                 <ion-label *ngIf="form.formData.gps == 'required' && form.formData.coordinates " no-margin margin-bottom text-wrap><strong class="strongLabel">Ubicación:</strong> Lat. {{ form.formData.coordinates.latitude }}, Long.
                                     {{ form.formData.coordinates.longitude }}</ion-label>
                                 <ion-label *ngIf="form.formData.gps == 'required' && form.formData.coordinates==null " no-margin margin-bottom text-wrap><strong class="strongLabel">Ubicación:</strong> No se pudo determinar</ion-label>

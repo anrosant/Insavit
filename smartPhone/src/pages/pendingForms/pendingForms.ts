@@ -68,6 +68,21 @@ export class PendingFormsPage {
         });
     }
 
+    ionViewWillEnter() {
+      this.getPendingForms();
+      this.events.subscribe('app:envioFormularios', (status) => {
+          if (!status) {
+              this.getPendingForms();
+          }
+      });
+      this.storage.get('infoTemplates').then((infoTemplates) => {
+          this.infoTemplates = infoTemplates;
+      });
+      this.storage.get("formsData").then((formsData) => {
+          this.formsData = formsData;
+      });
+    }
+
     decrease_done_quantity(template, formType) {
         if (formType == "SIMPLE") {
             template.done_quantity -= 1;
@@ -177,6 +192,7 @@ export class PendingFormsPage {
         let pendingForm = pendingForms[i];
         let currentF = pendingForm.formData;
         let templateUuid = pendingForm.template;
+        let version = currentF.version;
         let template;
         let selectedTemplate;
         let infoTemplateIndex;
@@ -184,8 +200,6 @@ export class PendingFormsPage {
         let forms = formsData[templateUuid];
         let currentForm;
         for (let form of forms){
-          //VERIFICAR POR QUÉ ESTÁ ENVIADO ELL UUID DEL PRIMER ELEMENTO
-          console.log(form.uuid, currentF.uuid);
           if(form.uuid == currentF.uuid){
             currentForm = form;
             break;
@@ -200,7 +214,7 @@ export class PendingFormsPage {
                 break;
             }
         }
-        console.log("SENDING ", currentForm.uuid);
+        currentForm.version = version + 1;
         this.navCtrl.push(FormPage, {
             template: template,
             selectedTemplate: currentForm.data,

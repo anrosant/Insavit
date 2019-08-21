@@ -138,6 +138,13 @@ export class HomePage {
         this.setNotificaciones();
     }
 
+    ionViewWillEnter(){
+      this.storage.get('infoTemplates').then((templates) => {
+          this.infoTemplates = templates;
+          this.selectedSection = templates[0];
+      });
+    }
+
     getType(type) {
         if (type.type == 'initial') {
             return 'INICIAL';
@@ -273,7 +280,7 @@ export class HomePage {
         return s.substr(s.length - size);
     }
 
-    async startFollowUpForm(template, selectedTemplate, templateUuid, index) {
+    async startFollowUpForm(template, selectedTemplate, templateUuid, index, reason) {
         this.formsData = await this.storage.get("formsData");
         let forms;
         if (this.formsData != null && (Object.keys(this.formsData).length > 0)) {
@@ -294,7 +301,8 @@ export class HomePage {
                     formsData: this.formsData,
                     pendingForms: this.pendingForms,
                     infoTemplates: this.infoTemplates,
-                    infoTemplateIndex: index
+                    infoTemplateIndex: index,
+                    reason: reason
                 });
             });
         } else {
@@ -306,7 +314,7 @@ export class HomePage {
         }
     }
 
-    startInitialForm(template, selectedTemplate, templateUuid, formUuid, type, index, code) {
+    startInitialForm(template, selectedTemplate, templateUuid, formUuid, type, index, code, reason) {
         // Generate a code for Interviewed
         this.storage.get('formsData').then((formsData) => {
             this.formsData = formsData;
@@ -321,6 +329,8 @@ export class HomePage {
                 currentForm = {
                     uuid: formUuid,
                     code: code,
+                    reason: reason,
+                    version: 0,
                     type: type,
                     name: template.name,
                     gps: template.gps,
@@ -336,6 +346,8 @@ export class HomePage {
                 currentForm = {
                     uuid: formUuid,
                     code: code,
+                    reason: reason,
+                    version: 0,
                     type: type,
                     name: template.name,
                     gps: template.gps,
@@ -386,7 +398,7 @@ export class HomePage {
         });
     }
 
-    startSimpleForm(template, selectedTemplate, templateUuid, formUuid, type, index) {
+    startSimpleForm(template, selectedTemplate, templateUuid, formUuid, type, index, reason) {
         // Generate a code for Interviewed
         this.storage.get('formsData').then((formsData) => {
             this.formsData = formsData;
@@ -401,6 +413,8 @@ export class HomePage {
                 currentForm = {
                     uuid: formUuid,
                     code: "",
+                    reason: reason,
+                    version: 0,
                     type: type,
                     name: template.name,
                     gps: template.gps,
@@ -416,6 +430,8 @@ export class HomePage {
                 currentForm = {
                     uuid: formUuid,
                     code: "",
+                    reason: reason,
+                    version: 0,
                     type: type,
                     name: template.name,
                     gps: template.gps,
@@ -490,7 +506,7 @@ export class HomePage {
                             );
                         } else {
                             const alert = this.alertCtrl.create({
-                                title: 'Debe ingresar un motivo',
+                                title: 'Ingrese un motivo',
                                 cssClass: 'alert-title',
                                 buttons: ['OK']
                             });
@@ -585,7 +601,7 @@ export class HomePage {
 
     chooseFormTypeToInit(template, templateUuid, type, index, reason) {
         if (type == "follow_up") {
-            this.startFollowUpForm(template, template.data.follow_up, templateUuid, index);
+            this.startFollowUpForm(template, template.data.follow_up, templateUuid, index, reason);
         }
         else if (type == "initial") {
             let alert = this.alertCtrl.create({
@@ -604,7 +620,7 @@ export class HomePage {
                         handler: data => {
                             if (data && data.identification.length >= 5 && data.identification.length <= 15) {
                                 let formUuid = uuid();
-                                this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type, index, data.identification);
+                                this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type, index, data.identification, reason);
                             } else {
                                 const alert = this.alertCtrl.create({
                                     title: 'Identificación incorrecta!',
@@ -616,13 +632,17 @@ export class HomePage {
                                 return false;
                             }
                         }
+                    },
+                    {
+                        text: 'Cancelar',
+                        handler: () => { }
                     }
                 ]
             });
             alert.present();
         } else {
             let formUuid = uuid();
-            this.startSimpleForm(template, template.data, templateUuid, formUuid, type, index);
+            this.startSimpleForm(template, template.data, templateUuid, formUuid, type, index, reason);
         }
     }
 
