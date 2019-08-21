@@ -128,6 +128,10 @@ export class MyApp {
                 let setId = pendingForm.setId;
                 let index = pendingForm.index;
                 let formData = pendingForm.formData;
+                console.log(linkedUser);
+                console.log(formData);
+                console.log(templateUuid);
+                console.log(setId);
                 let result = await this.promesaEnvioFormulario(linkedUser, formData, templateUuid, setId);
                 if (result['error']) {
                     this.sendingForms = false;
@@ -135,7 +139,7 @@ export class MyApp {
                         loading.dismiss();
                     }
                     alert = this.alertCtrl.create({
-                        title: "Se detuvo el envio. Problemas de conexion con el servidor",
+                        title: "No se pudo enviar los formularios. Hubo problemas de conexión con el servidor. Por favor intente más tarde.",
                         buttons: ["ok"]
                     });
                     alert.present();

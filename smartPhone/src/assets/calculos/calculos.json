@@ -62,27 +62,15 @@
         },
         {
             "name":"calculateIMC",
-            "structure":"function calculateIMC(item1,item2,item3){if(item1.value!='' && item2.value!=''){var peso=parseFloat(item1.value);var talla=parseFloat(item2.value);if(!isNaN(peso) && !isNaN(talla)){if(peso>0 && talla>0){var imc=(peso/(talla*talla)).toFixed(2);item3.value=imc;if(imc<18.5){item3.clasification='BAJO PESO';item3.risk='AUMENTADO';}else if(imc>=18.5 && imc <=24.9){item3.clasification='NORMAL';item3.risk='PROMEDIO';}else if(imc>=25 && imc <=29.9){item3.clasification='SOBREPESO';item3.risk='AUMENTADO';}else if(imc>=30 && imc <=34.9){item3.clasification='OBESIDAD TIPO I';item3.risk='MODERADO';}else if(imc>=35 && imc <=39.9){item3.clasification='OBESIDAD TIPO II';item3.risk='SEVERO';}else if(imc>=40){item3.clasification='OBESIDAD MÓRBIDA';item3.risk='MUY SEVERO';}return 0;}}}item3.value='';item3.clasification='';item3.risk='';}"       
+            "structure":"function calculateIMC(item1,item2,item3){if(item1.value!='' && item2.value!=''){var peso=parseFloat(item1.value);var talla=parseFloat(item2.value);if(!isNaN(peso) && !isNaN(talla)){if(peso>0 && talla>0){var imc=(peso/(talla*talla)).toFixed(2);if(imc<18.5){var clasification='BAJO PESO';var risk='AUMENTADO';}else if(imc>=18.5 && imc <=24.9){var clasification='NORMAL';var risk='PROMEDIO';}else if(imc>=25 && imc <=29.9){var clasification='SOBREPESO';var risk='AUMENTADO';}else if(imc>=30 && imc <=34.9){var clasification='OBESIDAD TIPO I';var risk='MODERADO';}else if(imc>=35 && imc <=39.9){var clasification='OBESIDAD TIPO II';var risk='SEVERO';}else if(imc>=40){var clasification='OBESIDAD MÓRBIDA';var risk='MUY SEVERO';}item3.value='DIAGNÓSTICO: EL INFANTE PRESENTA UN ÍNDICE DE MASA CORPORAL DE '+imc+' LO QUE LO CLASIFICA EN '+clasification+' Y PRESENTA UN RIESGO '+risk;return 0;}}}item3.value='';return 0;}"       
         },
         {
             "name":"diagnosePerimeter",
-            "structure":"function diagnosePerimeter(item1,item2){if(item1.value!=''){var perimetro=parseFloat(item1.value);if(!isNaN(perimetro) && perimetro>=0){item2.value=perimetro;if(perimetro>=0 && perimetro<=11.5){item2.clasification='DESNUTRICIÓN AGUDA SEVERA';}else if(perimetro>11.5 && perimetro<=12.5){item2.clasification='DESNUTRICIÓN AGUDA MODERADA';}else if(perimetro>12.5 && perimetro<=13.5){item2.clasification='DESNUTRICIÓN AGUDA LEVE O EN RIESGO';}else if(perimetro>13.5){item2.clasification='NORMAL';}return 0;}}item2.value='';item2.clasification='';return 0;}"       
+            "structure":"function diagnosePerimeter(item1,item2){if(item1.value!=''){var perimetro=parseFloat(item1.value);if(!isNaN(perimetro) && perimetro>=0){if(perimetro>=0 && perimetro<=11.5){var clasification='DESNUTRICIÓN AGUDA SEVERA';}else if(perimetro>11.5 && perimetro<=12.5){var clasification='DESNUTRICIÓN AGUDA MODERADA';}else if(perimetro>12.5 && perimetro<=13.5){var clasification='DESNUTRICIÓN AGUDA LEVE O EN RIESGO';}else if(perimetro>13.5){var clasification='NORMAL';}item2.value='DIAGNÓSTICO: EL INFANTE PRESENTA UN PERÍMETRO BRAQUIAL DE '+perimetro+' LO QUE LO CLASIFICA EN EL ESTADO: '+clasification;return 0;}}item2.value='';return 0;}"
         },
         {
             "name":"calculateMETS",
             "structure":"function calculateMETS(item1,item2){var val=item1.label1;if(item2.value){var mets=item2.value;}else{var mets=0;}if(item1.checked){mets=parseFloat(mets)+parseFloat(val);}else{mets=parseFloat(mets)-parseFloat(val);}item2.value=mets.toFixed(1);return 0;}"
-        },
-        {
-            "name":"termometroSeco",
-            "structure":"function termometroSeco(item1){var array=(item1.value).split('.');if(array.length!=2 || (array[1]).length!=2){item1.error='EL VALOR DEBE SER UN DECIMAL DE DOBLE PRECISIÓN';return 1;}var valor=parseFloat(item1.value);if(valor<25 || valor>45){item1.error='EL VALOR DEBE ESTAR ENTRE 25 Y 45';return 1;}return 0;}"
-        },
-        {
-            "name":"termometroHumedo",
-            "structure":"function termometroHumedo(item1){var array=(item1.value).split('.');if(array.length!=2 || (array[1]).length!=2){item1.error='EL VALOR DEBE SER UN DECIMAL DE DOBLE PRECISIÓN';return 1;}var valor=parseFloat(item1.value);if(valor<-20 || valor>0){item1.error='EL VALOR DEBE ESTAR ENTRE -20 Y 0';return 1;}return 0;}"
-        },
-        {
-            "name":"resultado",
-            "structure":"function resultado(item1,item2,item3){if(item1.value!='' && item1.error=='' && item2.value!=''&& item2.error==''){item3.value=(parseFloat(item1.value)-parseFloat(item2.value)).toFixed(2);return 0;}}"
         }
     ]
 }

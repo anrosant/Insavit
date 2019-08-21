@@ -34,10 +34,10 @@
                 <ion-label>{{item.label}}</ion-label>
             </button>
         </ion-list>
+            
+        <button ion-button *ngIf="item.type=='boton'" (click)="verPorciones()">VER PORCIONES</button>
 
-        <!--button ion-button (click)="verPorciones()">VER PORCIONES</button-->
-
-        <!--button ion-button (click)="verDeposiciones()">VER DEPOSICIONES</button-->
+        <button ion-button *ngIf="item.type=='boton'" (click)="verDeposiciones()">VER DEPOSICIONES</button>
 
         <ion-list radio-group *ngIf="item.type=='radio_input'" id={{item.id}} [class.hide_question]="!item.show" [class.show_question]="item.show" (blur)="item.show && blurFunction($event,item.blurFunction)" [(ngModel)]="item.value">
             <ion-list-header>
@@ -91,6 +91,24 @@
             {{item.error}}
         </div>
 
+        <ion-item *ngIf="item.type=='time'">
+            <ion-label [class.invalid_label]="item.error" class="pregunta">{{item.label}}</ion-label>
+            <ion-datetime cancelText="CANCELAR" doneText="SELECCIONAR" mode="md" displayFormat="HH:mm" id={{item.id}} [(ngModel)]="item.value" (ionCancel)="blurFunction($event,item.blurFunction)" (ionChange)="blurFunction($event,item.blurFunction)"></ion-datetime>
+            <ion-icon item-end name="calendar" [class.invalid_datepicker]="item.error"></ion-icon>
+        </ion-item>
+        <div text-left *ngIf="item.type=='time'" class="div-error" [class.error_message]="item.error">
+            {{item.error}}
+        </div>
+
+        <ion-item *ngIf="item.type=='select'">
+            <ion-select okText="SELECCIONAR" cancelText="CANCELAR" [(ngModel)]="item.value" placeholder="SELECCIONE UNA OPCIÓN">
+                <ion-option *ngFor="let op of item.options;" value={{op.label}}>{{op.label}}</ion-option>
+            </ion-select>
+        </ion-item>
+        <div text-left *ngIf="item.type=='select'" class="div-error" [class.error_message]="item.error">
+            {{item.error}}
+        </div>
+
         <ion-item *ngIf="item.type=='input_number'">
             <ion-label stacked [class.invalid_label]="item.error" class="pregunta">{{item.label}}</ion-label>
             <ion-input type="number" [(ngModel)]="item.value" id={{item.id}} [class.invalid_input]="item.error" (ionChange)="blurFunction($event,item.blurFunction)"></ion-input>
@@ -99,13 +117,7 @@
             {{item.error}}
         </div>
 
-        <div text-left *ngIf="item.type=='diagnose'" class="div-error pregunta" style="font-size:18px;margin-top:5px;" [class.error_message]="item.value">
-            DIAGNÓSTICO: EL INFANTE PRESENTA UN ÍNDICE DE MASA CORPORAL DE {{item.value}} LO QUE LO CLASIFICA EN {{item.clasification}} Y PRESENTA UN RIESGO {{item.risk}}
-        </div>
-
-        <div text-left *ngIf="item.type=='diagnose_2'" class="div-error pregunta" style="font-size:18px;margin-top:5px;" [class.error_message]="item.value">
-            DIAGNÓSTICO: EL INFANTE PRESENTA UN PERÍMETRO BRAQUIAL DE {{item.value}} LO QUE LO CLASIFICA EN EL ESTADO: {{item.clasification}}
-        </div>
+        <div text-left *ngIf="item.type=='diagnose'" class="div-error pregunta" style="font-size:18px;margin-top:5px;" [class.error_message]="item.value">{{item.value}}</div>
 
         <ion-item *ngIf="item.type=='input_text'">
             <ion-label stacked [class.invalid_label]="item.error" class="pregunta">{{item.label}}</ion-label>

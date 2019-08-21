@@ -4955,119 +4955,123 @@
                 "time":"13:16"
             }
         ],
-        "data": {
-            "initial":{
-                "children": [
-                    {
-                        "label":"Parámetros Metereológicos de la mañana",
-                        "type":"collapseList",
-                        "initialShow":true,
-                        "children":[
-                            {
-                                "label":"Temperatura y humedad",
-                                "icon":"md-partly-sunny",
-                                "type":"collapseList",
-                                "initialShow":true,
-                                "children":[
-                                    {
-                                        "label":"Psicómetro",
-                                        "type":"collapseList",
-                                        "initialShow":true,
-                                        "children":[
-                                            {
-                                                "label":"Psicómetro",
-                                                "icon":"md-partly-sunny",
-                                                "type":"collapseList",
-                                                "initialShow":true,
-                                                "children":[
-                                                    {
-                                                        "label":"Termómetro seco",
-                                                        "type":"input_number",
-                                                        "id":"termometro_seco_mañana",
-                                                        "blurFunction":"{\"validateEmptyInput\":[\"termometro_seco_mañana\"],\"termometroSeco\":[\"termometro_seco_mañana\"],\"resultado\":[\"termometro_seco_mañana\",\"termometro_humedo_mañana\",\"resultado_mañana\"]}",
-                                                        "error":"",
-                                                        "value":""
-                                                    },
-                                                    {
-                                                        "label":"Termómetro humedo",
-                                                        "type":"input_number",
-                                                        "id":"termometro_humedo_mañana",
-                                                        "blurFunction":"{\"validateEmptyInput\":[\"termometro_humedo_mañana\"],\"termometroHumedo\":[\"termometro_humedo_mañana\"],\"resultado\":[\"termometro_seco_mañana\",\"termometro_humedo_mañana\",\"resultado_mañana\"]}",
-                                                        "error":"",
-                                                        "value":""
-                                                    },
-                                                    {
-                                                        "type":"resultado",
-                                                        "id":"resultado_mañana",
-                                                        "value":"",
-                                                        "error":""
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+        "data": [
+            {
+                "simple":{
+                    "children": [
+                        {
+                            "label":"Parámetros Metereológicos de la mañana",
+                            "type":"collapseList",
+                            "initialShow":true,
+                            "children":[
+                                {
+                                    "label":"Temperatura y humedad",
+                                    "icon":"md-partly-sunny",
+                                    "type":"collapseList",
+                                    "initialShow":true,
+                                    "children":[
+                                        {
+                                            "label":"Psicómetro",
+                                            "type":"collapseList",
+                                            "initialShow":true,
+                                            "children":[
+                                                {
+                                                    "label":"Psicómetro",
+                                                    "icon":"md-partly-sunny",
+                                                    "type":"collapseList",
+                                                    "initialShow":true,
+                                                    "children":[
+                                                        {
+                                                            "label":"Termómetro seco",
+                                                            "type":"input_number",
+                                                            "id":"termometro_seco_mañana",
+                                                            "blurFunction":"{\"validateEmptyInput\":[\"termometro_seco_mañana\"],\"termometroSeco\":[\"termometro_seco_mañana\"],\"resultado\":[\"termometro_seco_mañana\",\"termometro_humedo_mañana\",\"resultado_mañana\"]}",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"Termómetro humedo",
+                                                            "type":"input_number",
+                                                            "id":"termometro_humedo_mañana",
+                                                            "blurFunction":"{\"validateEmptyInput\":[\"termometro_humedo_mañana\"],\"termometroHumedo\":[\"termometro_humedo_mañana\"],\"resultado\":[\"termometro_seco_mañana\",\"termometro_humedo_mañana\",\"resultado_mañana\"]}",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "type":"resultado",
+                                                            "id":"resultado_mañana",
+                                                            "value":"",
+                                                            "error":""
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
-            "follow_up":{
-                "children": [
-                    {
-                        "label":"Parametros Metereológicos de la tarde",
-                        "type":"collapseList",
-                        "initialShow":true,
-                        "children":[
-                            {
-                                "label":"Temperatura y humedad",
-                                "icon":"md-partly-sunny",
-                                "type":"collapseList",
-                                "initialShow":true,
-                                "children":[
-                                    {
-                                        "label":"Psicómetro",
-                                        "type":"collapseList",
-                                        "initialShow":true,
-                                        "children":[
-                                            {
-                                                "label":"Psicómetro",
-                                                "icon":"md-partly-sunny",
-                                                "type":"collapseList",
-                                                "initialShow":true,
-                                                "children":[
-                                                    {
-                                                        "label":"Termómetro seco",
-                                                        "type":"input_number",
-                                                        "id":"termometro_seco_tarde",
-                                                        "blurFunction":"{\"validateEmptyInput\":[\"termometro_seco_tarde\"],\"termometroSeco\":[\"termometro_seco_tarde\"],\"resultado\":[\"termometro_seco_tarde\",\"termometro_humedo_tarde\",\"resultado_tarde\"]}",
-                                                        "error":"",
-                                                        "value":""
-                                                    },
-                                                    {
-                                                        "label":"Termómetro humedo",
-                                                        "type":"input_number",
-                                                        "id":"termometro_humedo_tarde",
-                                                        "blurFunction":"{\"validateEmptyInput\":[\"termometro_humedo_tarde\"],\"termometroHumedo\":[\"termometro_humedo_tarde\"],\"resultado\":[\"termometro_seco_tarde\",\"termometro_humedo_tarde\",\"resultado_tarde\"]}",
-                                                        "error":"",
-                                                        "value":""
-                                                    },
-                                                    {
-                                                        "type":"resultado",
-                                                        "id":"resultado_tarde",
-                                                        "value":"",
-                                                        "error":""
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+            {
+                "simple":{
+                    "children": [
+                        {
+                            "label":"Parametros Metereológicos de la tarde",
+                            "type":"collapseList",
+                            "initialShow":true,
+                            "children":[
+                                {
+                                    "label":"Temperatura y humedad",
+                                    "icon":"md-partly-sunny",
+                                    "type":"collapseList",
+                                    "initialShow":true,
+                                    "children":[
+                                        {
+                                            "label":"Psicómetro",
+                                            "type":"collapseList",
+                                            "initialShow":true,
+                                            "children":[
+                                                {
+                                                    "label":"Psicómetro",
+                                                    "icon":"md-partly-sunny",
+                                                    "type":"collapseList",
+                                                    "initialShow":true,
+                                                    "children":[
+                                                        {
+                                                            "label":"Termómetro seco",
+                                                            "type":"input_number",
+                                                            "id":"termometro_seco_tarde",
+                                                            "blurFunction":"{\"validateEmptyInput\":[\"termometro_seco_tarde\"],\"termometroSeco\":[\"termometro_seco_tarde\"],\"resultado\":[\"termometro_seco_tarde\",\"termometro_humedo_tarde\",\"resultado_tarde\"]}",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "label":"Termómetro humedo",
+                                                            "type":"input_number",
+                                                            "id":"termometro_humedo_tarde",
+                                                            "blurFunction":"{\"validateEmptyInput\":[\"termometro_humedo_tarde\"],\"termometroHumedo\":[\"termometro_humedo_tarde\"],\"resultado\":[\"termometro_seco_tarde\",\"termometro_humedo_tarde\",\"resultado_tarde\"]}",
+                                                            "error":"",
+                                                            "value":""
+                                                        },
+                                                        {
+                                                            "type":"resultado",
+                                                            "id":"resultado_tarde",
+                                                            "value":"",
+                                                            "error":""
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }   
             }
-        }
+        ]
     }
 ]
