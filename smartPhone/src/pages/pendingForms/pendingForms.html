@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar color="navbar">
         <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
+            <ion-icon name="menu" class="icon-menu"></ion-icon>
         </button>
         <ion-title>
             Formularios
@@ -9,7 +9,7 @@
         <ion-buttons end>
             <button *ngIf="!sendingForms" [disabled]="pendingForms.length==0" ion-button icon-end (click)="clickSendForms()">
                 Enviar
-                <ion-icon name="ios-send"></ion-icon>
+                <ion-icon name="ios-send" class="icon-send"></ion-icon>
             </button>
             <button [disabled]="true" *ngIf="sendingForms" ion-button icon-end>
                 Enviando
@@ -61,7 +61,7 @@
                                 <ion-label class="bugs_number" no-margin margin-bottom text-wrap [class.strongLabelError]="form.formData.errores>0"><strong [class.strongLabel]="!form.formData.errores>0">Errores:</strong> {{form.formData.errores}}
                                 </ion-label>
                                 <button class='delete-button' [disabled]="sendingForms" ion-button block icon-start clear small (click)="clickDeletePendingForm(form, i)">
-                                    <ion-icon name="trash"></ion-icon>
+                                    <ion-icon class="icon-trash" name="trash"></ion-icon>
                                     <div>Eliminar</div>
                                 </button>
                             </div>

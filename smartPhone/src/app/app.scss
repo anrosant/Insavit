@@ -33,7 +33,14 @@ a {
 	white-space: normal!important
 }
 ion-label{
-	white-space: normal!important
+	white-space: normal!important;
+	color: #333333;
+}
+ion-icon{
+	color: #536d38;
+}
+.icon-menu, .icon-close, .icon-send{
+	color: #ffffff;
 }
 .scroll-content {
     padding-bottom: 0!important;
@@ -51,6 +58,18 @@ ion-label{
 	background-color: #536d38;
 	font-size: 11px;
 }
-.selected{
-	background-color: #b1982b !important;
+
+.menu-items{
+	border-bottom: 1px solid #536d38;
+}
+
+.menu-items:hover{
+	background-color: #dbbc35;
+}
+
+.test3-open{
+	background-color: #dbbc35;
+}
+.label-menu{
+	color: #536d38;
 }

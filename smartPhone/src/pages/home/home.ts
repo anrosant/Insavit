@@ -69,7 +69,7 @@ export class HomePage {
         });
 
         this.storage.get('linkedUser').then((linkedUser) => {
-            var url = "http://150.136.230.16/api/user/"+linkedUser.uid+"/templates/";
+            var url = "http://150.136.230.16/api/user/" + linkedUser.uid + "/templates/";
             this.http.get(url, {}, {}).then(res => {
                 this.storage.set("templates", JSON.parse(res.data).templates);
             }).catch(error => {
@@ -139,17 +139,17 @@ export class HomePage {
     }
 
     getType(type) {
-        if(type.type == 'initial') {
+        if (type.type == 'initial') {
             return 'INICIAL';
-        } else if(type.type == 'follow_up') {
+        } else if (type.type == 'follow_up') {
             return 'SEGUIMIENTO';
         }
     }
 
     getQuantities(template, select, quantity) {
-        if(quantity == "done") {
+        if (quantity == "done") {
             return template.quantity.find(cantidad => cantidad.type === select).done_quantity;
-        } else if(quantity == "remain"){
+        } else if (quantity == "remain") {
             return template.quantity.find(cantidad => cantidad.type === select).remain_quantity;
         }
         return 0;
@@ -158,14 +158,14 @@ export class HomePage {
     setNotificaciones() {
         this.storage.get('templates').then((templates) => {
             var i = 0;
-            for(let template of templates) {
-                if(template.notifications){
-                    for(let noti of template.notifications) {
+            for (let template of templates) {
+                if (template.notifications) {
+                    for (let noti of template.notifications) {
                         var nombre = template.name;
                         var tipo = template.type;
 
-                        if(noti.type == 'SIMPLE') {
-                            for(let no of noti.children) {
+                        if (noti.type == 'SIMPLE') {
+                            for (let no of noti.children) {
                                 var fecha = no.date.split('-');
                                 var hora = no.time.split(':');
                                 this.localNotifications.schedule({
@@ -173,27 +173,27 @@ export class HomePage {
                                     icon: './assets/imgs/logo_notification.png',
                                     title: 'NUEVO FORMULARIO',
                                     text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                                    trigger: {at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1])},
+                                    trigger: { at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]) },
                                     led: 'FF0000'
                                 });
                                 i++;
                             }
-                        } else if(noti.type == 'PERIÓDICA') {
+                        } else if (noti.type == 'PERIÓDICA') {
                             var interval_type = noti.interval_type;
                             var interval_value = noti.interval_value;
                             var fecha_noti;
 
-                            for(let no of noti.children) {
+                            for (let no of noti.children) {
                                 var fecha = no.date.split('-');
                                 var hora = no.time.split(':');
-                                if(no.type == 'start') {
+                                if (no.type == 'start') {
                                     var fecha_inicio = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
                                 } else {
                                     var fecha_fin = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
                                 }
                             }
 
-                            fecha_noti = new Date(fecha_inicio.getFullYear(),fecha_inicio.getMonth(),fecha_inicio.getDate(),fecha_inicio.getHours(),fecha_inicio.getMinutes());
+                            fecha_noti = new Date(fecha_inicio.getFullYear(), fecha_inicio.getMonth(), fecha_inicio.getDate(), fecha_inicio.getHours(), fecha_inicio.getMinutes());
 
                             do {
                                 this.localNotifications.schedule({
@@ -201,25 +201,25 @@ export class HomePage {
                                     icon: './assets/imgs/logo_notification.png',
                                     title: 'NUEVO FORMULARIO',
                                     text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                                    trigger: {at: new Date(fecha_noti.getFullYear(), fecha_noti.getMonth(), fecha_noti.getDate(), fecha_noti.getHours(), fecha_noti.getMinutes())},
+                                    trigger: { at: new Date(fecha_noti.getFullYear(), fecha_noti.getMonth(), fecha_noti.getDate(), fecha_noti.getHours(), fecha_noti.getMinutes()) },
                                     led: 'FF0000'
                                 });
 
-                                if(interval_type == 'minute') {
+                                if (interval_type == 'minute') {
                                     fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 60 * 1000));
-                                } else if(interval_type == 'hour') {
+                                } else if (interval_type == 'hour') {
                                     fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 60 * 60 * 1000));
-                                } else if(interval_type == 'day') {
+                                } else if (interval_type == 'day') {
                                     fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 24 * 60 * 60 * 1000));
-                                } else if(interval_type == 'week') {
+                                } else if (interval_type == 'week') {
                                     fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 7 * 24 * 60 * 60 * 1000));
-                                } else if(interval_type == 'month') {
+                                } else if (interval_type == 'month') {
                                     fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 30 * 24 * 60 * 60 * 1000));
                                 }
 
                                 i++;
 
-                            } while(fecha_noti.getTime() <= fecha_fin.getTime());
+                            } while (fecha_noti.getTime() <= fecha_fin.getTime());
                         } /*else if(noti.type == 'PERIÓDICA_FIJA') {
                             var interval_type = noti.interval_type;
                             var interval_value = noti.interval_value;
@@ -232,11 +232,11 @@ export class HomePage {
                             fecha = noti.dates[noti.dates.length - 1].split('-'):
                             hora = noti.times[noti.times.length - 1].split(':');
                             var fecha_fin = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
-                            
+
                             fecha_noti = new Date(fecha_inicio.getFullYear(),fecha_inicio.getMonth(),fecha_inicio.getDate(),fecha_inicio.getHours(),fecha_inicio.getMinutes());
 
                             do {
-                                
+
                                 this.localNotifications.schedule({
                                     id: i,
                                     icon: './assets/imgs/logo_notification.png',
@@ -259,7 +259,7 @@ export class HomePage {
                                 }
 
                                 i++;
-                                
+
                             } while(fecha_noti.getTime() <= fecha_fin.getTime());
                         }*/
                     }
@@ -297,12 +297,12 @@ export class HomePage {
                     infoTemplateIndex: index
                 });
             });
-        } else{
-          let alert = this.alertCtrl.create({
-              subTitle: "No existen formularios iniciales.",
-              buttons: ["cerrar"]
-          });
-          alert.present();
+        } else {
+            let alert = this.alertCtrl.create({
+                subTitle: "No existen formularios iniciales.",
+                buttons: ["cerrar"]
+            });
+            alert.present();
         }
     }
 
@@ -353,8 +353,8 @@ export class HomePage {
                 if (this.pendingForms != null && (this.pendingForms.length > 0)) {
                     pendingForms = this.pendingForms.slice(0);
                     let idx = 0;
-                    if (this.formsData != null && this.formsData[templateUuid] != null ){
-                        idx= this.formsData[templateUuid].length;
+                    if (this.formsData != null && this.formsData[templateUuid] != null) {
+                        idx = this.formsData[templateUuid].length;
                     }
                     pendingForms.push({
                         template: templateUuid,
@@ -433,8 +433,8 @@ export class HomePage {
                 if (this.pendingForms != null && (this.pendingForms.length > 0)) {
                     pendingForms = this.pendingForms.slice(0);
                     let idx = 0;
-                    if (this.formsData != null && this.formsData[templateUuid] != null ){
-                        idx= this.formsData[templateUuid].length;
+                    if (this.formsData != null && this.formsData[templateUuid] != null) {
+                        idx = this.formsData[templateUuid].length;
                     }
                     pendingForms.push({
                         template: templateUuid,
@@ -466,6 +466,48 @@ export class HomePage {
         });
     }
 
+    requireReason(template, templateUuid, type, index) {
+        let alert = this.alertCtrl.create({
+            title: 'Ingrese un motivo',
+            cssClass: 'alert-title',
+            inputs: [
+                {
+                    name: 'reason',
+                    type: 'text',
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Continuar',
+                    handler: data => {
+                        if (data && data.reason.length > 1) {
+                            this.chooseFormTypeToInit(
+                                template,
+                                templateUuid,
+                                type,
+                                index,
+                                data.reason
+                            );
+                        } else {
+                            const alert = this.alertCtrl.create({
+                                title: 'Debe ingresar un motivo',
+                                cssClass: 'alert-title',
+                                buttons: ['OK']
+                            });
+                            alert.present();
+                            return false;
+                        }
+                    }
+                },
+                {
+                    text: 'Cancelar',
+                    handler: () => { }
+                }
+            ]
+        });
+        alert.present();
+    }
+
     requestLocationAuthorization(template, templateUuid, type, index) {
         this.diagnostic.requestLocationAuthorization().then(res => {
             this.geolocationAuth = res;
@@ -490,7 +532,7 @@ export class HomePage {
                                     template,
                                     templateUuid,
                                     type,
-                                    index);
+                                    index, null);
 
                             }).catch((error) => {
                                 this.loading.dismiss();
@@ -504,18 +546,18 @@ export class HomePage {
                                     template,
                                     templateUuid,
                                     type,
-                                    index);
+                                    index, null);
                             });
                         }).catch(err => {
                             this.geolocationAuth = "DENIED";
-                            this.chooseFormTypeToInit(
+                            this.requireReason(
                                 template,
                                 templateUuid,
                                 type,
                                 index);
                         });
                 } else {
-                    this.chooseFormTypeToInit(
+                    this.requireReason(
                         template,
                         templateUuid,
                         type,
@@ -523,7 +565,7 @@ export class HomePage {
                 }
             }).catch(err => {
                 console.log(JSON.stringify(err));
-                this.chooseFormTypeToInit(
+                this.requireReason(
                     template,
                     templateUuid,
                     type,
@@ -536,45 +578,46 @@ export class HomePage {
                 template,
                 templateUuid,
                 type,
-                index);
+                index,
+                null);
         });
     }
 
-    chooseFormTypeToInit(template, templateUuid, type, index) {
+    chooseFormTypeToInit(template, templateUuid, type, index, reason) {
         if (type == "follow_up") {
             this.startFollowUpForm(template, template.data.follow_up, templateUuid, index);
         }
         else if (type == "initial") {
-          let alert = this.alertCtrl.create({
-              title: 'Ingrese una identificación',
-              cssClass: 'alert-title',
-              inputs: [
-                {
-                  name: 'identification',
-                  placeholder: 'Código, cédula, ..',
-                  type: 'text',
-                }
-              ],
-              buttons: [
-                {
-                  text: 'Continuar',
-                  handler: data => {
-                    if (data && data.identification.length>5 && data.identification.length<=15) {
-                      let formUuid = uuid();
-                      this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type, index, data.identification);
-                    } else {
-                      const alert = this.alertCtrl.create({
-                          title: 'Identificación incorrecta!',
-                          cssClass: 'alert-title',
-                          subTitle: 'Debe contener entre 5 a 15 caracteres',
-                          buttons: ['OK']
-                      });
-                      alert.present();
-                      return false;
+            let alert = this.alertCtrl.create({
+                title: 'Ingrese una identificación',
+                cssClass: 'alert-title',
+                inputs: [
+                    {
+                        name: 'identification',
+                        placeholder: 'Código, cédula, ..',
+                        type: 'text',
                     }
-                  }
-                }
-              ]
+                ],
+                buttons: [
+                    {
+                        text: 'Continuar',
+                        handler: data => {
+                            if (data && data.identification.length >= 5 && data.identification.length <= 15) {
+                                let formUuid = uuid();
+                                this.startInitialForm(template, template.data.initial, templateUuid, formUuid, type, index, data.identification);
+                            } else {
+                                const alert = this.alertCtrl.create({
+                                    title: 'Identificación incorrecta!',
+                                    cssClass: 'alert-title',
+                                    subTitle: 'Debe contener entre 5 a 15 caracteres',
+                                    buttons: ['OK']
+                                });
+                                alert.present();
+                                return false;
+                            }
+                        }
+                    }
+                ]
             });
             alert.present();
         } else {
@@ -596,7 +639,7 @@ export class HomePage {
             if (template.gps == "required") {
                 this.requestLocationAuthorization(template, templateUuid, type, index);
             } else {
-                this.chooseFormTypeToInit(template, templateUuid, type, index)
+                this.chooseFormTypeToInit(template, templateUuid, type, index, null)
             }
         });
     }

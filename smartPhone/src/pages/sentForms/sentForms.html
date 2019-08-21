@@ -1,7 +1,7 @@
 <ion-header>
     <ion-navbar color="navbar">
         <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
+            <ion-icon name="menu" class="icon-menu"></ion-icon>
         </button>
         <ion-title>
             Formularios
@@ -9,7 +9,7 @@
         <ion-buttons end>
             <button *ngIf="!deletingSentForms" [disabled]="sentForms.length==0" ion-button icon-end (click)="clickDeleteSentForms()">
                 Eliminar
-                <ion-icon name="close"></ion-icon>
+                <ion-icon name="close" class="icon-close"></ion-icon>
             </button>
             <button [disabled]="true" *ngIf="deletingSentForms" ion-button icon-end>
                 Eliminando
@@ -41,7 +41,7 @@
                     <div class="row">
                         <div class="col-12">
                             <button class='delete-button' ion-button block icon-start clear small (click)="clickDeleteSentForm(j)">
-                                <ion-icon name="trash"></ion-icon>
+                                <ion-icon name="trash" class="icon-trash"></ion-icon>
                                 <div>Eliminar</div>
                             </button>
                         </div>

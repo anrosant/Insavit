@@ -33,11 +33,6 @@ page-form {
 		//background: $color('secundary');
 	}
 
-	.back-button {
-		margin: 0;
-		padding: 0;
-	}
-
 	.aviso {
 		animation: animationPageEnter 1.2s;
 	}
@@ -147,4 +142,17 @@ page-form {
 	.toolbar-background .toolbar-background-md {
 		background-color: #dbbc35 !important;
 	}
+	ion-label{
+		color: #333333 !important;
+	}
+	ion-icon{
+		color: #333333 !important;
+	}
+
+	.back-button-icon-md {
+		margin: 0;
+		padding: 0;
+		color: #ffffff !important;
+	}
+
 }

@@ -29,7 +29,8 @@
             <tr>
               <th>#</th>
               <th>Nombre del formulario</th>
-              <th>Entrevistado</th>
+              <th>Usuario</th>
+              <th>Identificación</th>
               <th>Fecha de creación</th>
               <th>Fecha de envío</th>
               <th style="text-align: center;">Incluye GPS</th>
@@ -42,6 +43,7 @@
             <tr>
               <td>{{ forloop.counter }}</td>
               <td>{{ form.name }}</td>
+              <td>{{ form.user }}</td>
               <td>{{ form.code }}</td>
               <td>{{ form.created_date|date:'d-m-Y H:i:s' }}</td>
               <td>{{ form.send_date|date:'d-m-Y H:i:s' }}</td>
