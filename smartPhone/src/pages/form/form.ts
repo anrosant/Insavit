@@ -90,7 +90,7 @@ export class FormPage extends PopoverPage {
 
             var params = this.mappingParametros(elementos);
             for (var pa of params) {
-                errores += this.blurFunction("", pa.blurFunction);
+                errores += this.validateBlurFunction("", pa.blurFunction);
             }
             if (errores == 0) {
                 this.navCtrl.pop();
@@ -124,14 +124,14 @@ export class FormPage extends PopoverPage {
         this.storage.set('infoTemplates', this.infoTemplates);
     }
 
-    verPorciones(evento){
+    verPorciones(evento) {
         let popover = this.popoverCtrl.create(PopoverPage);
         popover.present({
             ev: evento
         });
     }
 
-    verDeposiciones(evento){
+    verDeposiciones(evento) {
         let popover = this.popoverCtrl.create(PopoverPage2);
         popover.present({
             ev: evento
@@ -174,12 +174,12 @@ export class FormPage extends PopoverPage {
                 }
             }
             pending_form_index = 0;
-            for (let pendingForm of this.pendingForms){
-              if(pendingForm.formData.uuid == this.currentForm.uuid){
-                break;
-              }else{
-                pending_form_index +=1;
-              }
+            for (let pendingForm of this.pendingForms) {
+                if (pendingForm.formData.uuid == this.currentForm.uuid) {
+                    break;
+                } else {
+                    pending_form_index += 1;
+                }
             }
 
             if (!currentFormExists) {
@@ -335,7 +335,7 @@ export class FormPage extends PopoverPage {
         this.saveForm();
     }
 
-    blurFunction($event, functionName) {
+    validateBlurFunction($event, functionName) {
         var valores = 0;
         if (functionName != '') {
             let funcion = JSON.parse(functionName);
@@ -344,6 +344,11 @@ export class FormPage extends PopoverPage {
                 valores += this.triggerFunctionValidation(key, value); //KEY: NOMBRE DE LA FUNCIÓN, VALUE: LISTA DE ARGUMENTOS
             }
         }
+        return valores;
+    }
+
+    blurFunction($event, functionName) {
+        var valores = this.validateBlurFunction($event,functionName);
         this.saveForm();
         return valores;
     }

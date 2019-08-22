@@ -20,20 +20,6 @@ export class PendingFormsPage {
     constructor(public alertCtrl: AlertController, public httpClient: HttpClient, private events: Events,
         private datePipe: DatePipe, private storage: Storage, public navCtrl: NavController,
         public navParams: NavParams) {
-        this.getPendingForms();
-        this.events.subscribe('app:envioFormularios', (status) => {
-            if (!status) {
-                this.getPendingForms();
-            }
-        });
-        this.storage.get('infoTemplates').then((infoTemplates) => {
-            this.infoTemplates = infoTemplates;
-        });
-        this.storage.get("formsData").then((formsData) => {
-            this.formsData = formsData;
-        });
-
-
     }
 
     getPendingForms() {
