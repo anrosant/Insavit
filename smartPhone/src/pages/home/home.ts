@@ -31,6 +31,8 @@ export class HomePage {
     select_tipo_compuesta;
     select_tipo_multiform;
     linkedUser;
+    notifications;
+    id;
 
     constructor(private diagnostic: Diagnostic,
         private events: Events,
@@ -139,10 +141,10 @@ export class HomePage {
     }
 
     ionViewWillEnter(){
-      this.storage.get('infoTemplates').then((templates) => {
+        this.storage.get('infoTemplates').then((templates) => {
           this.infoTemplates = templates;
           this.selectedSection = templates[0];
-      });
+        });
     }
 
     getType(type) {
@@ -163,9 +165,20 @@ export class HomePage {
     }
 
     setNotificaciones() {
+        this.storage.get('notifications').then((notifications) => {
+            if(notifications) {
+                this.notifications = notifications;
+            } else {
+                this.notifications = {};
+            }
+            this.id = 0;
+        });
         this.storage.get('templates').then((templates) => {
-            var i = 0;
             for (let template of templates) {
+                if(this.notifications[template.name]) {
+                    this.localNotifications.cancel(this.notifications[template.name]);
+                }
+                this.notifications[template.name] = new Array();
                 if (template.notifications) {
                     for (let noti of template.notifications) {
                         var nombre = template.name;
@@ -176,14 +189,15 @@ export class HomePage {
                                 var fecha = no.date.split('-');
                                 var hora = no.time.split(':');
                                 this.localNotifications.schedule({
-                                    id: i,
-                                    icon: './assets/imgs/logo_notification.png',
+                                    id: this.id,
+                                    icon: 'file://assets/imgs/logo_notification.png',
                                     title: 'NUEVO FORMULARIO',
                                     text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                                    trigger: { at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]) },
+                                    trigger: { at: new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1], 0) },
                                     led: 'FF0000'
                                 });
-                                i++;
+                                this.notifications[template.name].push(this.id);
+                                this.id++;
                             }
                         } else if (noti.type == 'PERIÓDICA') {
                             var interval_type = noti.interval_type;
@@ -194,23 +208,25 @@ export class HomePage {
                                 var fecha = no.date.split('-');
                                 var hora = no.time.split(':');
                                 if (no.type == 'start') {
-                                    var fecha_inicio = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
+                                    var fecha_inicio = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1], 0);
                                 } else {
-                                    var fecha_fin = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
+                                    var fecha_fin = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1], 0);
                                 }
                             }
 
-                            fecha_noti = new Date(fecha_inicio.getFullYear(), fecha_inicio.getMonth(), fecha_inicio.getDate(), fecha_inicio.getHours(), fecha_inicio.getMinutes());
+                            fecha_noti = new Date(fecha_inicio.getFullYear(), fecha_inicio.getMonth(), fecha_inicio.getDate(), fecha_inicio.getHours(), fecha_inicio.getMinutes(), 0);
 
                             do {
                                 this.localNotifications.schedule({
-                                    id: i,
-                                    icon: './assets/imgs/logo_notification.png',
+                                    id: this.id,
+                                    icon: 'file://assets/imgs/logo_notification.png',
                                     title: 'NUEVO FORMULARIO',
                                     text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                                    trigger: { at: new Date(fecha_noti.getFullYear(), fecha_noti.getMonth(), fecha_noti.getDate(), fecha_noti.getHours(), fecha_noti.getMinutes()) },
+                                    trigger: { at: new Date(fecha_noti.getFullYear(), fecha_noti.getMonth(), fecha_noti.getDate(), fecha_noti.getHours(), fecha_noti.getMinutes(), 0) },
                                     led: 'FF0000'
                                 });
+
+                                this.notifications[template.name].push(this.id);
 
                                 if (interval_type == 'minute') {
                                     fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 60 * 1000));
@@ -224,54 +240,54 @@ export class HomePage {
                                     fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 30 * 24 * 60 * 60 * 1000));
                                 }
 
-                                i++;
+                                this.id++;
 
                             } while (fecha_noti.getTime() <= fecha_fin.getTime());
-                        } /*else if(noti.type == 'PERIÓDICA_FIJA') {
+                        } else if(noti.type == 'PERIÓDICA_HORA_FIJA') {
                             var interval_type = noti.interval_type;
                             var interval_value = noti.interval_value;
-                            var fecha_noti;
-
-                            var fecha = noti.dates[0].split('-'):
-                            var hora = noti.times[0].split(':');
-                            var fecha_inicio = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
-
-                            fecha = noti.dates[noti.dates.length - 1].split('-'):
-                            hora = noti.times[noti.times.length - 1].split(':');
-                            var fecha_fin = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1]);
-
-                            fecha_noti = new Date(fecha_inicio.getFullYear(),fecha_inicio.getMonth(),fecha_inicio.getDate(),fecha_inicio.getHours(),fecha_inicio.getMinutes());
+                            var fecha_noti, fecha;
+                            var dias = [];
+                            var f2, f1;
+                            var fecha_i = noti.dates[0];
+                            var fecha_fi = noti.dates[noti.dates.length - 1];
+                            var temp = fecha_fi.split('-');
+                            var fecha_f = new Date(temp[0], temp[1] - 1, temp[2], 0, 0);
 
                             do {
+                                dias.push(fecha_i);
+                                f1 = fecha_i.split('-');
+                                f1 = new Date(f1[0], f1[1] - 1, f1[2], 0, 0);
+                                f2 = new Date(f1.getTime() + (interval_value * 24 * 60 * 60 * 1000));
+                                fecha_i = f2.getFullYear() + '-' + (f2.getMonth()+1) + '-' + f2.getDate();
+                            } while(f2.getTime() <= fecha_f.getTime());
 
-                                this.localNotifications.schedule({
-                                    id: i,
-                                    icon: './assets/imgs/logo_notification.png',
-                                    title: 'NUEVO FORMULARIO',
-                                    text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
-                                    trigger: {at: new Date(fecha_noti.getFullYear(), fecha_noti.getMonth(), fecha_noti.getDate(), fecha_noti.getHours(), fecha_noti.getMinutes())},
-                                    led: 'FF0000'
-                                });
+                            for(let fe of dias) {
+                                fecha = fe.split('-');
 
-                                if(interval_type == 'minute') {
-                                    fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 60 * 1000));
-                                } else if(interval_type == 'hour') {
-                                    fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 60 * 60 * 1000));
-                                } else if(interval_type == 'day') {
-                                    fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 24 * 60 * 60 * 1000));
-                                } else if(interval_type == 'week') {
-                                    fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 7 * 24 * 60 * 60 * 1000));
-                                } else if(interval_type == 'month') {
-                                    fecha_noti.setTime(fecha_noti.getTime() + (interval_value * 30 * 24 * 60 * 60 * 1000));
+                                for(let ti of noti.times) {
+                                    var hora = ti.split(':');
+                                    fecha_noti = new Date(fecha[0], fecha[1] - 1, fecha[2], hora[0], hora[1], 0);
+
+                                    /*this.localNotifications.schedule({
+                                        id: this.id,
+                                        icon: 'file://assets/imgs/logo_notification.png',
+                                        title: 'NUEVO FORMULARIO',
+                                        text: 'Tiene un nuevo formulario llamado ' + nombre + ' de tipo ' + tipo + ' por realizar',
+                                        trigger: {at: new Date(fecha_noti.getFullYear(), fecha_noti.getMonth(), fecha_noti.getDate(), fecha_noti.getHours(), fecha_noti.getMinutes(), 0)},
+                                        led: 'FF0000'
+                                    });*/
+
+                                    this.notifications[template.name].push(this.id);
+                                    this.id++;
                                 }
-
-                                i++;
-
-                            } while(fecha_noti.getTime() <= fecha_fin.getTime());
-                        }*/
+                            }
+                        }
                     }
                 }
             }
+            this.notifications['totalQuantity'] = this.id;
+            this.storage.set('notifications', this.notifications);
         });
     }
 
@@ -602,8 +618,7 @@ export class HomePage {
     chooseFormTypeToInit(template, templateUuid, type, index, reason) {
         if (type == "follow_up") {
             this.startFollowUpForm(template, template.data.follow_up, templateUuid, index, reason);
-        }
-        else if (type == "initial") {
+        } else if (type == "initial") {
             let alert = this.alertCtrl.create({
                 title: 'Ingrese una identificación',
                 cssClass: 'alert-title',
@@ -640,9 +655,9 @@ export class HomePage {
                 ]
             });
             alert.present();
-        } else {
+        } else if (type == "SIMPLE") {
             let formUuid = uuid();
-            this.startSimpleForm(template, template.data, templateUuid, formUuid, type, index, reason);
+            this.startSimpleForm(template, template.data.simple, templateUuid, formUuid, type, index, reason);
         }
     }
 

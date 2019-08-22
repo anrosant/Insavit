@@ -246,8 +246,13 @@ export class MyApp {
     }
 
     cerrarSesion() {
-        this.storage.remove('linkedUser');
-        this.appCtrl.getRootNav().setRoot(AuthPage);
+        this.storage.get('linkedUser').then((val) => {
+            this.storage.set('linkedUser', val).then(data => {
+                this.indexSelectedGeneral = 0;
+                this.appCtrl.getRootNav().setRoot(AuthPage);
+
+            });
+        });
     }
 
 }
