@@ -18,7 +18,7 @@ export class AuthPage {
 
     user = { username: "", password: "" };
     url = "http://150.136.230.16/api/validate_user/";
-    urlFunctions = "http://150.136.213.20/dataset/0cfc0e05-8e4c-435a-893b-5d12ede68f0f/resource/d0173624-db8d-4487-929e-e69872e5c840/download/calculos_nutricion.json";
+    urlFunctions = "http://150.136.213.20/dataset/0cfc0e05-8e4c-435a-893b-5d12ede68f0f/resource/d0173624-db8d-4487-929e-e69872e5c840/download/calculos.json";
     linkedUser;
     infoTemplates = [];
 
@@ -39,18 +39,18 @@ export class AuthPage {
             }
         });
 
-        /*this.httpClient.get(this.urlFunctions).subscribe(res => {
+        this.httpClient.get(this.urlFunctions).subscribe(res => {
             this.storage.set('calculos', res);
         }, err => {
             console.log('error no puede conectarse al servidor para descarga de calculos');
-            console.log(err);*/
+            console.log(err);
             this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
                 this.storage.set('calculos', res);
             }, err => {
                 console.log('Hubo un error al obtener los cálculos');
                 console.log(err);
             });
-        //});
+        });
     }
 
     attemptAuth() {

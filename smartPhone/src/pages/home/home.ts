@@ -33,6 +33,7 @@ export class HomePage {
     linkedUser;
     notifications;
     id;
+    urlFunctions = "http://150.136.213.20/dataset/0cfc0e05-8e4c-435a-893b-5d12ede68f0f/resource/d0173624-db8d-4487-929e-e69872e5c840/download/calculos.json";
 
     constructor(private diagnostic: Diagnostic,
         private events: Events,
@@ -45,6 +46,7 @@ export class HomePage {
         public loadingController: LoadingController,
         public navCtrl: NavController,
         public http: HTTP,
+        public httpClient: HttpClient,
         private localNotifications: LocalNotifications) {
 
         this.menuCtrl.enable(true);
@@ -130,6 +132,19 @@ export class HomePage {
                     }
             });
         });*/
+
+        this.httpClient.get(this.urlFunctions).subscribe(res => {
+            this.storage.set('calculos', res);
+        }, err => {
+            console.log('error no puede conectarse al servidor para descarga de calculos');
+            console.log(err);
+            this.httpClient.get('./assets/calculos/calculos.json').subscribe(res => {
+                this.storage.set('calculos', res);
+            }, err => {
+                console.log('Hubo un error al obtener los cálculos');
+                console.log(err);
+            });
+        });
 
         this.storage.get("formsData").then((formsData) => {
             if (formsData != null && (Object.keys(formsData).length > 0)) {
