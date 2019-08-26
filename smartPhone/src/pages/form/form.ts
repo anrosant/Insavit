@@ -78,10 +78,10 @@ export class FormPage extends PopoverPage {
 
     ionViewDidEnter() {
         this.navbarName.backButtonClick = () => {
-            var array = Array.from(document.querySelectorAll("ion-datetime, ion-input, ion-list, ion-checkbox"));
+            var array = Array.from(document.querySelectorAll("ion-datetime, ion-input, ion-list, ion-checkbox, ion-select"));
             var elementos = [];
             var errores = 0;
-
+            
             for (var el of array) {
                 if (el.id) {
                     elementos.push(el.id);
@@ -249,6 +249,7 @@ export class FormPage extends PopoverPage {
             eval(stringFuncionMapeada);
         }
         catch (err) {
+            console.log(JSON.stringify(err, Object.getOwnPropertyNames(err)));
             let alert = this.alertCtrl.create({
                 title: "Error",
                 subTitle: "La funcion de calculo tiene un error interno",
@@ -289,6 +290,7 @@ export class FormPage extends PopoverPage {
             return valor;
         }
         catch (err) {
+            console.log(JSON.stringify(err, Object.getOwnPropertyNames(err)));
             let alert = this.alertCtrl.create({
                 title: "Error",
                 subTitle: "La funcion de calculo tiene un error interno",
@@ -385,6 +387,7 @@ export class FormPage extends PopoverPage {
 
                             }).catch((error) => {
                                 this.loading.dismiss();
+                                console.log(JSON.stringify(error, Object.getOwnPropertyNames(error)));
                                 let alert = this.alertCtrl.create({
                                     title: "Error",
                                     subTitle: "No pudimos acceder a tu ubicación.",
@@ -394,12 +397,13 @@ export class FormPage extends PopoverPage {
                             });
                         }).catch(err => {
                             this.geolocationAuth = "DENIED";
+                            console.log(JSON.stringify(err, Object.getOwnPropertyNames(err)));
                         }).catch(err => {
-                            console.log(JSON.stringify(err));
+                            console.log(JSON.stringify(err, Object.getOwnPropertyNames(err)));
                         });
                 }
             }).catch(err => {
-                console.log(JSON.stringify(err));
+                console.log(JSON.stringify(err, Object.getOwnPropertyNames(err)));
             });
         });
 

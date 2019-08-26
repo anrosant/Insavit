@@ -101,6 +101,7 @@
         </div>
 
         <ion-item *ngIf="item.type=='select'">
+            <ion-label [class.invalid_label]="item.error" stacked class="pregunta">{{item.label}}</ion-label>
             <ion-select okText="SELECCIONAR" cancelText="CANCELAR" [(ngModel)]="item.value" placeholder="SELECCIONE UNA OPCIÓN">
                 <ion-option *ngFor="let op of item.options;" value={{op.label}}>{{op.label}}</ion-option>
             </ion-select>
@@ -197,10 +198,6 @@
                 </ion-row>
             </ion-list>
         </ion-grid>
-
-        <div text-left *ngIf="item.type=='mets'" class="div-error error_message pregunta" style="font-size:18px;margin-top:5px;">
-            VALOR METS: {{item.value}}
-        </div>
 
         <div *ngIf="item.type=='input_number_checkbox'" id={{item.id}} [class.hide_question]="!item.show">
             <ion-item>
