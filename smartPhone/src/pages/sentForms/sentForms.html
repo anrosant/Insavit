@@ -20,7 +20,7 @@
 </ion-header>
 <ion-content>
     <div *ngIf="sentForms.length!=0">
-        <ion-card margin-bottom *ngFor="let sentForm of sentForms;let j = index">
+        <ion-card class="rounded-edges" margin-bottom *ngFor="let sentForm of sentForms;let j = index">
             <ion-item text-wrap data-toggle="collapse" [attr.href]="'#collapseSentForm'+j" aria-expanded="false">
                 <ion-avatar item-start>
                     <img src="assets/imgs/formulario4.png">

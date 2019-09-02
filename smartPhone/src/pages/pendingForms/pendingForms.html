@@ -24,7 +24,7 @@
     </div>
     <div *ngIf="!comprobandoPendientes">
         <div *ngIf="pendingForms.length!=0">
-            <ion-card margin-bottom *ngFor="let form of pendingForms;let i = index">
+            <ion-card class="rounded-edges" margin-bottom *ngFor="let form of pendingForms;let i = index">
                 <ion-item text-wrap data-toggle="collapse" [attr.href]="'#collapse'+i" aria-expanded="false">
                     <ion-avatar item-start>
                         <img src="assets/imgs/formulario4.png">
