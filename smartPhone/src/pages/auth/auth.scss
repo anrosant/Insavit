@@ -18,5 +18,8 @@ page-auth {
     .linked-user{
       border-radius: 20px;
     }
+    .input-username, .input-password{
+      border-radius: 25px !important;
+    }
     $text-input-md-show-focus-highlight:false;
 }
