@@ -17,7 +17,7 @@ import { IntelSecurity } from '@ionic-native/intel-security';
 export class AuthPage {
 
     user = { username: "", password: "" };
-    url = "http://150.136.230.16/api/validate_user/";
+    url = "http://192.168.6.135/api/validate_user/";
     urlFunctions = "http://150.136.213.20/dataset/0cfc0e05-8e4c-435a-893b-5d12ede68f0f/resource/d0173624-db8d-4487-929e-e69872e5c840/download/calculos.json";
     linkedUser;
     infoTemplates = [];

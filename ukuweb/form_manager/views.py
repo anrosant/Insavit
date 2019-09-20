@@ -96,44 +96,46 @@ def create(request):
     userProfile = UserProfile.objects.get(uid=user_id)
     if user_type == UserType.USER_ADMIN:
         data = request.POST
+
+        template_type = TemplateType.objects.get(code=data["type"])
+        file = request.FILES.get("file")
+        structure = file.read()
+        require_gps = True if data.get("gps", None) else False
+        template = Template(
+            name=data["formname"],
+            set_name=data["setname"],
+            type=template_type,
+            structure=structure,
+            gps=require_gps,
+            quantity=data["quantity"],
+        )
+
         set_name = data["setname"]
-        set_id = api.get_set_id(set_name)
-        if set_id:
-            template_type = TemplateType.objects.get(code=data["type"])
-            file = request.FILES.get("file")
-            structure = file.read()
-            require_gps = True if data.get("gps", None) else False
-            template = Template(
-                name=data["formname"],
-                set_name=data["setname"],
-                set_id=set_id,
-                type=template_type,
-                structure=structure,
-                gps=require_gps,
-                quantity=data["quantity"],
-            )
+        if set_name:
+            set_id = api.get_set_id(set_name)
+            if set_id:
+                template.set_name = data["setname"]
+                template.set_id=set_id
+                filename = "{0}.json".format("-".join(data["formname"].split(" ")))
 
-            filename = "{0}.json".format("-".join(template.name.split(" ")))
-            template.save()
-            user_template = UserTemplate(user=userProfile, template=template)
-            user_template.save()
+                # create file in ckan
+                with open("{0}/{1}".format(FORMS_ROOT, filename), "w") as f:
+                    f.write(structure)
+                f = open("{0}/{1}".format(FORMS_ROOT, filename), "r")
+                response = api.send_file_to_ckan(f, filename, set_id)
+                f.close()
+                if response.get("error"):
+                    messages.error(request, "Hubo un error al enviar el formulario")
+                else:
+                    template.uid = response.get("result")["id"]
+                    template.save()
 
-            # update in ckan
-            with open("{0}/{1}".format(FORMS_ROOT, filename), "w") as f:
-                f.write(structure)
-            f = open("{0}/{1}".format(FORMS_ROOT, filename), "r")
-            response = api.send_file_to_ckan(f, filename, template.set_id)
-            f.close()
-            if response.get("error"):
-                messages.error(request, "Hubo un error al enviar el formulario")
-            else:
-                template.uid = response.get("result")["id"]
-                template.save()
-            messages.success(request, "Plantilla creada correctamente")
-            return redirect(urlresolvers.reverse("templates"))
-        else:
-            messages.error(request, "El conjunto de datos no existe")
-            return redirect(urlresolvers.reverse("create-template-view"))
+        template.save()
+        user_template = UserTemplate(user=userProfile, template=template)
+        user_template.save()
+
+        messages.success(request, "Plantilla creada correctamente")
+        return redirect(urlresolvers.reverse("templates"))
     else:
         return HttpResponse("Usuario no autorizado", status=401)
 
@@ -160,17 +162,19 @@ def edit(request, uid):
                 gps=require_gps,
             )
             template = template.get()
-            resource_id = template.uid
-            filename = "{0}.json".format("-".join(template.name.split(" ")))
-            # send to ckan
-            with open("{0}/{1}".format(FORMS_ROOT, filename), "w") as f:
-                f.write(structure)
-            f = open("{0}/{1}".format(FORMS_ROOT, filename), "r")
-            response = api.update_file_in_ckan(f, resource_id)
-            print(response)
-            f.close()
-            if response.get("error"):
-                messages.error(request, "Hubo un error al enviar el formulario")
+
+            #update file in CKAN if exists
+            if template.set_id:
+                resource_id = template.uid
+                filename = "{0}.json".format("-".join(template.name.split(" ")))
+                # send to ckan
+                with open("{0}/{1}".format(FORMS_ROOT, filename), "w") as f:
+                    f.write(structure)
+                f = open("{0}/{1}".format(FORMS_ROOT, filename), "r")
+                response = api.update_file_in_ckan(f, resource_id)
+                f.close()
+                if response.get("error"):
+                    messages.error(request, "Hubo un error al enviar el formulario")
             messages.success(request, "Plantilla Editada correctamente")
             return redirect(urlresolvers.reverse("templates"))
         else:
@@ -223,6 +227,13 @@ def logout_user(request):
 
 
 def separate_form_by_type(forms):
+    """
+    It receives a list of forms and returns a dict with the following features:
+    key: form type name
+    value: list of forms with the same type
+    Example:
+    {"INICIAL": [form1, form2, ...], "COMPUESTA": [...]}
+    """
     forms_dict = {}
     for form in forms:
         forms_dict[form.type.name] = forms_dict.get(form.type.name, []) + [

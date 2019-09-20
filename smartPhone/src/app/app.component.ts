@@ -36,9 +36,9 @@ export class MyApp {
     observacionPage;
     fenomenosPage;
     sendingForms = false;
-    urlServerEnvioFormulario = "http://150.136.230.16/api/send_form/";
-    urlServerPlantilla = "http://150.136.230.16/api/templates/";
-    urlServerCalculos = "http://150.136.230.16/api/validations/";
+    urlServerEnvioFormulario = "http://192.168.6.135/api/send_form/";
+    urlServerPlantilla = "http://192.168.6.135/api/templates/";
+    urlServerCalculos = "http://192.168.6.135/api/validations/";
 
     constructor(private diagnostic: Diagnostic,
         private locationAccuracy: LocationAccuracy,
