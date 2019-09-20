@@ -73,7 +73,7 @@ export class HomePage {
         });
 
         this.storage.get('linkedUser').then((linkedUser) => {
-            var url = "http://150.136.230.16/api/user/" + linkedUser.uid + "/templates/";
+            var url = "http://192.168.6.135/api/user/" + linkedUser.uid + "/templates/";
             this.http.get(url, {}, {}).then(res => {
                 this.storage.set("templates", JSON.parse(res.data).templates);
             }).catch(error => {

@@ -8,21 +8,26 @@ import xlsxwriter
 import io
 from ukuweb.settings import FORMS_ROOT
 
-
 def send_file_to_ckan(file, name, set_id):
     url = "http://{0}/api/3/action/resource_create".format(settings.HOST)
     body = {"package_id": set_id, "name": name}
     headers = {"Authorization": settings.API_KEY}
-    r = requests.post(url, headers=headers, files=[("upload", file)], data=body)
-    return r.json()
+    try:
+        r = requests.post(url, headers=headers, files=[("upload", file)], data=body)
+        return r.json()
+    except requests.ConnectionError:
+        return None
 
 
 def update_file_in_ckan(file, resource_id):
     url = "http://{0}/api/3/action/resource_update".format(settings.HOST)
     body = {"id": resource_id}
     headers = {"Authorization": settings.API_KEY}
-    r = requests.post(url, headers=headers, files=[("upload", file)], data=body)
-    return r.json()
+    try:
+        r = requests.post(url, headers=headers, files=[("upload", file)], data=body)
+        return r.json()
+    except requests.ConnectionError:
+        return None
 
 
 def convert_to_csv_and_send_to_ckan(data, filename, set_id):
@@ -55,13 +60,16 @@ def get_templates_from_ckan(api_key, set_id="0cfc0e05-8e4c-435a-893b-5d12ede68f0
 def get_set_id(name):
     url = "http://{0}/api/3/action/package_search?q={1}".format(settings.HOST, name)
     header = {"content-type": "application/json", "Authorization": settings.API_KEY}
-    resp = requests.get(url, headers=header)
-    if resp.status_code == 200 or resp.status_code == 201:
-        results = resp.json()["result"]
-        if results.get("count", 0) > 0:
-            set_id = results.get("results")[0]["id"]
-            return set_id
-    return None
+    try:
+        resp = requests.get(url, headers=header)
+        if resp.status_code == 200 or resp.status_code == 201:
+            results = resp.json()["result"]
+            if results.get("count", 0) > 0:
+                set_id = results.get("results")[0]["id"]
+                return set_id
+        return None
+    except requests.ConnectionError:
+        return None
 
 
 def get_labels_from_form_to_xls(obj):
